@@ -92,11 +92,13 @@ class _TabBarExampleState extends State<TabBarExample> {
                       max: 10,
                       divisions: 10,
                       label: _bewertung.round().toString(),
-                      onChanged: (val) {
-                        setState(() {
-                          _bewertung = val;
-                        });
-                      },
+                      onChanged: _gelesen
+                          ? (val) {
+                              setState(() {
+                                _bewertung = val;
+                              });
+                            }
+                          : null,
                     ),
                   ),
                   Text(_bewertung.round().toString()),
@@ -147,15 +149,15 @@ class _TabBarExampleState extends State<TabBarExample> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Seite 1',
+            label: 'Meine Bibliothek',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Seite 2',
+            label: 'Buch hinzufügen',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
-            label: 'Seite 3',
+            label: 'Kalender',
           ),
         ],
         currentIndex: _selectedIndex,
