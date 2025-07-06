@@ -2,5 +2,15 @@
   "appTitle": "Howwlib App",
   "addBook": "Buch hinzufügen",
   "myLibrary": "Meine Bibliothek",
-  "calendar": "Kalendar"
+  "calendar": "Kalendar",
+  "bookTitle": "Buchtitel",
+  "author": "Autor",
+  "read": "Gelesen:",
+  "rating": "Bewertung:",
+  "save": "Speichern",
+  "month": "Monat",
+  "noFutureDays": "Du kannst keine zukünftigen Tage markieren.",
+  "currentStreak": "Aktuelle Serie: {streak}",
+  "longestStreak": "Längste Serie: {streak}",
+  "todayRead": "Heute gelesen"
 }

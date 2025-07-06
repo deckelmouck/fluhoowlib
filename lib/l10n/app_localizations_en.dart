@@ -19,4 +19,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calendar => 'Calendar';
+
+  @override
+  String get bookTitle => 'Book Title';
+
+  @override
+  String get author => 'Author';
+
+  @override
+  String get read => 'Read:';
+
+  @override
+  String get rating => 'Rating:';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get month => 'Month';
+
+  @override
+  String get noFutureDays => 'You cannot mark future days.';
+
+  @override
+  String currentStreak(Object streak) {
+    return 'Current streak: $streak';
+  }
+
+  @override
+  String longestStreak(Object streak) {
+    return 'Longest streak: $streak';
+  }
+
+  @override
+  String get todayRead => 'Read today';
 }

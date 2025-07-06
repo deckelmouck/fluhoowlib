@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 class AddBookPage extends StatelessWidget {
   final TextEditingController titleController;
@@ -22,6 +23,7 @@ class AddBookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -29,15 +31,15 @@ class AddBookPage extends StatelessWidget {
         children: [
           TextField(
             controller: titleController,
-            decoration: const InputDecoration(labelText: 'Buchtitel'),
+            decoration: InputDecoration(labelText: loc.bookTitle),
           ),
           TextField(
             controller: authorController,
-            decoration: const InputDecoration(labelText: 'Autor'),
+            decoration: InputDecoration(labelText: loc.author),
           ),
           Row(
             children: [
-              const Text('Gelesen:'),
+              Text(loc.read),
               Switch(
                 value: gelesen,
                 onChanged: onGelesenChanged,
@@ -46,7 +48,7 @@ class AddBookPage extends StatelessWidget {
           ),
           Row(
             children: [
-              const Text('Bewertung:'),
+              Text(loc.rating),
               Expanded(
                 child: Slider(
                   value: bewertung,
@@ -65,7 +67,7 @@ class AddBookPage extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: onSave,
-              child: const Text('Speichern'),
+              child: Text(loc.save),
             ),
           ),
         ],

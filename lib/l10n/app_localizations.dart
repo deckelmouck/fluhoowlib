@@ -121,6 +121,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Calendar'**
   String get calendar;
+
+  /// No description provided for @bookTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Title'**
+  String get bookTitle;
+
+  /// No description provided for @author.
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get author;
+
+  /// No description provided for @read.
+  ///
+  /// In en, this message translates to:
+  /// **'Read:'**
+  String get read;
+
+  /// No description provided for @rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating:'**
+  String get rating;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get month;
+
+  /// No description provided for @noFutureDays.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot mark future days.'**
+  String get noFutureDays;
+
+  /// No description provided for @currentStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Current streak: {streak}'**
+  String currentStreak(Object streak);
+
+  /// No description provided for @longestStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest streak: {streak}'**
+  String longestStreak(Object streak);
+
+  /// No description provided for @todayRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Read today'**
+  String get todayRead;
 }
 
 class _AppLocalizationsDelegate

@@ -2,5 +2,15 @@
   "appTitle": "Hoowlib App",
   "addBook": "Add Book",
   "myLibrary": "My Library",
-  "calendar": "Calendar"
+  "calendar": "Calendar",
+  "bookTitle": "Book Title",
+  "author": "Author",
+  "read": "Read:",
+  "rating": "Rating:",
+  "save": "Save",
+  "month": "Month",
+  "noFutureDays": "You cannot mark future days.",
+  "currentStreak": "Current streak: {streak}",
+  "longestStreak": "Longest streak: {streak}",
+  "todayRead": "Read today"
 }

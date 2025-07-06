@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../db/database_helper.dart'; // Import your database helper
+import '../l10n/app_localizations.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -86,6 +87,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Column(
       children: [
         TableCalendar(
@@ -96,7 +98,7 @@ class _CalendarPageState extends State<CalendarPage> {
             return _selectedDay != null && isSameDay(_selectedDay, day);
           },
           calendarFormat: CalendarFormat.month,
-          availableCalendarFormats: const {CalendarFormat.month: 'Monat'},
+          availableCalendarFormats: {CalendarFormat.month: loc.month},
           calendarStyle: CalendarStyle(
             todayDecoration: BoxDecoration(
               color: Colors.blue.shade100,
@@ -113,7 +115,7 @@ class _CalendarPageState extends State<CalendarPage> {
             final selected = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
             if (selected.isAfter(today)) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Du kannst keine zukünftigen Tage markieren.')),
+                SnackBar(content: Text(loc.noFutureDays)),
               );
               return;
             }
@@ -123,16 +125,16 @@ class _CalendarPageState extends State<CalendarPage> {
             });
             await _toggleGelesenTag(selectedDay);
           },
-          eventLoader: (day) {
-            return _gelesenTage.any((d) => isSameDay(d, day)) ? ['gelesen'] : [];
+            eventLoader: (day) {
+            return _gelesenTage.any((d) => isSameDay(d, day)) ? [loc.read] : [];
           },
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
             children: [
-              Text('Aktuelle Serie: $_actualStreak', style: Theme.of(context).textTheme.titleMedium),
-              Text('Längste Serie: $_longestStreak', style: Theme.of(context).textTheme.titleMedium),
+              Text(loc.currentStreak(_actualStreak), style: Theme.of(context).textTheme.titleMedium),
+              Text(loc.longestStreak(_longestStreak), style: Theme.of(context).textTheme.titleMedium),
             ],
           ),
         ),
@@ -151,7 +153,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 });
                 await _toggleGelesenTag(today);
               },
-              child: const Text('Heute gelesen'),
+              child: Text(loc.todayRead),
             ),
           ),
         ),

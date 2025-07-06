@@ -19,4 +19,38 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get calendar => 'Kalendar';
+
+  @override
+  String get bookTitle => 'Buchtitel';
+
+  @override
+  String get author => 'Autor';
+
+  @override
+  String get read => 'Gelesen:';
+
+  @override
+  String get rating => 'Bewertung:';
+
+  @override
+  String get save => 'Speichern';
+
+  @override
+  String get month => 'Monat';
+
+  @override
+  String get noFutureDays => 'Du kannst keine zukünftigen Tage markieren.';
+
+  @override
+  String currentStreak(Object streak) {
+    return 'Aktuelle Serie: $streak';
+  }
+
+  @override
+  String longestStreak(Object streak) {
+    return 'Längste Serie: $streak';
+  }
+
+  @override
+  String get todayRead => 'Heute gelesen';
 }
