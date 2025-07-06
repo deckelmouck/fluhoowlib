@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'hoowlib.db');
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // Incremented version for migration
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE books(
@@ -38,6 +38,17 @@ class DatabaseHelper {
             date TEXT UNIQUE
           )
         ''');
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute('''
+            CREATE TABLE IF NOT EXISTS gelesen_tage(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              date TEXT UNIQUE
+            )
+          ''');
+        }
+        // Add future migrations here
       },
     );
   }
