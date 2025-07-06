@@ -5,6 +5,7 @@ import 'pages/add_book_page.dart';
 import 'pages/calendar_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'db/database_helper.dart';
 
 void main() {
   runApp(const MainApp());
@@ -40,11 +41,42 @@ class TabBarExample extends StatefulWidget {
 
 class _TabBarExampleState extends State<TabBarExample> {
   int _selectedIndex = 0;
-  final List<Book> _books = [];
+  List<Book> _books = [];
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
   bool _gelesen = false;
   double _bewertung = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBooks();
+  }
+
+  Future<void> _loadBooks() async {
+    final books = await DatabaseHelper().getBooks();
+    setState(() {
+      _books = books;
+    });
+  }
+
+  Future<void> _addBook() async {
+    if (_titleController.text.isNotEmpty && _authorController.text.isNotEmpty) {
+      final newBook = Book(
+        title: _titleController.text,
+        author: _authorController.text,
+        gelesen: _gelesen,
+        bewertung: _bewertung.round(),
+      );
+      await DatabaseHelper().insertBook(newBook);
+      _titleController.clear();
+      _authorController.clear();
+      _gelesen = false;
+      _bewertung = 0;
+      _selectedIndex = 0;
+      await _loadBooks();
+    }
+  }
 
   List<Widget> get _pages => [
         LibraryPage(books: _books),
@@ -63,23 +95,7 @@ class _TabBarExampleState extends State<TabBarExample> {
               _bewertung = val;
             });
           },
-          onSave: () {
-            if (_titleController.text.isNotEmpty && _authorController.text.isNotEmpty) {
-              setState(() {
-                _books.add(Book(
-                  title: _titleController.text,
-                  author: _authorController.text,
-                  gelesen: _gelesen,
-                  bewertung: _bewertung.round(),
-                ));
-                _titleController.clear();
-                _authorController.clear();
-                _gelesen = false;
-                _bewertung = 0;
-                _selectedIndex = 0;
-              });
-            }
-          },
+          onSave: _addBook,
         ),
         const CalendarPage(),
       ];
