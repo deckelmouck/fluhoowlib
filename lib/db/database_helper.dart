@@ -69,6 +69,15 @@ class DatabaseHelper {
     await db.delete('books');
   }
 
+  Future<int> deleteBook(int id) async {
+    final db = await database;
+    return await db.delete(
+      'books',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
   // --- Gelesen Tage Methods ---
   Future<int> insertGelesenTag(DateTime date) async {
     final db = await database;
