@@ -89,32 +89,39 @@ class _LibraryPageState extends State<LibraryPage> {
             ),
           ),
         ),
-        const SizedBox(height: 1), // reduce space between top line and list
+        // reduce space between top line and list
         Expanded(
-          child: Scrollbar(
-            child: ListView.builder(
-              itemCount: _books.length,
-              itemBuilder: (context, index) {
-                final book = _books[index];
-                return ListTile(
-                  title: Text(book.title),
-                  subtitle: Text('Autor: ${book.author} | Gelesen: ${book.gelesen ? 'Ja' : 'Nein'} | Bewertung: ${book.bewertung}'),
-                  onTap: () async {
-                    final deleted = await showModalBottomSheet<bool>(
-                      context: context,
-                      builder: (context) => BookDetailSheet(
-                        book: book,
-                        onDelete: () {
-                          Navigator.of(context).pop(true);
-                        },
-                      ),
-                    );
-                    if (deleted == true) {
-                      await _fetchBooks();
-                    }
-                  },
-                );
-              },
+          child: Container(
+            color: Colors.white,
+            child: Scrollbar(
+              child: ListView.builder(
+                itemCount: _books.length,
+                itemBuilder: (context, index) {
+                  final book = _books[index];
+                  final isEven = index % 2 == 0;
+                  return Container(
+                    color: isEven ? Colors.white : Colors.grey[50],
+                    child: ListTile(
+                      title: Text(book.title),
+                      subtitle: Text('Autor: ${book.author} | Gelesen: ${book.gelesen ? 'Ja' : 'Nein'} | Bewertung: ${book.bewertung}'),
+                      onTap: () async {
+                        final deleted = await showModalBottomSheet<bool>(
+                          context: context,
+                          builder: (context) => BookDetailSheet(
+                            book: book,
+                            onDelete: () {
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        );
+                        if (deleted == true) {
+                          await _fetchBooks();
+                        }
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
