@@ -3,6 +3,8 @@ import 'models/book.dart';
 import 'pages/library_page.dart';
 import 'pages/add_book_page.dart';
 import 'pages/calendar_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,6 +16,16 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''), // English
+        Locale('de', ''), // German
+      ],
       home: TabBarExample(),
     );
   }
@@ -83,18 +95,18 @@ class _TabBarExampleState extends State<TabBarExample> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Meine Bibliothek',
+            label: AppLocalizations.of(context)!.myLibrary,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Buch hinzufügen',
+            label: AppLocalizations.of(context)!.addBook,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
-            label: 'Kalender',
+            label: AppLocalizations.of(context)!.calendar,
           ),
         ],
         currentIndex: _selectedIndex,
