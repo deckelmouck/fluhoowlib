@@ -32,6 +32,12 @@ class DatabaseHelper {
             bewertung INTEGER
           )
         ''');
+        await db.execute('''
+          CREATE TABLE gelesen_tage(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT UNIQUE
+          )
+        ''');
       },
     );
   }
@@ -50,5 +56,38 @@ class DatabaseHelper {
   Future<void> deleteAllBooks() async {
     final db = await database;
     await db.delete('books');
+  }
+
+  // --- Gelesen Tage Methods ---
+  Future<int> insertGelesenTag(DateTime date) async {
+    final db = await database;
+    return await db.insert(
+      'gelesen_tage',
+      {'date': date.toIso8601String().substring(0, 10)},
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  Future<int> deleteGelesenTag(DateTime date) async {
+    final db = await database;
+    return await db.delete(
+      'gelesen_tage',
+      where: 'date = ?',
+      whereArgs: [date.toIso8601String().substring(0, 10)],
+    );
+  }
+
+  Future<Set<DateTime>> getGelesenTage() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('gelesen_tage');
+    return maps.map((m) {
+      final dateStr = m['date'] as String;
+      final parts = dateStr.split('-');
+      return DateTime(
+        int.parse(parts[0]),
+        int.parse(parts[1]),
+        int.parse(parts[2]),
+      );
+    }).toSet();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../db/database_helper.dart'; // Import your database helper
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -12,6 +13,35 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final Set<DateTime> _gelesenTage = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadGelesenTage();
+  }
+
+  Future<void> _loadGelesenTage() async {
+    final tage = await DatabaseHelper().getGelesenTage();
+    setState(() {
+      _gelesenTage.clear();
+      _gelesenTage.addAll(tage);
+    });
+  }
+
+  Future<void> _toggleGelesenTag(DateTime day) async {
+    final normalized = DateTime(day.year, day.month, day.day);
+    if (_gelesenTage.any((d) => isSameDay(d, normalized))) {
+      await DatabaseHelper().deleteGelesenTag(normalized);
+      setState(() {
+        _gelesenTage.removeWhere((d) => isSameDay(d, normalized));
+      });
+    } else {
+      await DatabaseHelper().insertGelesenTag(normalized);
+      setState(() {
+        _gelesenTage.add(normalized);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +66,12 @@ class _CalendarPageState extends State<CalendarPage> {
               shape: BoxShape.circle,
             ),
           ),
-          onDaySelected: (selectedDay, focusedDay) {
+          onDaySelected: (selectedDay, focusedDay) async {
             setState(() {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
-              final normalized = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
-              if (_gelesenTage.any((d) => isSameDay(d, normalized))) {
-                _gelesenTage.removeWhere((d) => isSameDay(d, normalized));
-              } else {
-                _gelesenTage.add(normalized);
-              }
             });
+            await _toggleGelesenTag(selectedDay);
           },
           eventLoader: (day) {
             return _gelesenTage.any((d) => isSameDay(d, day)) ? ['gelesen'] : [];
@@ -58,15 +83,9 @@ class _CalendarPageState extends State<CalendarPage> {
           child: SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  final today = DateTime(_focusedDay.year, _focusedDay.month, _focusedDay.day);
-                  if (_gelesenTage.any((d) => isSameDay(d, today))) {
-                    _gelesenTage.removeWhere((d) => isSameDay(d, today));
-                  } else {
-                    _gelesenTage.add(today);
-                  }
-                });
+              onPressed: () async {
+                final today = DateTime(_focusedDay.year, _focusedDay.month, _focusedDay.day);
+                await _toggleGelesenTag(today);
               },
               child: const Text('Heute gelesen'),
             ),
