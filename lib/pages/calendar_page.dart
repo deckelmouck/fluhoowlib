@@ -13,11 +13,50 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final Set<DateTime> _gelesenTage = {};
+  int _actualStreak = 0;
+  int _longestStreak = 0;
 
   @override
   void initState() {
     super.initState();
     _loadGelesenTage();
+  }
+
+  void _calculateStreaks() {
+    if (_gelesenTage.isEmpty) {
+      setState(() {
+        _actualStreak = 0;
+        _longestStreak = 0;
+      });
+      return;
+    }
+    final days = _gelesenTage.map((d) => DateTime(d.year, d.month, d.day)).toList();
+    days.sort((a, b) => a.compareTo(b));
+    int longest = 1;
+    int current = 1;
+    for (int i = 1; i < days.length; i++) {
+      if (days[i].difference(days[i - 1]).inDays == 1) {
+        current++;
+      } else if (!days[i].isAtSameMomentAs(days[i - 1])) {
+        if (current > longest) longest = current;
+        current = 1;
+      }
+    }
+    if (current > longest) longest = current;
+    // Adjusted actual streak calculation
+    DateTime today = DateTime.now();
+    int actual = 0;
+    DateTime startDay = _gelesenTage.any((d) => d.year == today.year && d.month == today.month && d.day == today.day)
+        ? today
+        : today.subtract(const Duration(days: 1));
+    while (_gelesenTage.any((d) => d.year == startDay.year && d.month == startDay.month && d.day == startDay.day)) {
+      actual++;
+      startDay = startDay.subtract(const Duration(days: 1));
+    }
+    setState(() {
+      _longestStreak = longest;
+      _actualStreak = actual;
+    });
   }
 
   Future<void> _loadGelesenTage() async {
@@ -26,6 +65,7 @@ class _CalendarPageState extends State<CalendarPage> {
       _gelesenTage.clear();
       _gelesenTage.addAll(tage);
     });
+    _calculateStreaks();
   }
 
   Future<void> _toggleGelesenTag(DateTime day) async {
@@ -41,6 +81,7 @@ class _CalendarPageState extends State<CalendarPage> {
         _gelesenTage.add(normalized);
       });
     }
+    _calculateStreaks();
   }
 
   @override
@@ -76,6 +117,15 @@ class _CalendarPageState extends State<CalendarPage> {
           eventLoader: (day) {
             return _gelesenTage.any((d) => isSameDay(d, day)) ? ['gelesen'] : [];
           },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            children: [
+              Text('Aktuelle Serie: $_actualStreak', style: Theme.of(context).textTheme.titleMedium),
+              Text('Längste Serie: $_longestStreak', style: Theme.of(context).textTheme.titleMedium),
+            ],
+          ),
         ),
         const Spacer(),
         Padding(
