@@ -7,15 +7,17 @@ class LibraryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: books.length,
-      itemBuilder: (context, index) {
-        final book = books[index];
-        return ListTile(
-          title: Text(book.title),
-          subtitle: Text('Autor: ${book.author} | Gelesen: ${book.gelesen ? 'Ja' : 'Nein'} | Bewertung: ${book.bewertung}'),
-        );
-      },
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: books.length,
+        itemBuilder: (context, index) {
+          final book = books[index];
+          return ListTile(
+            title: Text(book.title),
+            subtitle: Text('Autor: ${book.author} | Gelesen: ${book.gelesen ? 'Ja' : 'Nein'} | Bewertung: ${book.bewertung}'),
+          );
+        },
+      ),
     );
   }
 }
