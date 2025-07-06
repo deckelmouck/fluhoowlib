@@ -145,14 +145,11 @@ class _CalendarPageState extends State<CalendarPage> {
               onPressed: () async {
                 final now = DateTime.now();
                 final today = DateTime(now.year, now.month, now.day);
-                final focused = DateTime(_focusedDay.year, _focusedDay.month, _focusedDay.day);
-                if (focused.isAfter(today)) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Du kannst keine zukünftigen Tage markieren.')),
-                  );
-                  return;
-                }
-                await _toggleGelesenTag(focused);
+                setState(() {
+                  _focusedDay = today;
+                  _selectedDay = today;
+                });
+                await _toggleGelesenTag(today);
               },
               child: const Text('Heute gelesen'),
             ),
