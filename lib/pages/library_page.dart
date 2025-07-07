@@ -3,6 +3,7 @@ import '../l10n/app_localizations.dart';
 import '../models/book.dart';
 import 'book_detail_sheet.dart';
 import '../db/database_helper.dart';
+import '../widgets/book_list_tile.dart';
 
 class LibraryPage extends StatefulWidget {
   final List<Book> books;
@@ -102,7 +103,7 @@ class _LibraryPageState extends State<LibraryPage> {
                   final isEven = index % 2 == 0;
                   return Container(
                     color: isEven ? Colors.white : Colors.grey[50],
-                    child: _BookListTile(
+                    child: BookListTile(
                       book: book,
                       onTap: () async {
                         final deleted = await showModalBottomSheet<bool>(
@@ -126,32 +127,6 @@ class _LibraryPageState extends State<LibraryPage> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _BookListTile extends StatelessWidget {
-  final Book book;
-  final VoidCallback? onTap;
-
-  const _BookListTile({required this.book, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-    return ListTile(
-      title: Text(book.title),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('${loc.author}: ${book.author}'),
-          if (book.gelesen)
-            Text('${loc.read} ${loc.yes} | ${loc.rating} ${book.bewertung}')
-          else
-            Text('${loc.read} ${loc.no}'),
-        ],
-      ),
-      onTap: onTap,
     );
   }
 }
