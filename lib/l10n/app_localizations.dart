@@ -211,6 +211,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Books in Library'**
   String get booksInLibrary;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @mustNotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'must not be empty'**
+  String get mustNotBeEmpty;
 }
 
 class _AppLocalizationsDelegate

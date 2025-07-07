@@ -68,4 +68,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get booksInLibrary => 'Bücher in der Bibliothek';
+
+  @override
+  String get clear => 'Löschen';
+
+  @override
+  String get mustNotBeEmpty => 'dürfen nicht leer sein';
 }

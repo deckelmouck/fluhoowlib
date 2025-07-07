@@ -63,12 +63,38 @@ class AddBookPage extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: onSave,
-              child: Text(loc.save),
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (titleController.text.trim().isEmpty || authorController.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('${loc.bookTitle} & ${loc.author} ${loc.mustNotBeEmpty}'),
+                          ),
+                        );
+                        return;
+                      }
+                      onSave();
+                    },
+                    child: Text(loc.save),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () {
+                  titleController.clear();
+                  authorController.clear();
+                  onReadedChanged(false);
+                  onRatingChanged(0);
+                },
+                child: Text(loc.clear),
+              ),
+            ],
           ),
         ],
       ),

@@ -17,5 +17,7 @@
   "no": "nein",
   "close": "schließen",
   "deleteBook": "Buch löschen",
-  "booksInLibrary": "Bücher in der Bibliothek"
+  "booksInLibrary": "Bücher in der Bibliothek",
+  "clear": "Löschen",
+  "mustNotBeEmpty": "dürfen nicht leer sein"
 }
