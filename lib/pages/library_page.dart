@@ -4,6 +4,7 @@ import '../models/book.dart';
 import 'book_detail_sheet.dart';
 import '../db/database_helper.dart';
 import '../widgets/book_list_tile.dart';
+import '../models/book_order_by.dart';
 
 class LibraryPage extends StatefulWidget {
   final List<Book> books;
@@ -16,7 +17,7 @@ class LibraryPage extends StatefulWidget {
 class _LibraryPageState extends State<LibraryPage> {
   late List<Book> _books;
   bool _loading = true;
-  String _orderBy = 'id';
+  BookOrderBy _orderBy = BookOrderBy.id;
 
   @override
   void initState() {
@@ -33,16 +34,15 @@ class _LibraryPageState extends State<LibraryPage> {
     });
   }
 
-  void _onOrderChanged(String? value) {
+  void _onOrderChanged(BookOrderBy? value) {
     if (value != null && value != _orderBy) {
       setState(() {
         _orderBy = value;
-        // Optionally, sort _books here if needed
-        if (_orderBy == 'id') {
+        if (_orderBy == BookOrderBy.id) {
           _books.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
-        } else if (_orderBy == 'title') {
+        } else if (_orderBy == BookOrderBy.title) {
           _books.sort((a, b) => a.title.compareTo(b.title));
-        } else if (_orderBy == 'author') {
+        } else if (_orderBy == BookOrderBy.author) {
           _books.sort((a, b) => a.author.compareTo(b.author));
         }
       });
@@ -60,6 +60,7 @@ class _LibraryPageState extends State<LibraryPage> {
     if (_loading) {
       return const Center(child: CircularProgressIndicator());
     }
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         SafeArea(
@@ -76,14 +77,15 @@ class _LibraryPageState extends State<LibraryPage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                DropdownButton<String>(
+                DropdownButton<BookOrderBy>(
                   value: _orderBy,
                   onChanged: _onOrderChanged,
-                  items: const [
-                    DropdownMenuItem(value: 'id', child: Text('ID')),
-                    DropdownMenuItem(value: 'title', child: Text('Titel')),
-                    DropdownMenuItem(value: 'author', child: Text('Autor')),
-                  ],
+                  items: BookOrderBy.values
+                      .map((order) => DropdownMenuItem(
+                            value: order,
+                            child: Text(order.translatedName(l10n)),
+                          ))
+                      .toList(),
                   underline: Container(),
                   style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 14),
                 ),
