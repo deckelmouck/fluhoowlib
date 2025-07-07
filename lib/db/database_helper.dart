@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/book.dart';
+import 'database_migration.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -10,6 +11,7 @@ class DatabaseHelper {
 
   static Database? _database;
 
+  // #region Database Initialization
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
@@ -40,41 +42,13 @@ class DatabaseHelper {
         ''');
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 3) {
-          // Migration for books table: rename columns gelesen -> readed, bewertung -> rating
-          await db.execute('''
-            ALTER TABLE books RENAME TO books_old;
-          ''');
-          await db.execute('''
-            CREATE TABLE books(
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              title TEXT,
-              author TEXT,
-              readed INTEGER,
-              rating INTEGER
-            );
-          ''');
-          await db.execute('''
-            INSERT INTO books (id, title, author, readed, rating)
-            SELECT id, title, author, gelesen, bewertung FROM books_old;
-          ''');
-          await db.execute('''
-            DROP TABLE books_old;
-          ''');
-
-          // Migration for gelesen_tage table (if needed)
-          await db.execute('''
-            CREATE TABLE IF NOT EXISTS gelesen_tage(
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              date TEXT UNIQUE
-            );
-          ''');
-        }
-        // Add future migrations here
+        await migrateDatabase(db, oldVersion, newVersion);
       },
     );
   }
+  // #endregion
 
+  // #region Book CRUD Methods
   Future<int> insertBook(Book book) async {
     final db = await database;
     return await db.insert('books', book.toMap());
@@ -99,9 +73,10 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
+  // #endregion
 
-  // --- Gelesen Tage Methods ---
-  Future<int> insertGelesenTag(DateTime date) async {
+  // #region ReadedDay Methods
+  Future<int> insertReadedDay(DateTime date) async {
     final db = await database;
     return await db.insert(
       'gelesen_tage',
@@ -110,7 +85,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> deleteGelesenTag(DateTime date) async {
+  Future<int> deleteReadedDay(DateTime date) async {
     final db = await database;
     return await db.delete(
       'gelesen_tage',
@@ -119,7 +94,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<Set<DateTime>> getGelesenTage() async {
+  Future<Set<DateTime>> getReadedDays() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('gelesen_tage');
     return maps.map((m) {
@@ -132,4 +107,5 @@ class DatabaseHelper {
       );
     }).toSet();
   }
+  // #endregion
 }

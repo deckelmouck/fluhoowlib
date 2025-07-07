@@ -13,25 +13,25 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  final Set<DateTime> _gelesenTage = {};
+  final Set<DateTime> _readedDays = {};
   int _actualStreak = 0;
   int _longestStreak = 0;
 
   @override
   void initState() {
     super.initState();
-    _loadGelesenTage();
+    _loadReadedDays();
   }
 
   void _calculateStreaks() {
-    if (_gelesenTage.isEmpty) {
+    if (_readedDays.isEmpty) {
       setState(() {
         _actualStreak = 0;
         _longestStreak = 0;
       });
       return;
     }
-    final days = _gelesenTage.map((d) => DateTime(d.year, d.month, d.day)).toList();
+    final days = _readedDays.map((d) => DateTime(d.year, d.month, d.day)).toList();
     days.sort((a, b) => a.compareTo(b));
     int longest = 1;
     int current = 1;
@@ -47,10 +47,10 @@ class _CalendarPageState extends State<CalendarPage> {
     // Adjusted actual streak calculation
     DateTime today = DateTime.now();
     int actual = 0;
-    DateTime startDay = _gelesenTage.any((d) => d.year == today.year && d.month == today.month && d.day == today.day)
+    DateTime startDay = _readedDays.any((d) => d.year == today.year && d.month == today.month && d.day == today.day)
         ? today
         : today.subtract(const Duration(days: 1));
-    while (_gelesenTage.any((d) => d.year == startDay.year && d.month == startDay.month && d.day == startDay.day)) {
+    while (_readedDays.any((d) => d.year == startDay.year && d.month == startDay.month && d.day == startDay.day)) {
       actual++;
       startDay = startDay.subtract(const Duration(days: 1));
     }
@@ -60,26 +60,26 @@ class _CalendarPageState extends State<CalendarPage> {
     });
   }
 
-  Future<void> _loadGelesenTage() async {
-    final tage = await DatabaseHelper().getGelesenTage();
+  Future<void> _loadReadedDays() async {
+    final days = await DatabaseHelper().getReadedDays();
     setState(() {
-      _gelesenTage.clear();
-      _gelesenTage.addAll(tage);
+      _readedDays.clear();
+      _readedDays.addAll(days);
     });
     _calculateStreaks();
   }
 
-  Future<void> _toggleGelesenTag(DateTime day) async {
+  Future<void> _toggleReadedDay(DateTime day) async {
     final normalized = DateTime(day.year, day.month, day.day);
-    if (_gelesenTage.any((d) => isSameDay(d, normalized))) {
-      await DatabaseHelper().deleteGelesenTag(normalized);
+    if (_readedDays.any((d) => isSameDay(d, normalized))) {
+      await DatabaseHelper().deleteReadedDay(normalized);
       setState(() {
-        _gelesenTage.removeWhere((d) => isSameDay(d, normalized));
+        _readedDays.removeWhere((d) => isSameDay(d, normalized));
       });
     } else {
-      await DatabaseHelper().insertGelesenTag(normalized);
+      await DatabaseHelper().insertReadedDay(normalized);
       setState(() {
-        _gelesenTage.add(normalized);
+        _readedDays.add(normalized);
       });
     }
     _calculateStreaks();
@@ -123,10 +123,10 @@ class _CalendarPageState extends State<CalendarPage> {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
             });
-            await _toggleGelesenTag(selectedDay);
+            await _toggleReadedDay(selectedDay);
           },
-            eventLoader: (day) {
-            return _gelesenTage.any((d) => isSameDay(d, day)) ? [loc.read] : [];
+          eventLoader: (day) {
+            return _readedDays.any((d) => isSameDay(d, day)) ? [loc.read] : [];
           },
         ),
         Padding(
@@ -151,7 +151,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   _focusedDay = today;
                   _selectedDay = today;
                 });
-                await _toggleGelesenTag(today);
+                await _toggleReadedDay(today);
               },
               child: Text(loc.todayRead),
             ),
