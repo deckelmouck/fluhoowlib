@@ -59,4 +59,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get no => 'nein';
+
+  @override
+  String get close => 'schließen';
 }

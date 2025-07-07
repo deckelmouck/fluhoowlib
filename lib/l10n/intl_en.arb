@@ -14,5 +14,6 @@
   "longestStreak": "Longest streak: {streak}",
   "todayRead": "Read today",
   "yes": "yes",
-  "no": "no"
+  "no": "no",
+  "close": "close"
 }

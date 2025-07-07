@@ -14,5 +14,6 @@
   "longestStreak": "Längste Serie: {streak}",
   "todayRead": "Heute gelesen",
   "yes": "ja",
-  "no": "nein"
+  "no": "nein",
+  "close": "schließen"
 }

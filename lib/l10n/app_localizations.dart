@@ -193,6 +193,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'no'**
   String get no;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'close'**
+  String get close;
 }
 
 class _AppLocalizationsDelegate
