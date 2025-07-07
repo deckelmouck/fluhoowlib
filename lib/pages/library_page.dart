@@ -44,6 +44,8 @@ class _LibraryPageState extends State<LibraryPage> {
           _books.sort((a, b) => a.title.compareTo(b.title));
         } else if (_orderBy == BookOrderBy.author) {
           _books.sort((a, b) => a.author.compareTo(b.author));
+        } else if (_orderBy == BookOrderBy.rating) {
+          _books.sort((a, b) => b.rating.compareTo(a.rating)); // Descending order
         }
       });
     }

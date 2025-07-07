@@ -137,13 +137,13 @@ abstract class AppLocalizations {
   /// No description provided for @read.
   ///
   /// In en, this message translates to:
-  /// **'Read:'**
+  /// **'Read'**
   String get read;
 
   /// No description provided for @rating.
   ///
   /// In en, this message translates to:
-  /// **'Rating:'**
+  /// **'Rating'**
   String get rating;
 
   /// No description provided for @save.
