@@ -63,11 +63,20 @@ class _LibraryPageState extends State<LibraryPage> {
       return const Center(child: CircularProgressIndicator());
     }
     final loc = AppLocalizations.of(context)!;
-    return Column(
-      children: [
-        SafeArea(
-          bottom: false,
-          child: Container(
+    return SafeArea(
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            color: Colors.green,
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'my library',
+              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Container(
             color: const Color(0xFFF5F5F5), // light smoky grey
             padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12.0),
             child: Row(
@@ -94,43 +103,43 @@ class _LibraryPageState extends State<LibraryPage> {
               ],
             ),
           ),
-        ),
-        // reduce space between top line and list
-        Expanded(
-          child: Container(
-            color: Colors.white,
-            child: Scrollbar(
-              child: ListView.builder(
-                itemCount: _books.length,
-                itemBuilder: (context, index) {
-                  final book = _books[index];
-                  final isEven = index % 2 == 0;
-                  return Container(
-                    color: isEven ? Colors.white : Colors.grey[50],
-                    child: BookListTile(
-                      book: book,
-                      onTap: () async {
-                        final deleted = await showModalBottomSheet<bool>(
-                          context: context,
-                          builder: (context) => BookDetailSheet(
-                            book: book,
-                            onDelete: () {
-                              Navigator.of(context).pop(true);
-                            },
-                          ),
-                        );
-                        if (deleted == true) {
-                          await _fetchBooks();
-                        }
-                      },
-                    ),
-                  );
-                },
+          // reduce space between top line and list
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: Scrollbar(
+                child: ListView.builder(
+                  itemCount: _books.length,
+                  itemBuilder: (context, index) {
+                    final book = _books[index];
+                    final isEven = index % 2 == 0;
+                    return Container(
+                      color: isEven ? Colors.white : Colors.grey[50],
+                      child: BookListTile(
+                        book: book,
+                        onTap: () async {
+                          final deleted = await showModalBottomSheet<bool>(
+                            context: context,
+                            builder: (context) => BookDetailSheet(
+                              book: book,
+                              onDelete: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          );
+                          if (deleted == true) {
+                            await _fetchBooks();
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -88,76 +88,88 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return Column(
-      children: [
-        TableCalendar(
-          firstDay: DateTime.utc(2000, 1, 1),
-          lastDay: DateTime.utc(2100, 12, 31),
-          focusedDay: _focusedDay,
-          selectedDayPredicate: (day) {
-            return _selectedDay != null && isSameDay(_selectedDay, day);
-          },
-          calendarFormat: CalendarFormat.month,
-          availableCalendarFormats: {CalendarFormat.month: loc.month},
-          calendarStyle: CalendarStyle(
-            todayDecoration: BoxDecoration(
-              color: Colors.blue.shade100,
-              shape: BoxShape.circle,
-            ),
-            markerDecoration: BoxDecoration(
-              color: Colors.green,
-              shape: BoxShape.circle,
-            ),
-          ),
-          onDaySelected: (selectedDay, focusedDay) async {
-            final now = DateTime.now();
-            final today = DateTime(now.year, now.month, now.day);
-            final selected = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
-            if (selected.isAfter(today)) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(loc.noFutureDays)),
-              );
-              return;
-            }
-            setState(() {
-              _selectedDay = selectedDay;
-              _focusedDay = focusedDay;
-            });
-            await _toggleReadedDay(selectedDay);
-          },
-          eventLoader: (day) {
-            return _readedDays.any((d) => isSameDay(d, day)) ? [loc.read] : [];
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Column(
-            children: [
-              Text(loc.currentStreak(_actualStreak), style: Theme.of(context).textTheme.titleMedium),
-              Text(loc.longestStreak(_longestStreak), style: Theme.of(context).textTheme.titleMedium),
-            ],
-          ),
-        ),
-        const Spacer(),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SizedBox(
+    return SafeArea(
+      child: Column(
+        children: [
+          Container(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () async {
-                final now = DateTime.now();
-                final today = DateTime(now.year, now.month, now.day);
-                setState(() {
-                  _focusedDay = today;
-                  _selectedDay = today;
-                });
-                await _toggleReadedDay(today);
-              },
-              child: Text(loc.todayRead),
+            color: Colors.green,
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'my reading habit',
+              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
           ),
-        ),
-      ],
+          TableCalendar(
+            firstDay: DateTime.utc(2000, 1, 1),
+            lastDay: DateTime.utc(2100, 12, 31),
+            focusedDay: _focusedDay,
+            selectedDayPredicate: (day) {
+              return _selectedDay != null && isSameDay(_selectedDay, day);
+            },
+            calendarFormat: CalendarFormat.month,
+            availableCalendarFormats: {CalendarFormat.month: loc.month},
+            calendarStyle: CalendarStyle(
+              todayDecoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                shape: BoxShape.circle,
+              ),
+              markerDecoration: BoxDecoration(
+                color: Colors.green,
+                shape: BoxShape.circle,
+              ),
+            ),
+            onDaySelected: (selectedDay, focusedDay) async {
+              final now = DateTime.now();
+              final today = DateTime(now.year, now.month, now.day);
+              final selected = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+              if (selected.isAfter(today)) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(loc.noFutureDays)),
+                );
+                return;
+              }
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              });
+              await _toggleReadedDay(selectedDay);
+            },
+            eventLoader: (day) {
+              return _readedDays.any((d) => isSameDay(d, day)) ? [loc.read] : [];
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              children: [
+                Text(loc.currentStreak(_actualStreak), style: Theme.of(context).textTheme.titleMedium),
+                Text(loc.longestStreak(_longestStreak), style: Theme.of(context).textTheme.titleMedium),
+              ],
+            ),
+          ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final now = DateTime.now();
+                  final today = DateTime(now.year, now.month, now.day);
+                  setState(() {
+                    _focusedDay = today;
+                    _selectedDay = today;
+                  });
+                  await _toggleReadedDay(today);
+                },
+                child: Text(loc.todayRead),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

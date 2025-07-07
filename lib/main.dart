@@ -78,25 +78,33 @@ class _TabBarExampleState extends State<TabBarExample> {
     }
   }
 
+  void _onReadedChanged(bool value) {
+    setState(() {
+      _readed = value;
+    });
+  }
+
+  void _onRatingChanged(double value) {
+    setState(() {
+      _rating = value;
+    });
+  }
+
+  void _onSave() async {
+    await _addBook();
+  }
+
   List<Widget> get _pages => [
         LibraryPage(books: _books),
         AddBookPage(
-          titleController: _titleController,
-          authorController: _authorController,
-          readed: _readed,
-          rating: _rating,
-          onReadedChanged: (val) {
-            setState(() {
-              _readed = val;
-            });
-          },
-          onRatingChanged: (val) {
-            setState(() {
-              _rating = val;
-            });
-          },
-          onSave: _addBook,
-        ),
+      titleController: _titleController,
+      authorController: _authorController,
+      readed: _readed,
+      rating: _rating,
+      onReadedChanged: _onReadedChanged,
+      onRatingChanged: _onRatingChanged,
+      onSave: _onSave,
+    ),
         const CalendarPage(),
       ];
 
