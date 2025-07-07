@@ -44,8 +44,8 @@ class _TabBarExampleState extends State<TabBarExample> {
   List<Book> _books = [];
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
-  bool _gelesen = false;
-  double _bewertung = 0;
+  bool _readed = false;
+  double _rating = 0;
 
   @override
   void initState() {
@@ -65,14 +65,14 @@ class _TabBarExampleState extends State<TabBarExample> {
       final newBook = Book(
         title: _titleController.text,
         author: _authorController.text,
-        gelesen: _gelesen,
-        bewertung: _bewertung.round(),
+        readed: _readed,
+        rating: _rating.round(),
       );
       await DatabaseHelper().insertBook(newBook);
       _titleController.clear();
       _authorController.clear();
-      _gelesen = false;
-      _bewertung = 0;
+      _readed = false;
+      _rating = 0;
       _selectedIndex = 0;
       await _loadBooks();
     }
@@ -83,16 +83,16 @@ class _TabBarExampleState extends State<TabBarExample> {
         AddBookPage(
           titleController: _titleController,
           authorController: _authorController,
-          gelesen: _gelesen,
-          bewertung: _bewertung,
-          onGelesenChanged: (val) {
+          readed: _readed,
+          rating: _rating,
+          onReadedChanged: (val) {
             setState(() {
-              _gelesen = val;
+              _readed = val;
             });
           },
-          onBewertungChanged: (val) {
+          onRatingChanged: (val) {
             setState(() {
-              _bewertung = val;
+              _rating = val;
             });
           },
           onSave: _addBook,

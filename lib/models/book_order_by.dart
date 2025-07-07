@@ -23,3 +23,5 @@ extension BookOrderByExtension on BookOrderBy {
     );
   }
 }
+
+// No changes needed for book_order_by.dart unless it references 'gelesen' or 'bewertung' fields directly.

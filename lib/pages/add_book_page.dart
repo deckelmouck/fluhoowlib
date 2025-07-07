@@ -4,20 +4,20 @@ import '../l10n/app_localizations.dart';
 class AddBookPage extends StatelessWidget {
   final TextEditingController titleController;
   final TextEditingController authorController;
-  final bool gelesen;
-  final double bewertung;
-  final ValueChanged<bool> onGelesenChanged;
-  final ValueChanged<double> onBewertungChanged;
+  final bool readed;
+  final double rating;
+  final ValueChanged<bool> onReadedChanged;
+  final ValueChanged<double> onRatingChanged;
   final VoidCallback onSave;
 
   const AddBookPage({
     super.key,
     required this.titleController,
     required this.authorController,
-    required this.gelesen,
-    required this.bewertung,
-    required this.onGelesenChanged,
-    required this.onBewertungChanged,
+    required this.readed,
+    required this.rating,
+    required this.onReadedChanged,
+    required this.onRatingChanged,
     required this.onSave,
   });
 
@@ -41,8 +41,8 @@ class AddBookPage extends StatelessWidget {
             children: [
               Text(loc.read),
               Switch(
-                value: gelesen,
-                onChanged: onGelesenChanged,
+                value: readed,
+                onChanged: onReadedChanged,
               ),
             ],
           ),
@@ -51,15 +51,15 @@ class AddBookPage extends StatelessWidget {
               Text(loc.rating),
               Expanded(
                 child: Slider(
-                  value: bewertung,
+                  value: rating,
                   min: 0,
                   max: 10,
                   divisions: 10,
-                  label: bewertung.round().toString(),
-                  onChanged: gelesen ? onBewertungChanged : null,
+                  label: rating.round().toString(),
+                  onChanged: readed ? onRatingChanged : null,
                 ),
               ),
-              Text(bewertung.round().toString()),
+              Text(rating.round().toString()),
             ],
           ),
           const Spacer(),

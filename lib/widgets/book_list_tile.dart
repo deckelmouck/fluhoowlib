@@ -17,8 +17,8 @@ class BookListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('${loc.author}: ${book.author}'),
-          if (book.gelesen)
-            Text('${loc.read} ${loc.yes} | ${loc.rating} ${book.bewertung}')
+          if (book.readed)
+            Text('${loc.read} ${loc.yes} | ${loc.rating} ${book.rating}')
           else
             Text('${loc.read} ${loc.no}'),
         ],
