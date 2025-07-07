@@ -53,4 +53,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todayRead => 'Read today';
+
+  @override
+  String get yes => 'yes';
+
+  @override
+  String get no => 'no';
 }

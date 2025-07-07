@@ -12,5 +12,7 @@
   "noFutureDays": "You cannot mark future days.",
   "currentStreak": "Current streak: {streak}",
   "longestStreak": "Longest streak: {streak}",
-  "todayRead": "Read today"
+  "todayRead": "Read today",
+  "yes": "yes",
+  "no": "no"
 }
