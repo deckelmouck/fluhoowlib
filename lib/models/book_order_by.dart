@@ -3,14 +3,14 @@ import '../l10n/app_localizations.dart';
 enum BookOrderBy { id, title, author }
 
 extension BookOrderByExtension on BookOrderBy {
-  String translatedName(AppLocalizations l10n) {
+  String translatedName(AppLocalizations loc) {
     switch (this) {
       case BookOrderBy.id:
         return 'ID'; // No translation found, fallback to static
       case BookOrderBy.title:
-        return l10n.bookTitle;
+        return loc.bookTitle;
       case BookOrderBy.author:
-        return l10n.author;
+        return loc.author;
     }
   }
 

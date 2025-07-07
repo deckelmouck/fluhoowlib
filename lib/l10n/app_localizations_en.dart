@@ -62,4 +62,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'close';
+
+  @override
+  String get deleteBook => 'delete book';
+
+  @override
+  String get booksInLibrary => 'Books in Library';
 }

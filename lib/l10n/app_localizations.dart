@@ -199,6 +199,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'close'**
   String get close;
+
+  /// No description provided for @deleteBook.
+  ///
+  /// In en, this message translates to:
+  /// **'delete book'**
+  String get deleteBook;
+
+  /// No description provided for @booksInLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Books in Library'**
+  String get booksInLibrary;
 }
 
 class _AppLocalizationsDelegate

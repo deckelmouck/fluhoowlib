@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/book.dart';
 import '../db/database_helper.dart';
+import '../l10n/app_localizations.dart';
 
 class BookDetailSheet extends StatelessWidget {
   final Book book;
@@ -11,6 +12,7 @@ class BookDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bookMap = book.toMap();
+    final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -29,7 +31,7 @@ class BookDetailSheet extends StatelessWidget {
               ),
               IconButton(
                 icon: const Icon(Icons.delete_outline),
-                tooltip: 'Buch löschen',
+                tooltip: loc.deleteBook,
                 onPressed: () async {
                   if (book.id != null) {
                     await DatabaseHelper().deleteBook(book.id!);
@@ -40,7 +42,7 @@ class BookDetailSheet extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          ...bookMap.entries.map((e) => Text('${e.key}: ${e.value}')).toList(),
+          ...bookMap.entries.map((e) => Text('${e.key}: ${e.value}')),
         ],
       ),
     );

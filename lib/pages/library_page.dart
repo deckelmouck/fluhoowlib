@@ -60,7 +60,7 @@ class _LibraryPageState extends State<LibraryPage> {
     if (_loading) {
       return const Center(child: CircularProgressIndicator());
     }
-    final l10n = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context)!;
     return Column(
       children: [
         SafeArea(
@@ -72,7 +72,7 @@ class _LibraryPageState extends State<LibraryPage> {
               children: [
                 Expanded(
                   child: Text(
-                    'Bücher in der Bibliothek: ${_books.length}',
+                    '${loc.booksInLibrary}: ${_books.length}',
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -83,7 +83,7 @@ class _LibraryPageState extends State<LibraryPage> {
                   items: BookOrderBy.values
                       .map((order) => DropdownMenuItem(
                             value: order,
-                            child: Text(order.translatedName(l10n)),
+                            child: Text(order.translatedName(loc)),
                           ))
                       .toList(),
                   underline: Container(),

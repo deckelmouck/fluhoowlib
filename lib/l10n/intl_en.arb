@@ -15,5 +15,7 @@
   "todayRead": "Read today",
   "yes": "yes",
   "no": "no",
-  "close": "close"
+  "close": "close",
+  "deleteBook": "delete book",
+  "booksInLibrary": "Books in Library"
 }

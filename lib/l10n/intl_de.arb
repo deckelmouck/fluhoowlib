@@ -15,5 +15,7 @@
   "todayRead": "Heute gelesen",
   "yes": "ja",
   "no": "nein",
-  "close": "schließen"
+  "close": "schließen",
+  "deleteBook": "Buch löschen",
+  "booksInLibrary": "Bücher in der Bibliothek"
 }
