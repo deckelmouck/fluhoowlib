@@ -27,19 +27,19 @@ class MainApp extends StatelessWidget {
         Locale('en', ''), // English
         Locale('de', ''), // German
       ],
-      home: TabBarExample(),
+      home: MainNavigation(),
     );
   }
 }
 
-class TabBarExample extends StatefulWidget {
-  const TabBarExample({super.key});
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
 
   @override
-  State<TabBarExample> createState() => _TabBarExampleState();
+  State<MainNavigation> createState() => _MainNavigationState();
 }
 
-class _TabBarExampleState extends State<TabBarExample> {
+class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
   List<Book> _books = [];
   final TextEditingController _titleController = TextEditingController();
