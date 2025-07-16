@@ -7,6 +7,7 @@ import 'pages/setting_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'db/database_helper.dart';
+import 'dart:ui' as ui;
 
 void main() {
   runApp(const MainApp());
@@ -20,7 +21,19 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  Locale _locale = const Locale('en');
+  Locale? _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set initial locale to system default
+    final systemLocale = ui.PlatformDispatcher.instance.locale;
+    if (["en", "de"].contains(systemLocale.languageCode)) {
+      _locale = Locale(systemLocale.languageCode);
+    } else {
+      _locale = const Locale('en');
+    }
+  }
 
   void _changeLocale(Locale newLocale) {
     setState(() {
