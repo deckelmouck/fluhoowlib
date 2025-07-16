@@ -112,6 +112,15 @@ class _MainNavigationState extends State<MainNavigation> {
 
   List<Widget> get _pages => [
         LibraryPage(books: _books),
+        AddBookPage(
+          titleController: _titleController,
+          authorController: _authorController,
+          readed: _readed,
+          rating: _rating,
+          onReadedChanged: _onReadedChanged,
+          onRatingChanged: _onRatingChanged,
+          onSave: _onSave,
+        ),
         const CalendarPage(),
         SettingPage(onLocaleChanged: widget.onLocaleChanged),
       ];
@@ -127,21 +136,24 @@ class _MainNavigationState extends State<MainNavigation> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, size: 24),
             label: AppLocalizations.of(context)!.myLibrary,
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.add),
-          //   label: AppLocalizations.of(context)!.addBook,
-          // ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
+            icon: Icon(Icons.add, size: 24),
+            label: AppLocalizations.of(context)!.addBook,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month, size: 24),
             label: AppLocalizations.of(context)!.calendar,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings, size: 24),
             label: AppLocalizations.of(context)!.settings,
           ),
         ],
