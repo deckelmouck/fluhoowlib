@@ -27,7 +27,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get author => 'Author';
 
   @override
-  String get read => 'Read';
+  String get read => 'Readed';
 
   @override
   String get rating => 'Rating';

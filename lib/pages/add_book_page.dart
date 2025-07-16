@@ -49,19 +49,23 @@ class AddBookPage extends StatelessWidget {
                       controller: titleController,
                       decoration: InputDecoration(labelText: loc.bookTitle),
                     ),
+                    SizedBox(height: 20), // Added space between fields
                     TextField(
                       controller: authorController,
                       decoration: InputDecoration(labelText: loc.author),
                     ),
+                    SizedBox(height: 20), // Added space between fields
                     Row(
                       children: [
                         Text(loc.read),
+                        Spacer(), // Pushes the switch to the right
                         Switch(
                           value: readed,
                           onChanged: onReadedChanged,
                         ),
                       ],
                     ),
+                    SizedBox(height: 20), // Added space between rows
                     Row(
                       children: [
                         Text(loc.rating),
@@ -78,7 +82,7 @@ class AddBookPage extends StatelessWidget {
                         Text(rating.round().toString()),
                       ],
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 32), // More space before buttons
                   ],
                 ),
               ),
