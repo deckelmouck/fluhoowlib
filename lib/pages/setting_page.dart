@@ -12,11 +12,24 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   bool isEnglish = true;
   String? _appVersion;
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
     _loadAppVersion();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      final locale = Localizations.localeOf(context);
+      setState(() {
+        isEnglish = locale.languageCode.toLowerCase().startsWith('en');
+        _initialized = true;
+      });
+    }
   }
 
   Future<void> _loadAppVersion() async {

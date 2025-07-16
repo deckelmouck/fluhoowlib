@@ -97,15 +97,15 @@ class _MainNavigationState extends State<MainNavigation> {
 
   List<Widget> get _pages => [
         LibraryPage(books: _books),
-        AddBookPage(
-      titleController: _titleController,
-      authorController: _authorController,
-      readed: _readed,
-      rating: _rating,
-      onReadedChanged: _onReadedChanged,
-      onRatingChanged: _onRatingChanged,
-      onSave: _onSave,
-    ),
+    //     AddBookPage(
+    //   titleController: _titleController,
+    //   authorController: _authorController,
+    //   readed: _readed,
+    //   rating: _rating,
+    //   onReadedChanged: _onReadedChanged,
+    //   onRatingChanged: _onRatingChanged,
+    //   onSave: _onSave,
+    // ),
         const CalendarPage(),
         const SettingPage(),
       ];
@@ -126,10 +126,10 @@ class _MainNavigationState extends State<MainNavigation> {
             icon: Icon(Icons.home),
             label: AppLocalizations.of(context)!.myLibrary,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: AppLocalizations.of(context)!.addBook,
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.add),
+          //   label: AppLocalizations.of(context)!.addBook,
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
             label: AppLocalizations.of(context)!.calendar,
