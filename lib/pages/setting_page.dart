@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../l10n/app_localizations.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+  final void Function(Locale)? onLocaleChanged;
+  const SettingPage({super.key, this.onLocaleChanged});
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -41,10 +43,11 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Settings'),
+          title: Text(loc.settings),
         ),
         body: ListView(
           padding: EdgeInsets.all(16),
@@ -54,8 +57,8 @@ class _SettingPageState extends State<SettingPage> {
               children: [
                 Expanded(
                   child: ListTile(
-                    title: Text('Language'),
-                    subtitle: Text(isEnglish ? 'English' : 'German'),
+                    title: Text(loc.language),
+                    subtitle: Text(isEnglish ? loc.english : loc.german),
                   ),
                 ),
                 Switch(
@@ -64,6 +67,9 @@ class _SettingPageState extends State<SettingPage> {
                     setState(() {
                       isEnglish = val;
                     });
+                    if (widget.onLocaleChanged != null) {
+                      widget.onLocaleChanged!(Locale(isEnglish ? 'en' : 'de'));
+                    }
                   },
                 ),
               ],

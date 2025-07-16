@@ -20,5 +20,9 @@
   "booksInLibrary": "Books in Library",
   "clear": "Clear",
   "mustNotBeEmpty": "must not be empty",
-  "settings": "Settings"
+  "settings": "Settings",
+  "readingHabbit": "my reading habbit",
+  "language": "Language",
+  "english": "english",
+  "german": "german"
 }

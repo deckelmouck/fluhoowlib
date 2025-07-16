@@ -77,4 +77,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get readingHabbit => 'my reading habbit';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get english => 'english';
+
+  @override
+  String get german => 'german';
 }

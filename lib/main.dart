@@ -12,29 +12,44 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  Locale _locale = const Locale('en');
+
+  void _changeLocale(Locale newLocale) {
+    setState(() {
+      _locale = newLocale;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      localizationsDelegates: [
+    return MaterialApp(
+      locale: _locale,
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        Locale('en', ''), // English
-        Locale('de', ''), // German
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('de', ''),
       ],
-      home: MainNavigation(),
+      home: MainNavigation(onLocaleChanged: _changeLocale),
     );
   }
 }
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+  final void Function(Locale)? onLocaleChanged;
+  const MainNavigation({super.key, this.onLocaleChanged});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -97,17 +112,8 @@ class _MainNavigationState extends State<MainNavigation> {
 
   List<Widget> get _pages => [
         LibraryPage(books: _books),
-    //     AddBookPage(
-    //   titleController: _titleController,
-    //   authorController: _authorController,
-    //   readed: _readed,
-    //   rating: _rating,
-    //   onReadedChanged: _onReadedChanged,
-    //   onRatingChanged: _onRatingChanged,
-    //   onSave: _onSave,
-    // ),
         const CalendarPage(),
-        const SettingPage(),
+        SettingPage(onLocaleChanged: widget.onLocaleChanged),
       ];
 
   void _onItemTapped(int index) {

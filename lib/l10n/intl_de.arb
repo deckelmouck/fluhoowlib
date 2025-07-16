@@ -20,5 +20,9 @@
   "booksInLibrary": "Bücher in der Bibliothek",
   "clear": "Löschen",
   "mustNotBeEmpty": "dürfen nicht leer sein",
-  "settings": "Einstellungen"
+  "settings": "Einstellungen",
+  "readingHabbit": "Meine Lesegewohnheit",
+  "language": "Sprache",
+  "english": "Englisch",
+  "german": "Deutsch"
 }

@@ -96,7 +96,7 @@ class _CalendarPageState extends State<CalendarPage> {
             color: Colors.green,
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'my reading habit',
+              loc.readingHabbit,
               style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
