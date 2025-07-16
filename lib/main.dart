@@ -3,6 +3,7 @@ import 'models/book.dart';
 import 'pages/library_page.dart';
 import 'pages/add_book_page.dart';
 import 'pages/calendar_page.dart';
+import 'pages/setting_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'db/database_helper.dart';
@@ -106,6 +107,7 @@ class _MainNavigationState extends State<MainNavigation> {
       onSave: _onSave,
     ),
         const CalendarPage(),
+        const SettingPage(),
       ];
 
   void _onItemTapped(int index) {
@@ -131,6 +133,10 @@ class _MainNavigationState extends State<MainNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
             label: AppLocalizations.of(context)!.calendar,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: AppLocalizations.of(context)!.settings,
           ),
         ],
         currentIndex: _selectedIndex,

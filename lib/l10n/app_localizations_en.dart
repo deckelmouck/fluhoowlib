@@ -74,4 +74,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mustNotBeEmpty => 'must not be empty';
+
+  @override
+  String get settings => 'Settings';
 }

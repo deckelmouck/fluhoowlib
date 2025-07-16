@@ -19,5 +19,6 @@
   "deleteBook": "Buch löschen",
   "booksInLibrary": "Bücher in der Bibliothek",
   "clear": "Löschen",
-  "mustNotBeEmpty": "dürfen nicht leer sein"
+  "mustNotBeEmpty": "dürfen nicht leer sein",
+  "settings": "Einstellungen"
 }
