@@ -24,5 +24,6 @@
   "readingHabbit": "my reading habbit",
   "language": "Language",
   "english": "english",
-  "german": "german"
+  "german": "german",
+  "addNewBook": "add new book"
 }

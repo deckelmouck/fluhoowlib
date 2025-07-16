@@ -71,7 +71,7 @@ class _LibraryPageState extends State<LibraryPage> {
             color: Colors.green,
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'my library',
+              loc.myLibrary,
               style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),

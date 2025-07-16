@@ -35,7 +35,7 @@ class AddBookPage extends StatelessWidget {
                 color: Colors.green,
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'add new book',
+                  loc.addNewBook,
                   style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),

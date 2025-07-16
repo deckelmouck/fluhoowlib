@@ -253,6 +253,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'german'**
   String get german;
+
+  /// No description provided for @addNewBook.
+  ///
+  /// In en, this message translates to:
+  /// **'add new book'**
+  String get addNewBook;
 }
 
 class _AppLocalizationsDelegate

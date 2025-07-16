@@ -89,4 +89,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get german => 'german';
+
+  @override
+  String get addNewBook => 'add new book';
 }

@@ -24,5 +24,6 @@
   "readingHabbit": "Meine Lesegewohnheit",
   "language": "Sprache",
   "english": "Englisch",
-  "german": "Deutsch"
+  "german": "Deutsch",
+  "addNewBook": "neues Buch hinzufügen"
 }

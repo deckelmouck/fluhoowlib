@@ -45,107 +45,118 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(loc.settings),
-        ),
-        body: ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            color: Colors.green,
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              loc.settings,
+              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.all(16),
               children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text(loc.language),
-                    subtitle: Text(isEnglish ? loc.english : loc.german),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: Text(loc.language),
+                        subtitle: Text(isEnglish ? loc.english : loc.german),
+                      ),
+                    ),
+                    Switch(
+                      value: isEnglish,
+                      onChanged: (val) {
+                        setState(() {
+                          isEnglish = val;
+                        });
+                        if (widget.onLocaleChanged != null) {
+                          widget.onLocaleChanged!(Locale(isEnglish ? 'en' : 'de'));
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                Divider(height: 32),
+                Text('About', style: Theme.of(context).textTheme.titleLarge),
+                SizedBox(height: 8),
+                ListTile(
+                  title: Text('Developer'),
+                  subtitle: Text('Nikolas Palm'),
+                ),
+                ListTile(
+                  title: Text('Support'),
+                  subtitle: GestureDetector(
+                    onTap: () async {
+                      final Uri emailLaunchUri = Uri(
+                        scheme: 'mailto',
+                        path: 'deckelmouck@gmail.com',
+                      );
+                      await launchUrl(emailLaunchUri);
+                    },
+                    child: Text(
+                      'deckelmouck@gmail.com',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ),
                 ),
-                Switch(
-                  value: isEnglish,
-                  onChanged: (val) {
-                    setState(() {
-                      isEnglish = val;
-                    });
-                    if (widget.onLocaleChanged != null) {
-                      widget.onLocaleChanged!(Locale(isEnglish ? 'en' : 'de'));
-                    }
-                  },
+                ListTile(
+                  title: Text('Homepage'),
+                  subtitle: GestureDetector(
+                    onTap: () async {
+                      final Uri url = Uri.parse('https://www.deckelmouck.de');
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url, mode: LaunchMode.externalApplication);
+                      }
+                    },
+                    child: Text(
+                      'deckelmouck.de',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text('Privacy'),
+                  subtitle: GestureDetector(
+                    onTap: () async {
+                      final Uri url = Uri.parse('https://www.deckelmouck.de/Hoowlib/Privacy');
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url, mode: LaunchMode.externalApplication);
+                      }
+                    },
+                    child: Text(
+                      'See privacy policy',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text('Version'),
+                  subtitle: Text(_appVersion ?? 'Loading...'),
+                ),
+                ListTile(
+                  title: Text('Copyright'),
+                  subtitle: Text('© 2025 Nikolas Palm'),
                 ),
               ],
             ),
-            Divider(height: 32),
-            Text('About', style: Theme.of(context).textTheme.titleLarge),
-            SizedBox(height: 8),
-            ListTile(
-              title: Text('Developer'),
-              subtitle: Text('Nikolas Palm'),
-            ),
-            ListTile(
-              title: Text('Support'),
-              subtitle: GestureDetector(
-                onTap: () async {
-                  final Uri emailLaunchUri = Uri(
-                    scheme: 'mailto',
-                    path: 'deckelmouck@gmail.com',
-                  );
-                  await launchUrl(emailLaunchUri);
-                },
-                child: Text(
-                  'deckelmouck@gmail.com',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Homepage'),
-              subtitle: GestureDetector(
-                onTap: () async {
-                  final Uri url = Uri.parse('https://www.deckelmouck.de');
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.externalApplication);
-                  }
-                },
-                child: Text(
-                  'deckelmouck.de',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Privacy'),
-              subtitle: GestureDetector(
-                onTap: () async {
-                  final Uri url = Uri.parse('https://www.deckelmouck.de/Hoowlib/Privacy');
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.externalApplication);
-                  }
-                },
-                child: Text(
-                  'See privacy policy',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Version'),
-              subtitle: Text(_appVersion ?? 'Loading...'),
-            ),
-            ListTile(
-              title: Text('Copyright'),
-              subtitle: Text('© 2025 Nikolas Palm'),
-            ),
-          ],
-        ),
+          ),
+        ],        
       ),
     );
   }
