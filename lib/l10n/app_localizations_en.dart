@@ -95,4 +95,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noBooks => 'empty library';
+
+  @override
+  String get confirmDeleteBook => 'Are you sure you want to delete this book?';
+
+  @override
+  String get cancel => 'cancel';
+
+  @override
+  String get delete => 'delete';
 }
