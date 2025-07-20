@@ -92,4 +92,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addNewBook => 'add new book';
+
+  @override
+  String get noBooks => 'empty library';
 }

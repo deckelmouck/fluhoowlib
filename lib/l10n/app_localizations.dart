@@ -259,6 +259,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'add new book'**
   String get addNewBook;
+
+  /// No description provided for @noBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'empty library'**
+  String get noBooks;
 }
 
 class _AppLocalizationsDelegate

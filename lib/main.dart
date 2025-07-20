@@ -44,6 +44,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       locale: _locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,

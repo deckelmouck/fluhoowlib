@@ -92,4 +92,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get addNewBook => 'neues Buch hinzufügen';
+
+  @override
+  String get noBooks => 'leere Bibliothek';
 }

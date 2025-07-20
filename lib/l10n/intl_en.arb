@@ -25,5 +25,6 @@
   "language": "Language",
   "english": "english",
   "german": "german",
-  "addNewBook": "add new book"
+  "addNewBook": "add new book",
+  "noBooks": "empty library"
 }

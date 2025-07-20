@@ -105,38 +105,46 @@ class _LibraryPageState extends State<LibraryPage> {
           ),
           // reduce space between top line and list
           Expanded(
-            child: Container(
-              color: Colors.white,
-              child: Scrollbar(
-                child: ListView.builder(
-                  itemCount: _books.length,
-                  itemBuilder: (context, index) {
-                    final book = _books[index];
-                    final isEven = index % 2 == 0;
-                    return Container(
-                      color: isEven ? Colors.white : Colors.grey[50],
-                      child: BookListTile(
-                        book: book,
-                        onTap: () async {
-                          final deleted = await showModalBottomSheet<bool>(
-                            context: context,
-                            builder: (context) => BookDetailSheet(
+            child: _books.isEmpty
+                ? Center(
+                    child: Text(
+                      loc.noBooks, // Add this key to your localization files
+                      style: const TextStyle(fontSize: 18, color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : Container(
+                    color: Colors.white,
+                    child: Scrollbar(
+                      child: ListView.builder(
+                        itemCount: _books.length,
+                        itemBuilder: (context, index) {
+                          final book = _books[index];
+                          final isEven = index % 2 == 0;
+                          return Container(
+                            color: isEven ? Colors.white : Colors.grey[50],
+                            child: BookListTile(
                               book: book,
-                              onDelete: () {
-                                Navigator.of(context).pop(true);
+                              onTap: () async {
+                                final deleted = await showModalBottomSheet<bool>(
+                                  context: context,
+                                  builder: (context) => BookDetailSheet(
+                                    book: book,
+                                    onDelete: () {
+                                      Navigator.of(context).pop(true);
+                                    },
+                                  ),
+                                );
+                                if (deleted == true) {
+                                  await _fetchBooks();
+                                }
                               },
                             ),
                           );
-                          if (deleted == true) {
-                            await _fetchBooks();
-                          }
                         },
                       ),
-                    );
-                  },
-                ),
-              ),
-            ),
+                    ),
+                  ),
           ),
         ],
       ),
