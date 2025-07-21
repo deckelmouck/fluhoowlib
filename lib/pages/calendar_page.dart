@@ -110,6 +110,9 @@ class _CalendarPageState extends State<CalendarPage> {
             },
             calendarFormat: CalendarFormat.month,
             locale: Localizations.localeOf(context).toString(),
+            startingDayOfWeek: Localizations.localeOf(context).toString().startsWith('de')
+                ? StartingDayOfWeek.monday
+                : StartingDayOfWeek.sunday,
             availableCalendarFormats: {CalendarFormat.month: loc.month},
             calendarStyle: CalendarStyle(
               todayDecoration: BoxDecoration(
