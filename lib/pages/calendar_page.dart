@@ -109,6 +109,7 @@ class _CalendarPageState extends State<CalendarPage> {
               return _selectedDay != null && isSameDay(_selectedDay, day);
             },
             calendarFormat: CalendarFormat.month,
+            locale: Localizations.localeOf(context).toString(),
             availableCalendarFormats: {CalendarFormat.month: loc.month},
             calendarStyle: CalendarStyle(
               todayDecoration: BoxDecoration(
