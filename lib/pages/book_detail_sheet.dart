@@ -87,7 +87,9 @@ class BookDetailSheet extends StatelessWidget {
                       const SizedBox(width: 16),
                       Expanded(
                         child: Text(
-                          '${e.value}',
+                          e.key == 'readed'
+                              ? (e.value == 1 ? loc.yes : loc.no)
+                              : '${e.value}',
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
