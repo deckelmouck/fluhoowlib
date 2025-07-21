@@ -134,13 +134,16 @@ class _LibraryPageState extends State<LibraryPage> {
                                     onDelete: () {
                                       Navigator.of(context).pop(true);
                                     },
-                                    onEdit: () {
+                                    onEdit: () async {
                                       Navigator.of(context).pop();
-                                      Navigator.of(context).push(
+                                      final updatedBook = await Navigator.of(context).push<Book>(
                                         MaterialPageRoute(
                                           builder: (context) => BookEditPage(book: book),
                                         ),
                                       );
+                                      if (updatedBook != null) {
+                                        await _fetchBooks();
+                                      }
                                     },
                                   ),
                                 );
