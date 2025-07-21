@@ -104,4 +104,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'delete';
+
+  @override
+  String get editBook => 'edit book';
 }

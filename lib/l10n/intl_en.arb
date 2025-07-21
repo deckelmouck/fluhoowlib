@@ -29,5 +29,6 @@
   "noBooks": "empty library",
   "confirmDeleteBook": "Are you sure you want to delete this book?",
   "cancel": "cancel",
-  "delete": "delete"
+  "delete": "delete",
+  "editBook": "edit book"
 }

@@ -6,8 +6,9 @@ import '../l10n/app_localizations.dart';
 class BookDetailSheet extends StatelessWidget {
   final Book book;
   final VoidCallback onDelete;
+  final VoidCallback? onEdit;
 
-  const BookDetailSheet({super.key, required this.book, required this.onDelete});
+  const BookDetailSheet({super.key, required this.book, required this.onDelete, this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class BookDetailSheet extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.66, // Two thirds of screen height
+        height: MediaQuery.of(context).size.height * 0.80, // 4 of 5 of screen height
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,6 +39,11 @@ class BookDetailSheet extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall,
                     overflow: TextOverflow.ellipsis,
                   ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  tooltip: loc.editBook,
+                  onPressed: onEdit,
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete_outline),

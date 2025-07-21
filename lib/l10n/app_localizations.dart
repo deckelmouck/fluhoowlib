@@ -283,6 +283,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'delete'**
   String get delete;
+
+  /// No description provided for @editBook.
+  ///
+  /// In en, this message translates to:
+  /// **'edit book'**
+  String get editBook;
 }
 
 class _AppLocalizationsDelegate

@@ -29,5 +29,6 @@
   "noBooks": "leere Bibliothek",
   "confirmDeleteBook": "Soll das Buch wirklich gelöscht werden?",
   "cancel": "abbrechen",
-  "delete": "löschen"
+  "delete": "löschen",
+  "editBook": "Buch editieren"
 }

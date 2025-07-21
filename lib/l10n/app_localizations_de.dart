@@ -104,4 +104,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get delete => 'löschen';
+
+  @override
+  String get editBook => 'Buch editieren';
 }
