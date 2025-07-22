@@ -104,4 +104,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'delete';
+
+  @override
+  String get editBook => 'edit book';
+
+  @override
+  String get editDetailsFor => 'Edit details for';
+
+  @override
+  String get warningTitleAuthorNotEmpty => 'Title & Author must not be empty';
 }

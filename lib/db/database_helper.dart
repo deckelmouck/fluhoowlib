@@ -73,6 +73,16 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
+
+  Future<int> updateBook(Book book) async {
+    final db = await database;
+    return await db.update(
+      'books',
+      book.toMap(),
+      where: 'id = ?',
+      whereArgs: [book.id],
+    );
+  }
   // #endregion
 
   // #region ReadedDay Methods

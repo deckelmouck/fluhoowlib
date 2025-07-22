@@ -37,7 +37,7 @@ class _SettingPageState extends State<SettingPage> {
   Future<void> _loadAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
-      _appVersion = packageInfo.version;
+      _appVersion = '${packageInfo.version} (${packageInfo.buildNumber})';
     });
   }
 

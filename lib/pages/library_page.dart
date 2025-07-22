@@ -5,6 +5,7 @@ import 'book_detail_sheet.dart';
 import '../db/database_helper.dart';
 import '../widgets/book_list_tile.dart';
 import '../models/book_order_by.dart';
+import 'book_edit_page.dart';
 
 class LibraryPage extends StatefulWidget {
   final List<Book> books;
@@ -132,6 +133,17 @@ class _LibraryPageState extends State<LibraryPage> {
                                     book: book,
                                     onDelete: () {
                                       Navigator.of(context).pop(true);
+                                    },
+                                    onEdit: () async {
+                                      Navigator.of(context).pop();
+                                      final updatedBook = await Navigator.of(context).push<Book>(
+                                        MaterialPageRoute(
+                                          builder: (context) => BookEditPage(book: book),
+                                        ),
+                                      );
+                                      if (updatedBook != null) {
+                                        await _fetchBooks();
+                                      }
                                     },
                                   ),
                                 );
