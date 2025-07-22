@@ -59,7 +59,6 @@ class _BookEditPageState extends State<BookEditPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${loc.editDetailsFor}: \\${widget.book.title}', style: const TextStyle(fontSize: 18)),
                 const SizedBox(height: 16),
                 TextField(
                   controller: _titleController,
@@ -110,22 +109,27 @@ class _BookEditPageState extends State<BookEditPage> {
                   ],
                 ),
                 const SizedBox(height: 32),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_titleController.text.trim().isEmpty || _authorController.text.trim().isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(loc.warningTitleAuthorNotEmpty)),
-                        );
-                        return;
-                      }
-                      _saveChanges();
-                    },
-                    child: Text(loc.save),
-                  ),
-                ),
               ],
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                if (_titleController.text.trim().isEmpty || _authorController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(loc.warningTitleAuthorNotEmpty)),
+                  );
+                  return;
+                }
+                _saveChanges();
+              },
+              child: Text(loc.save),
             ),
           ),
         ),
