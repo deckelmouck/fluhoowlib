@@ -30,5 +30,7 @@
   "confirmDeleteBook": "Soll das Buch wirklich gelöscht werden?",
   "cancel": "abbrechen",
   "delete": "löschen",
-  "editBook": "Buch editieren"
+  "editBook": "Buch editieren",
+  "editDetailsFor": "Details anpassen",
+  "warningTitleAuthorNotEmpty": "Titel & Autor können nicht leer sein"
 }

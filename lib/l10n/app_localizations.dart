@@ -289,6 +289,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'edit book'**
   String get editBook;
+
+  /// No description provided for @editDetailsFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit details for'**
+  String get editDetailsFor;
+
+  /// No description provided for @warningTitleAuthorNotEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Title & Author must not be empty'**
+  String get warningTitleAuthorNotEmpty;
 }
 
 class _AppLocalizationsDelegate

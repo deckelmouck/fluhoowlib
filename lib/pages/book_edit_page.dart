@@ -50,7 +50,7 @@ class _BookEditPageState extends State<BookEditPage> {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Book'),
+        title: Text(loc.editBook),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -59,21 +59,21 @@ class _BookEditPageState extends State<BookEditPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Edit details for: \\${widget.book.title}', style: const TextStyle(fontSize: 18)),
+                Text('${loc.editDetailsFor}: \\${widget.book.title}', style: const TextStyle(fontSize: 18)),
                 const SizedBox(height: 16),
                 TextField(
                   controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Title'),
+                  decoration: InputDecoration(labelText: loc.bookTitle),
                 ),
                 const SizedBox(height: 20),
                 TextField(
                   controller: _authorController,
-                  decoration: const InputDecoration(labelText: 'Author'),
+                  decoration: InputDecoration(labelText: loc.author),
                 ),
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    const Text('Readed'),
+                    Text(loc.read),
                     const Spacer(),
                     Switch(
                       value: _readed,
@@ -89,7 +89,7 @@ class _BookEditPageState extends State<BookEditPage> {
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    const Text('Rating'),
+                    Text(loc.rating),
                     Expanded(
                       child: Slider(
                         value: _rating.toDouble(),
@@ -116,7 +116,7 @@ class _BookEditPageState extends State<BookEditPage> {
                     onPressed: () {
                       if (_titleController.text.trim().isEmpty || _authorController.text.trim().isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Title & Author must not be empty')),
+                          SnackBar(content: Text(loc.warningTitleAuthorNotEmpty)),
                         );
                         return;
                       }

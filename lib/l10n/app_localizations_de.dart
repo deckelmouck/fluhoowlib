@@ -107,4 +107,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get editBook => 'Buch editieren';
+
+  @override
+  String get editDetailsFor => 'Details anpassen';
+
+  @override
+  String get warningTitleAuthorNotEmpty =>
+      'Titel & Autor können nicht leer sein';
 }
