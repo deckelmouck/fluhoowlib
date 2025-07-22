@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/book.dart';
 import '../db/database_helper.dart';
+import '../l10n/app_localizations.dart';
 
 class BookEditPage extends StatefulWidget {
   final Book book;
@@ -46,6 +47,7 @@ class _BookEditPageState extends State<BookEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Book'),
@@ -120,7 +122,7 @@ class _BookEditPageState extends State<BookEditPage> {
                       }
                       _saveChanges();
                     },
-                    child: const Text('Save'),
+                    child: Text(loc.save),
                   ),
                 ),
               ],
