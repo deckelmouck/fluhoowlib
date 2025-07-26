@@ -18,7 +18,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get myLibrary => 'Meine Bibliothek';
 
   @override
-  String get calendar => 'Kalendar';
+  String get calendar => 'Kalender';
 
   @override
   String get bookTitle => 'Buchtitel';
