@@ -129,22 +129,26 @@ class _LibraryPageState extends State<LibraryPage> {
                               onTap: () async {
                                 final deleted = await showModalBottomSheet<bool>(
                                   context: context,
-                                  builder: (context) => BookDetailSheet(
-                                    book: book,
-                                    onDelete: () {
-                                      Navigator.of(context).pop(true);
-                                    },
-                                    onEdit: () async {
-                                      Navigator.of(context).pop();
-                                      final updatedBook = await Navigator.of(context).push<Book>(
-                                        MaterialPageRoute(
-                                          builder: (context) => BookEditPage(book: book),
-                                        ),
-                                      );
-                                      if (updatedBook != null) {
-                                        await _fetchBooks();
-                                      }
-                                    },
+                                  isScrollControlled: true,
+                                  builder: (context) => SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.8,
+                                    child: BookDetailSheet(
+                                      book: book,
+                                      onDelete: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                      onEdit: () async {
+                                        Navigator.of(context).pop();
+                                        final updatedBook = await Navigator.of(context).push<Book>(
+                                          MaterialPageRoute(
+                                            builder: (context) => BookEditPage(book: book),
+                                          ),
+                                        );
+                                        if (updatedBook != null) {
+                                          await _fetchBooks();
+                                        }
+                                      },
+                                    ),
                                   ),
                                 );
                                 if (deleted == true) {
