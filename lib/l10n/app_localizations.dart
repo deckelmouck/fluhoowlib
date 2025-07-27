@@ -301,6 +301,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title & Author must not be empty'**
   String get warningTitleAuthorNotEmpty;
+
+  /// No description provided for @publicationDate.
+  ///
+  /// In en, this message translates to:
+  /// **'date of publication'**
+  String get publicationDate;
+
+  /// No description provided for @publicationDateShort.
+  ///
+  /// In en, this message translates to:
+  /// **'publication'**
+  String get publicationDateShort;
+
+  /// No description provided for @finishedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'finished date'**
+  String get finishedDate;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'selection date'**
+  String get selectDate;
+
+  /// No description provided for @noDateSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'no date selected'**
+  String get noDateSelected;
 }
 
 class _AppLocalizationsDelegate

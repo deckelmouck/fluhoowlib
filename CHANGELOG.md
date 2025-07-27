@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.4.2] - 2025-07-27
+- book model
+  - add published date
+  - add finished date
 
 ## [0.4.1] - 2025-07-26
 - fixed typo

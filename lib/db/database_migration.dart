@@ -32,4 +32,13 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
     ''');
   }
   // Add future migrations here
+  if (oldVersion < 4) {
+    // Migration for adding publicationDate and finishedDate columns to books table
+    await db.execute('''
+      ALTER TABLE books ADD COLUMN publicationDate TEXT;
+    ''');
+    await db.execute('''
+      ALTER TABLE books ADD COLUMN finishedDate TEXT;
+    ''');
+  }
 }

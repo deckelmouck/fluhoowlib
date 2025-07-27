@@ -113,4 +113,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get warningTitleAuthorNotEmpty => 'Title & Author must not be empty';
+
+  @override
+  String get publicationDate => 'date of publication';
+
+  @override
+  String get publicationDateShort => 'publication';
+
+  @override
+  String get finishedDate => 'finished date';
+
+  @override
+  String get selectDate => 'selection date';
+
+  @override
+  String get noDateSelected => 'no date selected';
 }

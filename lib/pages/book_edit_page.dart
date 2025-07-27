@@ -16,6 +16,8 @@ class _BookEditPageState extends State<BookEditPage> {
   late TextEditingController _authorController;
   late bool _readed;
   late int _rating;
+  late DateTime? _publicationDate;
+  late DateTime? _finishedDate;
 
   @override
   void initState() {
@@ -24,6 +26,8 @@ class _BookEditPageState extends State<BookEditPage> {
     _authorController = TextEditingController(text: widget.book.author);
     _readed = widget.book.readed;
     _rating = widget.book.rating;
+    _publicationDate = widget.book.publicationDate;
+    _finishedDate = widget.book.finishedDate;
   }
 
   @override
@@ -33,6 +37,16 @@ class _BookEditPageState extends State<BookEditPage> {
     super.dispose();
   }
 
+  Future<void> _pickDate({required DateTime? initialDate, required ValueChanged<DateTime?> onDatePicked}) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate ?? DateTime.now(),
+      firstDate: DateTime(1500),
+      lastDate: DateTime(2100),
+    );
+    onDatePicked(picked);
+  }
+
   Future<void> _saveChanges() async {
     final updatedBook = Book(
       id: widget.book.id,
@@ -40,6 +54,8 @@ class _BookEditPageState extends State<BookEditPage> {
       author: _authorController.text,
       readed: _readed,
       rating: _rating,
+      publicationDate: _publicationDate,
+      finishedDate: _finishedDate,
     );
     await DatabaseHelper().updateBook(updatedBook);
     Navigator.of(context).pop(updatedBook);
@@ -107,6 +123,37 @@ class _BookEditPageState extends State<BookEditPage> {
                     ),
                     Text(_rating.toString()),
                   ],
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  title: Text(loc.publicationDate),
+                  subtitle: Text(_publicationDate != null ? _publicationDate!.toLocal().toString().split(' ')[0] : loc.noDateSelected),
+                  trailing: Icon(Icons.calendar_today),
+                  onTap: () => _pickDate(
+                    initialDate: _publicationDate,
+                    onDatePicked: (date) {
+                      setState(() {
+                        _publicationDate = date;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  title: Text(loc.finishedDate),
+                  subtitle: Text(_finishedDate != null ? _finishedDate!.toLocal().toString().split(' ')[0] : loc.noDateSelected),
+                  trailing: Icon(Icons.calendar_today),
+                  enabled: _readed,
+                  onTap: _readed
+                      ? () => _pickDate(
+                          initialDate: _finishedDate,
+                          onDatePicked: (date) {
+                            setState(() {
+                              _finishedDate = date;
+                            });
+                          },
+                        )
+                      : null,
                 ),
                 const SizedBox(height: 32),
               ],

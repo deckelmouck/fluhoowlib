@@ -32,5 +32,10 @@
   "delete": "delete",
   "editBook": "edit book",
   "editDetailsFor": "Edit details for",
-  "warningTitleAuthorNotEmpty": "Title & Author must not be empty"
+  "warningTitleAuthorNotEmpty": "Title & Author must not be empty",
+  "publicationDate": "date of publication",
+  "publicationDateShort": "publication",
+  "finishedDate": "finished date",
+  "selectDate": "selection date",
+  "noDateSelected": "no date selected"
 }

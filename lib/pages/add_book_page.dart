@@ -6,8 +6,12 @@ class AddBookPage extends StatelessWidget {
   final TextEditingController authorController;
   final bool readed;
   final double rating;
+  final DateTime? publicationDate;
+  final DateTime? finishedDate;
   final ValueChanged<bool> onReadedChanged;
   final ValueChanged<double> onRatingChanged;
+  final ValueChanged<DateTime?> onPublicationDateChanged;
+  final ValueChanged<DateTime?> onFinishedDateChanged;
   final VoidCallback onSave;
 
   const AddBookPage({
@@ -19,6 +23,10 @@ class AddBookPage extends StatelessWidget {
     required this.onReadedChanged,
     required this.onRatingChanged,
     required this.onSave,
+    required this.publicationDate,
+    required this.finishedDate,
+    required this.onPublicationDateChanged,
+    required this.onFinishedDateChanged,
   });
 
   @override
@@ -49,23 +57,45 @@ class AddBookPage extends StatelessWidget {
                       controller: titleController,
                       decoration: InputDecoration(labelText: loc.bookTitle),
                     ),
-                    SizedBox(height: 20), // Added space between fields
+                    SizedBox(height: 20),
                     TextField(
                       controller: authorController,
                       decoration: InputDecoration(labelText: loc.author),
                     ),
-                    SizedBox(height: 20), // Added space between fields
+                    SizedBox(height: 20),
+                    // Publication Date Picker
+                    Row(
+                      children: [
+                        Text(loc.publicationDate),
+                        Spacer(),
+                        TextButton(
+                          onPressed: () async {
+                            final picked = await showDatePicker(
+                              context: context,
+                              initialDate: publicationDate ?? DateTime.now(),
+                              firstDate: DateTime(1500),
+                              lastDate: DateTime.now(),
+                            );
+                            if (picked != null) onPublicationDateChanged(picked);
+                          },
+                          child: Text(publicationDate != null
+                              ? '${publicationDate!.day}.${publicationDate!.month}.${publicationDate!.year}'
+                              : loc.selectDate),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
                     Row(
                       children: [
                         Text(loc.read),
-                        Spacer(), // Pushes the switch to the right
+                        Spacer(),
                         Switch(
                           value: readed,
                           onChanged: onReadedChanged,
                         ),
                       ],
                     ),
-                    SizedBox(height: 20), // Added space between rows
+                    SizedBox(height: 20),
                     Row(
                       children: [
                         Text(loc.rating),
@@ -82,7 +112,31 @@ class AddBookPage extends StatelessWidget {
                         Text(rating.round().toString()),
                       ],
                     ),
-                    SizedBox(height: 32), // More space before buttons
+                    SizedBox(height: 20),
+                    // Finished Date Picker
+                    Row(
+                      children: [
+                        Text(loc.finishedDate),
+                        Spacer(),
+                        TextButton(
+                          onPressed: readed
+                              ? () async {
+                                  final picked = await showDatePicker(
+                                    context: context,
+                                    initialDate: finishedDate ?? DateTime.now(),
+                                    firstDate: DateTime(1500),
+                                    lastDate: DateTime.now(),
+                                  );
+                                  if (picked != null) onFinishedDateChanged(picked);
+                                }
+                              : null,
+                          child: Text(finishedDate != null
+                              ? '${finishedDate!.day}.${finishedDate!.month}.${finishedDate!.year}'
+                              : loc.selectDate),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 32),
                   ],
                 ),
               ),

@@ -4,8 +4,18 @@ class Book {
   final String author;
   final bool readed;
   final int rating;
+  final DateTime? publicationDate;
+  final DateTime? finishedDate;
 
-  Book({this.id, required this.title, required this.author, required this.readed, required this.rating});
+  Book({
+    this.id,
+    required this.title,
+    required this.author,
+    required this.readed,
+    required this.rating,
+    this.publicationDate,
+    this.finishedDate,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -14,6 +24,8 @@ class Book {
       'author': author,
       'readed': readed ? 1 : 0,
       'rating': rating,
+      'publicationDate': publicationDate?.toIso8601String(),
+      'finishedDate': finishedDate?.toIso8601String(),
     };
   }
 
@@ -24,6 +36,8 @@ class Book {
       author: map['author'],
       readed: map['readed'] == 1,
       rating: map['rating'],
+      publicationDate: map['publicationDate'] != null ? DateTime.parse(map['publicationDate']) : null,
+      finishedDate: map['finishedDate'] != null ? DateTime.parse(map['finishedDate']) : null,
     );
   }
 }

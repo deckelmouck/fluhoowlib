@@ -114,4 +114,19 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get warningTitleAuthorNotEmpty =>
       'Titel & Autor können nicht leer sein';
+
+  @override
+  String get publicationDate => 'Veröffentlichungsdatum';
+
+  @override
+  String get publicationDateShort => 'Veröffentlichung';
+
+  @override
+  String get finishedDate => 'Gelesen Datum';
+
+  @override
+  String get selectDate => 'ausgewähltes Datum';
+
+  @override
+  String get noDateSelected => 'kein Datum ausgewählt';
 }

@@ -20,6 +20,8 @@ class BookDetailSheet extends StatelessWidget {
       'author': loc.author,
       'readed': loc.read,
       'rating': loc.rating,
+      'publicationDate': loc.publicationDate,
+      'finishedDate': loc.finishedDate,
       // Add more fields as needed, fallback to key if not found
     };
     return Padding(
@@ -95,7 +97,9 @@ class BookDetailSheet extends StatelessWidget {
                         child: Text(
                           e.key == 'readed'
                               ? (e.value == 1 ? loc.yes : loc.no)
-                              : '${e.value}',
+                              : (e.key == 'publicationDate' || e.key == 'finishedDate') && (e.value == null || e.value.toString().isEmpty)
+                                  ? 'n/a'
+                                  : '${e.value}',
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis,
                         ),

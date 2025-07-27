@@ -23,7 +23,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'hoowlib.db');
     return await openDatabase(
       path,
-      version: 3, // Incremented version for migration
+      version: 4, // Incremented version for migration
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE books(
@@ -31,7 +31,9 @@ class DatabaseHelper {
             title TEXT,
             author TEXT,
             readed INTEGER,
-            rating INTEGER
+            rating INTEGER,
+            publicationDate TEXT,
+            finishedDate TEXT
           )
         ''');
         await db.execute('''

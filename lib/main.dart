@@ -76,6 +76,8 @@ class _MainNavigationState extends State<MainNavigation> {
   final TextEditingController _authorController = TextEditingController();
   bool _readed = false;
   double _rating = 0;
+  DateTime? _publicationDate;
+  DateTime? _finishedDate;
 
   @override
   void initState() {
@@ -120,6 +122,18 @@ class _MainNavigationState extends State<MainNavigation> {
     });
   }
 
+  void _onPublicationDateChanged(DateTime? date) {
+    setState(() {
+      _publicationDate = date;
+    });
+  }
+
+  void _onFinishedDateChanged(DateTime? date) {
+    setState(() {
+      _finishedDate = date;
+    });
+  }
+
   void _onSave() async {
     await _addBook();
   }
@@ -131,8 +145,12 @@ class _MainNavigationState extends State<MainNavigation> {
           authorController: _authorController,
           readed: _readed,
           rating: _rating,
+          publicationDate: _publicationDate,
+          finishedDate: _finishedDate,
           onReadedChanged: _onReadedChanged,
           onRatingChanged: _onRatingChanged,
+          onPublicationDateChanged: _onPublicationDateChanged,
+          onFinishedDateChanged: _onFinishedDateChanged,
           onSave: _onSave,
         ),
         const CalendarPage(),

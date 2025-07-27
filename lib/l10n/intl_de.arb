@@ -32,5 +32,10 @@
   "delete": "löschen",
   "editBook": "Buch editieren",
   "editDetailsFor": "Details anpassen",
-  "warningTitleAuthorNotEmpty": "Titel & Autor können nicht leer sein"
+  "warningTitleAuthorNotEmpty": "Titel & Autor können nicht leer sein",
+  "publicationDate": "Veröffentlichungsdatum",
+  "publicationDateShort": "Veröffentlichung",
+  "finishedDate": "Gelesen Datum",
+  "selectDate": "ausgewähltes Datum",
+  "noDateSelected": "kein Datum ausgewählt"
 }
