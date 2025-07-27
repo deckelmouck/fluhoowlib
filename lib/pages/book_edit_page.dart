@@ -86,6 +86,20 @@ class _BookEditPageState extends State<BookEditPage> {
                   decoration: InputDecoration(labelText: loc.author),
                 ),
                 const SizedBox(height: 20),
+                ListTile(
+                  title: Text(loc.publicationDate),
+                  subtitle: Text(_publicationDate != null ? _publicationDate!.toLocal().toString().split(' ')[0] : loc.noDateSelected),
+                  trailing: Icon(Icons.calendar_today),
+                  onTap: () => _pickDate(
+                    initialDate: _publicationDate,
+                    onDatePicked: (date) {
+                      setState(() {
+                        _publicationDate = date;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Text(loc.read),
@@ -123,20 +137,6 @@ class _BookEditPageState extends State<BookEditPage> {
                     ),
                     Text(_rating.toString()),
                   ],
-                ),
-                const SizedBox(height: 20),
-                ListTile(
-                  title: Text(loc.publicationDate),
-                  subtitle: Text(_publicationDate != null ? _publicationDate!.toLocal().toString().split(' ')[0] : loc.noDateSelected),
-                  trailing: Icon(Icons.calendar_today),
-                  onTap: () => _pickDate(
-                    initialDate: _publicationDate,
-                    onDatePicked: (date) {
-                      setState(() {
-                        _publicationDate = date;
-                      });
-                    },
-                  ),
                 ),
                 const SizedBox(height: 20),
                 ListTile(
