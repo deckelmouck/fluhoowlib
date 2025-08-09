@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../l10n/app_localizations.dart';
 
 class AddBookPage extends StatelessWidget {
@@ -56,11 +57,13 @@ class AddBookPage extends StatelessWidget {
                     TextField(
                       controller: titleController,
                       decoration: InputDecoration(labelText: loc.bookTitle),
+                      inputFormatters: [UpperCaseFirstLetterFormatter()],
                     ),
                     SizedBox(height: 20),
                     TextField(
                       controller: authorController,
                       decoration: InputDecoration(labelText: loc.author),
+                      inputFormatters: [UpperCaseFirstLetterFormatter()],
                     ),
                     SizedBox(height: 20),
                     // Publication Date Picker
@@ -180,6 +183,20 @@ class AddBookPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class UpperCaseFirstLetterFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) return newValue;
+    final text = newValue.text;
+    final capitalized = text[0].toUpperCase() + text.substring(1);
+    return newValue.copyWith(
+      text: capitalized,
+      selection: newValue.selection,
     );
   }
 }
