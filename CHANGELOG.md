@@ -1,7 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-## [0.4.2] - 2025-07-27
+## [Unreleased] - 2025-08-09
+- Title/Author field: first letter is automatically capitalized.
+
+## [0.5.0] - 2025-07-27
 - book model
   - add published date
   - add finished date
