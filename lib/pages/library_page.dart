@@ -19,11 +19,18 @@ class _LibraryPageState extends State<LibraryPage> {
   late List<Book> _books;
   bool _loading = true;
   BookOrderBy _orderBy = BookOrderBy.id;
+  final ScrollController _scrollController = ScrollController(); // Add this
 
   @override
   void initState() {
     super.initState();
     _fetchBooks();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // Dispose controller
+    super.dispose();
   }
 
   Future<void> _fetchBooks() async {
@@ -109,7 +116,7 @@ class _LibraryPageState extends State<LibraryPage> {
             child: _books.isEmpty
                 ? Center(
                     child: Text(
-                      loc.noBooks, // Add this key to your localization files
+                      loc.noBooks,
                       style: const TextStyle(fontSize: 18, color: Colors.grey),
                       textAlign: TextAlign.center,
                     ),
@@ -117,7 +124,9 @@ class _LibraryPageState extends State<LibraryPage> {
                 : Container(
                     color: Colors.white,
                     child: Scrollbar(
+                      controller: _scrollController, // Attach controller
                       child: ListView.builder(
+                        controller: _scrollController, // Attach controller
                         itemCount: _books.length,
                         itemBuilder: (context, index) {
                           final book = _books[index];
