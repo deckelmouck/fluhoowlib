@@ -4,6 +4,7 @@ import 'pages/library_page.dart';
 import 'pages/add_book_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/setting_page.dart';
+import 'pages/add_newbook_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'db/database_helper.dart';
@@ -79,6 +80,8 @@ class _MainNavigationState extends State<MainNavigation> {
   DateTime? _publicationDate;
   DateTime? _finishedDate;
 
+  final GlobalKey<LibraryPageState> _libraryPageKey = GlobalKey<LibraryPageState>();
+
   @override
   void initState() {
     super.initState();
@@ -107,6 +110,22 @@ class _MainNavigationState extends State<MainNavigation> {
       _rating = 0;
       _selectedIndex = 0;
       await _loadBooks();
+    }
+  }
+
+  Future<void> _addNewBook(Book newBook) async {
+    await DatabaseHelper().insertBook(newBook);
+    await _loadBooks();
+    _libraryPageKey.currentState?.fetchBooks(); // <-- This will refresh LibraryPage
+  }
+
+  void _showAddBookModal(BuildContext context) async {
+    final newBook = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AddNewbookPage()),
+    );
+    if (newBook != null) {
+      _addNewBook(newBook); // Your method to add book
     }
   }
 
@@ -139,7 +158,7 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   List<Widget> get _pages => [
-        LibraryPage(books: _books),
+        LibraryPage(key: _libraryPageKey, books: _books),
         AddBookPage(
           titleController: _titleController,
           authorController: _authorController,
@@ -159,6 +178,10 @@ class _MainNavigationState extends State<MainNavigation> {
 
   void _onItemTapped(int index) {
     setState(() {
+      if (index == 1) {
+        _showAddBookModal(context);
+        return; // Prevent changing index when adding book
+      }
       _selectedIndex = index;
     });
   }

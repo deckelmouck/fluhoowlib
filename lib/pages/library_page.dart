@@ -12,10 +12,10 @@ class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key, required this.books});
 
   @override
-  State<LibraryPage> createState() => _LibraryPageState();
+  LibraryPageState createState() => LibraryPageState();
 }
 
-class _LibraryPageState extends State<LibraryPage> {
+class LibraryPageState extends State<LibraryPage> {
   late List<Book> _books;
   bool _loading = true;
   BookOrderBy _orderBy = BookOrderBy.id;
@@ -24,7 +24,7 @@ class _LibraryPageState extends State<LibraryPage> {
   @override
   void initState() {
     super.initState();
-    _fetchBooks();
+    fetchBooks();
   }
 
   @override
@@ -33,7 +33,7 @@ class _LibraryPageState extends State<LibraryPage> {
     super.dispose();
   }
 
-  Future<void> _fetchBooks() async {
+  Future<void> fetchBooks() async {
     setState(() => _loading = true);
     final books = await DatabaseHelper().getBooks();
     setState(() {
@@ -62,7 +62,7 @@ class _LibraryPageState extends State<LibraryPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _fetchBooks();
+    fetchBooks();
   }
 
   @override
@@ -154,14 +154,14 @@ class _LibraryPageState extends State<LibraryPage> {
                                           ),
                                         );
                                         if (updatedBook != null) {
-                                          await _fetchBooks();
+                                          await fetchBooks();
                                         }
                                       },
                                     ),
                                   ),
                                 );
                                 if (deleted == true) {
-                                  await _fetchBooks();
+                                  await fetchBooks();
                                 }
                               },
                             ),
