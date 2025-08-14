@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/models/book.dart';
+import 'package:flutter/services.dart';
+import '../l10n/app_localizations.dart';
 
 class AddNewbookPage extends StatefulWidget{
   @override
@@ -13,9 +15,10 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add New Book'),
+        title: Text(loc.addNewBook),
         leading: IconButton(icon: Icon(Icons.arrow_back),
         onPressed: () => Navigator.pop(context),
         ),
@@ -27,12 +30,12 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(labelText: loc.bookTitle),
                 onSaved: (value) => _title = value ?? '',
                 validator: (value) => value!.isEmpty ? 'Enter title' : null,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Author'),
+                decoration: InputDecoration(labelText: loc.author),
                 onSaved: (value) => _author = value ?? '',
                 validator: (value) => value!.isEmpty ? 'Enter author' : null,
               ),
@@ -41,11 +44,11 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    child: Text('Cancel'),
+                    child: Text(loc.cancel),
                     onPressed: () => Navigator.pop(context),
                   ),
                   ElevatedButton(
-                    child: Text('Save'),
+                    child: Text(loc.save),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
