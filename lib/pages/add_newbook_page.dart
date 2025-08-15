@@ -1,22 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/models/book.dart';
-import 'package:flutter/services.dart';
 import '../l10n/app_localizations.dart';
 
 class AddNewbookPage extends StatefulWidget{
+  const AddNewbookPage({super.key});
+
   @override
-  _AddNewbookPageState createState() => _AddNewbookPageState();
+  AddNewbookPageState createState() => AddNewbookPageState();
 }
 
-class _AddNewbookPageState extends State<AddNewbookPage> {
+class AddNewbookPageState extends State<AddNewbookPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _author = '';
   DateTime? _publicationDate;
+  bool _readed = false;
+  double _rating = 0;
+  DateTime? _finishedDate;
+
 
   void _onPublicationDateChanged(DateTime? date) {
     setState(() {
       _publicationDate = date;
+    });
+  }
+
+  void _onReadedChanged(bool value) {
+    setState(() {
+      _readed = value;
+      if (!value) {
+        _rating = 0; // Reset rating if not read
+      }
+    });
+  }
+
+  void _onRatingChanged(double value) {
+    setState(() {
+      _rating = value;
+    });
+  }
+
+  void _onFinishedDateChanged(DateTime? date) {
+    setState(() {
+      _finishedDate = date;
     });
   }
 
@@ -68,6 +94,58 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
                         ),
                 ],
               ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(loc.read),
+                  Spacer(),
+                  Switch(
+                    value: _readed,
+                    onChanged: _onReadedChanged,
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(loc.rating),
+                  Expanded(
+                    child: Slider(
+                      value: _rating,
+                      min: 0,
+                      max: 10,
+                      divisions: 10,
+                      label: _rating.round().toString(),
+                      onChanged: _readed ? _onRatingChanged : null,
+                    ),
+                  ),
+                  Text(_rating.round().toString()),
+                ],
+              ),
+              SizedBox(height: 20),
+              // Finished Date Picker
+              Row(
+                children: [
+                  Text(loc.finishedDate),
+                  Spacer(),
+                  TextButton(
+                    onPressed: _readed
+                        ? () async {
+                            final picked = await showDatePicker(
+                              context: context,
+                              initialDate: _finishedDate ?? DateTime.now(),
+                              firstDate: DateTime(1500),
+                              lastDate: DateTime.now(),
+                            );
+                            if (picked != null) _onFinishedDateChanged(picked);
+                          }
+                        : null,
+                    child: Text(_finishedDate != null
+                        ? '${_finishedDate!.day}.${_finishedDate!.month}.${_finishedDate!.year}'
+                        : loc.selectDate),
+                  ),
+                ],
+              ),
               Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,7 +160,7 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         final book = Book(title: _title, author: _author,
-                          readed: false, rating: 0, publicationDate: _publicationDate, finishedDate: null);
+                          readed: _readed, rating: _rating.round(), publicationDate: _publicationDate, finishedDate: _finishedDate);
                         Navigator.pop(context, book); // Pass book back
                       }
                     },
