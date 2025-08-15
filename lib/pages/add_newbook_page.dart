@@ -12,6 +12,13 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _author = '';
+  DateTime? _publicationDate;
+
+  void _onPublicationDateChanged(DateTime? date) {
+    setState(() {
+      _publicationDate = date;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +41,32 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
                 onSaved: (value) => _title = value ?? '',
                 validator: (value) => value!.isEmpty ? 'Enter title' : null,
               ),
+              SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(labelText: loc.author),
                 onSaved: (value) => _author = value ?? '',
                 validator: (value) => value!.isEmpty ? 'Enter author' : null,
+              ),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  Text(loc.publicationDate),
+                  Spacer(),
+                  TextButton(
+                          onPressed: () async {
+                            final picked = await showDatePicker(
+                              context: context,
+                              initialDate: _publicationDate ?? DateTime.now(),
+                              firstDate: DateTime(1500),
+                              lastDate: DateTime.now(),
+                            );
+                            if (picked != null) _onPublicationDateChanged(picked);
+                          },
+                          child: Text(_publicationDate != null
+                              ? '${_publicationDate!.day}.${_publicationDate!.month}.${_publicationDate!.year}'
+                              : loc.selectDate),
+                        ),
+                ],
               ),
               Spacer(),
               Row(
@@ -53,7 +82,7 @@ class _AddNewbookPageState extends State<AddNewbookPage> {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         final book = Book(title: _title, author: _author,
-                          readed: false, rating: 0, publicationDate: null, finishedDate: null);
+                          readed: false, rating: 0, publicationDate: _publicationDate, finishedDate: null);
                         Navigator.pop(context, book); // Pass book back
                       }
                     },
