@@ -1,8 +1,14 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-## [Unreleased] - 2025-08-09
-- Title/Author field: first letter is automatically capitalized.
+
+## [0.7.0] - 2025-09-09
+- remove add book from bottom navigation bar
+- add add book to navbar on top right of appbar in library
+- update ui with all scaffold and appbar
+
+## [0.6.0] - 2025-08-09
+- add new book as modal page
 
 ## [0.5.0] - 2025-07-27
 - book model
