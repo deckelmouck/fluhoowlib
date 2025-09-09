@@ -6,6 +6,7 @@ import '../db/database_helper.dart';
 import '../widgets/book_list_tile.dart';
 import '../models/book_order_by.dart';
 import 'book_edit_page.dart';
+import 'add_newbook_page.dart';
 
 class LibraryPage extends StatefulWidget {
   final List<Book> books;
@@ -77,6 +78,22 @@ class LibraryPageState extends State<LibraryPage> {
           loc.myLibrary,
           style: const TextStyle(color: Colors.white),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add, color: Colors.white),
+            tooltip: loc.addBook,
+            onPressed: () async {
+              final newBook = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => AddNewbookPage()),
+              );
+              if (newBook != null) {
+                await DatabaseHelper().insertBook(newBook);
+                await fetchBooks();
+              }
+            },
+          ),
+        ],
         backgroundColor: Colors.brown,
       ),      
       body: SafeArea(

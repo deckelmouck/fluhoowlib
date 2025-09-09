@@ -159,29 +159,29 @@ class _MainNavigationState extends State<MainNavigation> {
 
   List<Widget> get _pages => [
         LibraryPage(key: _libraryPageKey, books: _books),
-        AddBookPage(
-          titleController: _titleController,
-          authorController: _authorController,
-          readed: _readed,
-          rating: _rating,
-          publicationDate: _publicationDate,
-          finishedDate: _finishedDate,
-          onReadedChanged: _onReadedChanged,
-          onRatingChanged: _onRatingChanged,
-          onPublicationDateChanged: _onPublicationDateChanged,
-          onFinishedDateChanged: _onFinishedDateChanged,
-          onSave: _onSave,
-        ),
+        // AddBookPage(
+        //   titleController: _titleController,
+        //   authorController: _authorController,
+        //   readed: _readed,
+        //   rating: _rating,
+        //   publicationDate: _publicationDate,
+        //   finishedDate: _finishedDate,
+        //   onReadedChanged: _onReadedChanged,
+        //   onRatingChanged: _onRatingChanged,
+        //   onPublicationDateChanged: _onPublicationDateChanged,
+        //   onFinishedDateChanged: _onFinishedDateChanged,
+        //   onSave: _onSave,
+        // ),
         const CalendarPage(),
         SettingPage(onLocaleChanged: widget.onLocaleChanged),
       ];
 
   void _onItemTapped(int index) {
     setState(() {
-      if (index == 1) {
-        _showAddBookModal(context);
-        return; // Prevent changing index when adding book
-      }
+      // if (index == 1) {
+      //   _showAddBookModal(context);
+      //   return; // Prevent changing index when adding book
+      // }
       _selectedIndex = index;
     });
   }
@@ -199,10 +199,10 @@ class _MainNavigationState extends State<MainNavigation> {
             icon: Icon(Icons.home, size: 24),
             label: AppLocalizations.of(context)!.myLibrary,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add, size: 24),
-            label: AppLocalizations.of(context)!.addBook,
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.add, size: 24),
+          //   label: AppLocalizations.of(context)!.addBook,
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month, size: 24),
             label: AppLocalizations.of(context)!.calendar,
