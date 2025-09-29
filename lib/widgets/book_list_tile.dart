@@ -16,14 +16,44 @@ class BookListTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('ID: ${book.id ?? "-"}'),
+          // First row: author full width
           Text('${loc.author}: ${book.author}'),
-          Text('${loc.read}: ${book.readed ? loc.yes : loc.no}'),
-          Text('${loc.rating}: ${book.rating}'),
-          if (book.publicationDate != null)
-            Text('${loc.publicationDate}: ${book.publicationDate!.year}-${book.publicationDate!.month.toString().padLeft(2, '0')}-${book.publicationDate!.day.toString().padLeft(2, '0')}'),
-          if (book.finishedDate != null)
-            Text('${loc.finishedDate} ${book.finishedDate!.year}-${book.finishedDate!.month.toString().padLeft(2, '0')}-${book.finishedDate!.day.toString().padLeft(2, '0')}'),
+          // Second row: readed left, rating right
+          Row(
+            children: [
+              Expanded(
+                child: Text('${loc.read}: ${book.readed ? loc.yes : loc.no}'),
+              ),
+              Expanded(
+                child: book.readed
+                  ? Row(
+                      children: [
+                        ...List.generate(10, (i) => Icon(
+                          i < book.rating ? Icons.star : Icons.star_border,
+                          color: i < book.rating ? Colors.amber : Colors.grey,
+                          size: 16,
+                        )),
+                      ],
+                    )
+                  : Container(),
+              ),
+            ],
+          ),
+          // Third row: publication date left, finished date right
+          Row(
+            children: [
+              Expanded(
+                child: book.publicationDate != null
+                  ? Text('pub: ${book.publicationDate!.year}-${book.publicationDate!.month.toString().padLeft(2, '0')}-${book.publicationDate!.day.toString().padLeft(2, '0')}')
+                  : Container(),
+              ),
+              Expanded(
+                child: book.finishedDate != null
+                  ? Text('read: ${book.finishedDate!.year}-${book.finishedDate!.month.toString().padLeft(2, '0')}-${book.finishedDate!.day.toString().padLeft(2, '0')}')
+                  : Container(),
+              ),
+            ],
+          ),
         ],
       ),
       onTap: onTap,
