@@ -41,4 +41,10 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
       ALTER TABLE books ADD COLUMN finishedDate TEXT;
     ''');
   }
+  if (oldVersion < 5) {
+    // Migration to reduce rating from max 10 to max 5 by dividing by 2 and rounding down
+    await db.execute('''
+      UPDATE books SET rating = CAST(rating / 2 AS INTEGER);
+    ''');
+  }
 }

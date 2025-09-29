@@ -123,8 +123,8 @@ class _BookEditPageState extends State<BookEditPage> {
                       child: Slider(
                         value: _rating.toDouble(),
                         min: 0,
-                        max: 10,
-                        divisions: 10,
+                        max: 5,
+                        divisions: 5,
                         label: _rating.toString(),
                         onChanged: _readed
                             ? (val) {

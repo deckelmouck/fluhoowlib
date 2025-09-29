@@ -28,7 +28,7 @@ class BookListTile extends StatelessWidget {
                 child: book.readed
                   ? Row(
                       children: [
-                        ...List.generate(10, (i) => Icon(
+                        ...List.generate(5, (i) => Icon(
                           i < book.rating ? Icons.star : Icons.star_border,
                           color: i < book.rating ? Colors.amber : Colors.grey,
                           size: 16,

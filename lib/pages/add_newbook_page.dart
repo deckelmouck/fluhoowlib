@@ -119,8 +119,8 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                       child: Slider(
                         value: _rating,
                         min: 0,
-                        max: 10,
-                        divisions: 10,
+                        max: 5,
+                        divisions: 5,
                         label: _rating.round().toString(),
                         onChanged: _readed ? _onRatingChanged : null,
                       ),
