@@ -148,8 +148,9 @@ class LibraryPageState extends State<LibraryPage> {
                     )
                   : Container(
                       color: Colors.white,
-                      child: Scrollbar(
-                        controller: _scrollController, // Attach controller
+                        child: Scrollbar(
+                          controller: _scrollController, // Attach controller
+                          thumbVisibility: true, // Always show scrollbar
                         child: ListView.builder(
                           controller: _scrollController, // Attach controller
                           itemCount: _books.length,

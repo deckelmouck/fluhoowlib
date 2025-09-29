@@ -16,11 +16,14 @@ class BookListTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text('ID: ${book.id ?? "-"}'),
           Text('${loc.author}: ${book.author}'),
-          if (book.readed)
-            Text('${loc.read} ${loc.yes} | ${loc.rating} ${book.rating}')
-          else
-            Text('${loc.read} ${loc.no}'),
+          Text('${loc.read}: ${book.readed ? loc.yes : loc.no}'),
+          Text('${loc.rating}: ${book.rating}'),
+          if (book.publicationDate != null)
+            Text('${loc.publicationDate}: ${book.publicationDate!.year}-${book.publicationDate!.month.toString().padLeft(2, '0')}-${book.publicationDate!.day.toString().padLeft(2, '0')}'),
+          if (book.finishedDate != null)
+            Text('${loc.finishedDate} ${book.finishedDate!.year}-${book.finishedDate!.month.toString().padLeft(2, '0')}-${book.finishedDate!.day.toString().padLeft(2, '0')}'),
         ],
       ),
       onTap: onTap,
