@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'models/book.dart';
 import 'pages/library_page.dart';
-import 'pages/add_book_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/setting_page.dart';
-import 'pages/add_newbook_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'db/database_helper.dart';
@@ -73,12 +71,6 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
   List<Book> _books = [];
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _authorController = TextEditingController();
-  bool _readed = false;
-  double _rating = 0;
-  DateTime? _publicationDate;
-  DateTime? _finishedDate;
 
   final GlobalKey<LibraryPageState> _libraryPageKey = GlobalKey<LibraryPageState>();
 
@@ -95,93 +87,14 @@ class _MainNavigationState extends State<MainNavigation> {
     });
   }
 
-  Future<void> _addBook() async {
-    if (_titleController.text.isNotEmpty && _authorController.text.isNotEmpty) {
-      final newBook = Book(
-        title: _titleController.text,
-        author: _authorController.text,
-        readed: _readed,
-        rating: _rating.round(),
-      );
-      await DatabaseHelper().insertBook(newBook);
-      _titleController.clear();
-      _authorController.clear();
-      _readed = false;
-      _rating = 0;
-      _selectedIndex = 0;
-      await _loadBooks();
-    }
-  }
-
-  Future<void> _addNewBook(Book newBook) async {
-    await DatabaseHelper().insertBook(newBook);
-    await _loadBooks();
-    _libraryPageKey.currentState?.fetchBooks(); // <-- This will refresh LibraryPage
-  }
-
-  void _showAddBookModal(BuildContext context) async {
-    final newBook = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AddNewbookPage()),
-    );
-    if (newBook != null) {
-      _addNewBook(newBook); // Your method to add book
-    }
-  }
-
-  void _onReadedChanged(bool value) {
-    setState(() {
-      _readed = value;
-    });
-  }
-
-  void _onRatingChanged(double value) {
-    setState(() {
-      _rating = value;
-    });
-  }
-
-  void _onPublicationDateChanged(DateTime? date) {
-    setState(() {
-      _publicationDate = date;
-    });
-  }
-
-  void _onFinishedDateChanged(DateTime? date) {
-    setState(() {
-      _finishedDate = date;
-    });
-  }
-
-  void _onSave() async {
-    await _addBook();
-  }
-
   List<Widget> get _pages => [
         LibraryPage(key: _libraryPageKey, books: _books),
-        // AddBookPage(
-        //   titleController: _titleController,
-        //   authorController: _authorController,
-        //   readed: _readed,
-        //   rating: _rating,
-        //   publicationDate: _publicationDate,
-        //   finishedDate: _finishedDate,
-        //   onReadedChanged: _onReadedChanged,
-        //   onRatingChanged: _onRatingChanged,
-        //   onPublicationDateChanged: _onPublicationDateChanged,
-        //   onFinishedDateChanged: _onFinishedDateChanged,
-        //   onSave: _onSave,
-        // ),
         const CalendarPage(),
         SettingPage(onLocaleChanged: widget.onLocaleChanged),
       ];
 
   void _onItemTapped(int index) {
     setState(() {
-      // if (index == 1) {
-      //   _showAddBookModal(context);
-      //   return; // Prevent changing index when adding book
-      // }
       _selectedIndex = index;
     });
   }
@@ -199,10 +112,6 @@ class _MainNavigationState extends State<MainNavigation> {
             icon: Icon(Icons.home, size: 24),
             label: AppLocalizations.of(context)!.myLibrary,
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.add, size: 24),
-          //   label: AppLocalizations.of(context)!.addBook,
-          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month, size: 24),
             label: AppLocalizations.of(context)!.calendar,
