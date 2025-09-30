@@ -44,7 +44,7 @@ class BookListTile extends StatelessWidget {
             children: [
               Expanded(
                 child: book.publicationDate != null
-                  ? Text('pub: ${book.publicationDate!.year}-${book.publicationDate!.month.toString().padLeft(2, '0')}-${book.publicationDate!.day.toString().padLeft(2, '0')}')
+                  ? Text('pub: ${book.publicationDate!.year}')
                   : Container(),
               ),
               Expanded(

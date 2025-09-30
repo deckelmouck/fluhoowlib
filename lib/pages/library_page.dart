@@ -55,6 +55,8 @@ class LibraryPageState extends State<LibraryPage> {
           _books.sort((a, b) => a.author.compareTo(b.author));
         } else if (_orderBy == BookOrderBy.rating) {
           _books.sort((a, b) => b.rating.compareTo(a.rating)); // Descending order
+        } else if (_orderBy == BookOrderBy.publication) {
+          _books.sort((a, b) => b.publicationDate?.compareTo(a.publicationDate ?? DateTime(0)) ?? 0); // Descending order
         }
       });
     }
@@ -99,16 +101,6 @@ class LibraryPageState extends State<LibraryPage> {
       body: SafeArea(
         child: Column(
           children: [
-            // Container(
-            //   width: double.infinity,
-            //   color: Colors.green,
-            //   padding: const EdgeInsets.all(16.0),
-            //   child: Text(
-            //     loc.myLibrary,
-            //     style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // ),
             Container(
               color: const Color(0xFFF5F5F5), // light smoky grey
               padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12.0),
