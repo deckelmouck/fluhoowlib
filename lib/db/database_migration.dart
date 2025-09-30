@@ -31,7 +31,6 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
       );
     ''');
   }
-  // Add future migrations here
   if (oldVersion < 4) {
     // Migration for adding publicationDate and finishedDate columns to books table
     await db.execute('''
@@ -47,4 +46,5 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
       UPDATE books SET rating = CAST(rating / 2 AS INTEGER);
     ''');
   }
+  // Add future migrations here
 }
