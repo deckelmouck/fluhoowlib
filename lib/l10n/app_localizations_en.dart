@@ -128,4 +128,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noDateSelected => 'no date selected';
+
+  @override
+  String get year => 'year';
+
+  @override
+  String get date => 'date';
 }

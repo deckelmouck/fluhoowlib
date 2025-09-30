@@ -37,5 +37,7 @@
   "publicationDateShort": "publication",
   "finishedDate": "finished date",
   "selectDate": "selection date",
-  "noDateSelected": "no date selected"
+  "noDateSelected": "no date selected",
+  "year": "year",
+  "date": "date"
 }

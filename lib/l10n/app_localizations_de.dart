@@ -129,4 +129,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noDateSelected => 'kein Datum ausgewählt';
+
+  @override
+  String get year => 'Jahr';
+
+  @override
+  String get date => 'Datum';
 }

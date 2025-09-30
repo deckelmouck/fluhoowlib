@@ -331,6 +331,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'no date selected'**
   String get noDateSelected;
+
+  /// No description provided for @year.
+  ///
+  /// In en, this message translates to:
+  /// **'year'**
+  String get year;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'date'**
+  String get date;
 }
 
 class _AppLocalizationsDelegate

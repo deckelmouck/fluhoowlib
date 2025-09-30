@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/models/book.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/year_publication.dart';
 
 class AddNewbookPage extends StatefulWidget{
   const AddNewbookPage({super.key});
@@ -79,26 +80,31 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                   onSaved: (value) => _author = value ?? '',
                   validator: (value) => value!.isEmpty ? 'Enter author' : null,
                 ),
-                SizedBox(height: 16),
-                Row(
-                  children: [
-                    Text(loc.publicationDate),
-                    Spacer(),
-                    TextButton(
-                      onPressed: () async {
-                        final picked = await showDatePicker(
-                          context: context,
-                          initialDate: _publicationDate ?? DateTime.now(),
-                          firstDate: DateTime(1500),
-                          lastDate: DateTime.now(),
-                        );
-                        if (picked != null) _onPublicationDateChanged(picked);
-                      },
-                      child: Text(_publicationDate != null
-                          ? '${_publicationDate!.day}.${_publicationDate!.month}.${_publicationDate!.year}'
-                          : loc.selectDate),
-                    ),
-                  ],
+                SizedBox(height: 20),
+                // Row(
+                //   children: [
+                //     Text(loc.publicationDate),
+                //     Spacer(),
+                //     TextButton(
+                //       onPressed: () async {
+                //         final picked = await showDatePicker(
+                //           context: context,
+                //           initialDate: _publicationDate ?? DateTime.now(),
+                //           firstDate: DateTime(1500),
+                //           lastDate: DateTime.now(),
+                //         );
+                //         if (picked != null) _onPublicationDateChanged(picked);
+                //       },
+                //       child: Text(_publicationDate != null
+                //           ? '${_publicationDate!.day}.${_publicationDate!.month}.${_publicationDate!.year}'
+                //           : loc.selectDate),
+                //     ),
+                //   ],
+                // ),
+                PublicationYearPicker(
+                  selectedYear: _publicationDate,
+                  onYearChanged: _onPublicationDateChanged,
+                  label: loc.publicationDateShort,
                 ),
                 SizedBox(height: 20),
                 Row(
