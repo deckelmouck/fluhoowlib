@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0] - open
+- publication date option between year (default) and date
+- update ui for book list tile (library items)
+
 ## [0.7.0] - 2025-09-09
 - remove add book from bottom navigation bar
 - add add book to navbar on top right of appbar in library
