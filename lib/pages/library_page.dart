@@ -50,7 +50,7 @@ class LibraryPageState extends State<LibraryPage> {
         if (_orderBy == BookOrderBy.id) {
           _books.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
         } else if (_orderBy == BookOrderBy.title) {
-          _books.sort((a, b) => a.title.compareTo(b.title));
+          _books.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
         } else if (_orderBy == BookOrderBy.author) {
           _books.sort((a, b) => a.author.compareTo(b.author));
         } else if (_orderBy == BookOrderBy.rating) {

@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [next] - open
+- library sorting to case-insensitive
+
 ## [0.8.0] - 2025-10-03
 - add option for publication between year (default) and date
 - update ui for book list tile (library items)
