@@ -103,26 +103,29 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, size: 24),
-            label: AppLocalizations.of(context)!.myLibrary,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month, size: 24),
-            label: AppLocalizations.of(context)!.calendar,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings, size: 24),
-            label: AppLocalizations.of(context)!.settings,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+      bottomNavigationBar: SizedBox(
+        height: 60, // Set your desired height here
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 24),
+              label: AppLocalizations.of(context)!.myLibrary,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month, size: 24),
+              label: AppLocalizations.of(context)!.calendar,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings, size: 24),
+              label: AppLocalizations.of(context)!.settings,
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

@@ -75,55 +75,87 @@ class LibraryPageState extends State<LibraryPage> {
     }
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          loc.myLibrary,
-          style: const TextStyle(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            tooltip: loc.addBook,
-            onPressed: () async {
-              final newBook = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => AddNewbookPage()),
-              );
-              if (newBook != null) {
-                await DatabaseHelper().insertBook(newBook);
-                await fetchBooks();
-              }
-            },
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(10), // Adjust for more/less roundness
           ),
-        ],
-        backgroundColor: Colors.brown,
+          child: AppBar(
+            title: Text(
+              loc.myLibrary,
+              style: const TextStyle(color: Colors.white),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.add, color: Colors.white),
+                tooltip: loc.addBook,
+                onPressed: () async {
+                  final newBook = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => AddNewbookPage()),
+                  );
+                  if (newBook != null) {
+                    await DatabaseHelper().insertBook(newBook);
+                    await fetchBooks();
+                  }
+                },
+              ),
+            ],
+            backgroundColor: Colors.brown,
+            elevation: 4,
+          ),
+        ),
       ),      
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              color: const Color(0xFFF5F5F5), // light smoky grey
-              padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12.0),
+              color: Colors.transparent, // light smoky grey
+              padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
+              height: 44,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: Text(
-                      '${loc.booksInLibrary}: ${_books.length}',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      overflow: TextOverflow.ellipsis,
+                    child: SizedBox.expand(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF5F5F5),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey.shade300),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${loc.booksInLibrary}: ${_books.length}',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
                   ),
-                  DropdownButton<BookOrderBy>(
-                    value: _orderBy,
-                    onChanged: _onOrderChanged,
-                    items: BookOrderBy.values
-                        .map((order) => DropdownMenuItem(
-                              value: order,
-                              child: Text(order.translatedName(loc)),
-                            ))
-                        .toList(),
-                    underline: Container(),
-                    style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 14),
+                  const SizedBox(width: 4),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF5F5F5),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    alignment: Alignment.centerRight,
+                    child: DropdownButton<BookOrderBy>(
+                      value: _orderBy,
+                      onChanged: _onOrderChanged,
+                      items: BookOrderBy.values
+                          .map((order) => DropdownMenuItem(
+                                value: order,
+                                child: Text(order.translatedName(loc)),
+                              ))
+                          .toList(),
+                      underline: Container(),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 14),
+                    ),
                   ),
                 ],
               ),
