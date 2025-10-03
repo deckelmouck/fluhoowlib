@@ -91,7 +91,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get german => 'Deutsch';
 
   @override
-  String get addNewBook => 'neues Buch hinzufügen';
+  String get addNewBook => 'Neues Buch hinzufügen';
 
   @override
   String get noBooks => 'leere Bibliothek';
@@ -100,10 +100,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get confirmDeleteBook => 'Soll das Buch wirklich gelöscht werden?';
 
   @override
-  String get cancel => 'abbrechen';
+  String get cancel => 'Abbrechen';
 
   @override
-  String get delete => 'löschen';
+  String get delete => 'Löschen';
 
   @override
   String get editBook => 'Buch editieren';
@@ -135,4 +135,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get date => 'Datum';
+
+  @override
+  String get finished => 'Fertig';
+
+  @override
+  String get publ => 'Publ.';
+
+  @override
+  String get choose => 'auswählen';
+
+  @override
+  String get enterTitle => 'Titel eingeben';
+
+  @override
+  String get enterAuthor => 'Autor eingeben';
 }

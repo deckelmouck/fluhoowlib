@@ -49,7 +49,11 @@ class _PublicationYearPickerState extends State<PublicationYearPicker> {
                 builder: (context) {
                   DateTime tempSelected = widget.selectedYear ?? DateTime.now();
                   return AlertDialog(
-                    title: const Text('Select Year'),
+                    title: Text(
+                      Localizations.localeOf(context).languageCode == 'de'
+                        ? '${loc.year} ${loc.choose}'
+                        : '${loc.choose} ${loc.year}',
+                    ),
                     content: SizedBox(
                       width: 300,
                       height: 400,
@@ -75,7 +79,7 @@ class _PublicationYearPickerState extends State<PublicationYearPicker> {
         ? (_showDetail
           ? '${widget.selectedYear!.day}.${widget.selectedYear!.month}.${widget.selectedYear!.year}'
           : '${widget.selectedYear!.year}')
-        : (_showDetail ? 'Select Date' : 'Select Year'),
+        : (loc.choose),
       ),
         ),
         const SizedBox(width: 8),

@@ -343,6 +343,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'date'**
   String get date;
+
+  /// No description provided for @finished.
+  ///
+  /// In en, this message translates to:
+  /// **'finished'**
+  String get finished;
+
+  /// No description provided for @publ.
+  ///
+  /// In en, this message translates to:
+  /// **'publ.'**
+  String get publ;
+
+  /// No description provided for @choose.
+  ///
+  /// In en, this message translates to:
+  /// **'choose'**
+  String get choose;
+
+  /// No description provided for @enterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'enter a title'**
+  String get enterTitle;
+
+  /// No description provided for @enterAuthor.
+  ///
+  /// In en, this message translates to:
+  /// **'enter an author'**
+  String get enterAuthor;
 }
 
 class _AppLocalizationsDelegate

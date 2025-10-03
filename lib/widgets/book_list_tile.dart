@@ -74,9 +74,9 @@ class BookListTile extends StatelessWidget {
                   if (book.publicationDate != null)
                     Row(
                       children: [
-                        const Icon(Icons.calendar_today, size: 15, color: Colors.grey),
+                        const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
                         const SizedBox(width: 2),
-                        Text('pub: ${book.publicationDate!.year}', style: Theme.of(context).textTheme.bodySmall),
+                        Text('${loc.publ}: ${book.publicationDate!.year}', style: Theme.of(context).textTheme.bodySmall),
                       ],
                     ),
                 ],
@@ -86,11 +86,10 @@ class BookListTile extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: Row(
                     children: [
-                      const Icon(Icons.flag, size: 15, color: Colors.grey),
-                      const SizedBox(width: 2),
-                      Text(
-                        'read: ${book.finishedDate!.year}-${book.finishedDate!.month.toString().padLeft(2, '0')}-${book.finishedDate!.day.toString().padLeft(2, '0')}',
-                        style: Theme.of(context).textTheme.bodySmall,
+                      const Icon(Icons.flag, size: 16, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Text('${loc.finished}: ${_formatDate(book.finishedDate!, Localizations.localeOf(context).languageCode)}', 
+                      style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -100,5 +99,16 @@ class BookListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// Add this helper function inside the BookListTile class:
+String _formatDate(DateTime date, String lang) {
+  if (lang == 'de') {
+    // German: DD.MM.YYYY
+    return '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}';
+  } else {
+    // English: YYYY-MM-DD
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 }

@@ -134,4 +134,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get date => 'date';
+
+  @override
+  String get finished => 'finished';
+
+  @override
+  String get publ => 'publ.';
+
+  @override
+  String get choose => 'choose';
+
+  @override
+  String get enterTitle => 'enter a title';
+
+  @override
+  String get enterAuthor => 'enter an author';
 }

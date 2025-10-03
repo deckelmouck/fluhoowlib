@@ -39,5 +39,10 @@
   "selectDate": "selection date",
   "noDateSelected": "no date selected",
   "year": "year",
-  "date": "date"
+  "date": "date",
+  "finished": "finished",
+  "publ": "publ.",
+  "choose": "choose",
+  "enterTitle": "enter a title",
+  "enterAuthor": "enter an author"
 }

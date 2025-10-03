@@ -72,13 +72,13 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                 TextFormField(
                   decoration: InputDecoration(labelText: loc.bookTitle),
                   onSaved: (value) => _title = value ?? '',
-                  validator: (value) => value!.isEmpty ? 'Enter title' : null,
+                  validator: (value) => value!.isEmpty ? loc.enterTitle : null,
                 ),
                 SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(labelText: loc.author),
                   onSaved: (value) => _author = value ?? '',
-                  validator: (value) => value!.isEmpty ? 'Enter author' : null,
+                  validator: (value) => value!.isEmpty ? loc.enterAuthor : null,
                 ),
                 SizedBox(height: 20),
                 // Row(
