@@ -89,28 +89,26 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          loc.readingHabbit,
-          style: const TextStyle(color: Colors.white),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(10),
+          ),
+          child: AppBar(
+            title: Text(
+              loc.readingHabbit,
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.blue,
+          ),
         ),
-        backgroundColor: Colors.blue,
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // Container(
-            //   width: double.infinity,
-            //   color: Colors.green,
-            //   padding: const EdgeInsets.all(16.0),
-            //   child: Text(
-            //     loc.readingHabbit,
-            //     style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // ),
             TableCalendar(
-              firstDay: DateTime.utc(2000, 1, 1),
+              firstDay: DateTime.utc(2025, 1, 1),
               lastDay: DateTime.utc(2100, 12, 31),
               focusedDay: _focusedDay,
               selectedDayPredicate: (day) {

@@ -2,8 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [next] - open
+## [0.8.1] - open
 - library sorting to case-insensitive
+- update appbar ui on calendar and settings
 
 ## [0.8.0] - 2025-10-03
 - add option for publication between year (default) and date
