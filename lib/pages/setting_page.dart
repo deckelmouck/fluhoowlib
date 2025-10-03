@@ -45,26 +45,24 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          loc.settings,
-          style: const TextStyle(color: Colors.white),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(10),
+          ),
+          child: AppBar(
+            title: Text(
+              loc.settings,
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.orange,
+          ),
         ),
-        backgroundColor: Colors.orangeAccent,
-      ),      
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // Container(
-            //   width: double.infinity,
-            //   color: Colors.green,
-            //   padding: const EdgeInsets.all(16.0),
-            //   child: Text(
-            //     loc.settings,
-            //     style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // ),
             Expanded(
               child: ListView(
                 padding: EdgeInsets.all(16),
