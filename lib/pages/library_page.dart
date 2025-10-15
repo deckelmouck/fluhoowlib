@@ -155,6 +155,8 @@ class LibraryPageState extends State<LibraryPage> {
                           .toList(),
                       underline: Container(),
                       style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 14),
+                      icon: const Icon(Icons.sort, color: Colors.black54),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ],

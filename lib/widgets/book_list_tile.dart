@@ -58,6 +58,14 @@ class BookListTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  if (book.publicationDate != null)
+                    Row(
+                      children: [
+                        const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                        const SizedBox(width: 2),
+                        Text('${loc.publ}: ${book.publicationDate!.year}', style: Theme.of(context).textTheme.bodySmall),
+                      ],
+                    ),
                 ],
               ),
               const SizedBox(height: 6),
@@ -71,29 +79,21 @@ class BookListTile extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text('${loc.read}: ${book.readed ? loc.yes : loc.no}', style: Theme.of(context).textTheme.bodySmall),
                   const Spacer(),
-                  if (book.publicationDate != null)
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-                        const SizedBox(width: 2),
-                        Text('${loc.publ}: ${book.publicationDate!.year}', style: Theme.of(context).textTheme.bodySmall),
-                      ],
+                  if (book.finishedDate != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.flag, size: 16, color: Colors.grey),
+                          const SizedBox(width: 4),
+                          Text('${loc.finished}: ${_formatDate(book.finishedDate!, Localizations.localeOf(context).languageCode)}', 
+                          style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
                     ),
                 ],
               ),
-              if (book.finishedDate != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.flag, size: 16, color: Colors.grey),
-                      const SizedBox(width: 4),
-                      Text('${loc.finished}: ${_formatDate(book.finishedDate!, Localizations.localeOf(context).languageCode)}', 
-                      style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
             ],
           ),
         ),

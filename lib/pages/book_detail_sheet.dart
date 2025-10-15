@@ -76,7 +76,7 @@ class BookDetailSheet extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView(
                 children: bookMap.entries.map((e) => Padding(
@@ -85,7 +85,7 @@ class BookDetailSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: 100, // Adjust width as needed
+                        width: 120, // Adjust width as needed
                         child: Text(
                           fieldLabels[e.key] ?? e.key,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -96,12 +96,36 @@ class BookDetailSheet extends StatelessWidget {
                       Expanded(
                         child: Text(
                           e.key == 'readed'
-                              ? (e.value == 1 ? loc.yes : loc.no)
-                              : (e.key == 'publicationDate' || e.key == 'finishedDate') && (e.value == null || e.value.toString().isEmpty)
-                                  ? 'n/a'
-                                  : '${e.value}',
+                            ? (e.value == 1 ? loc.yes : loc.no)
+                            : (e.key == 'publicationDate'
+                                ? (e.value == null || e.value.toString().isEmpty
+                                    ? 'n/a'
+                                    : (() {
+                                        try {
+                                          final date = DateTime.tryParse(e.value.toString());
+                                          return date != null ? date.year.toString() : e.value.toString();
+                                        } catch (_) {
+                                          return e.value.toString();
+                                        }
+                                      })())
+                                : (e.key == 'finishedDate'
+                                    ? (e.value == null || e.value.toString().isEmpty
+                                        ? 'n/a'
+                                        : (() {
+                                            try {
+                                              final date = DateTime.tryParse(e.value.toString());
+                                              return date != null
+                                                  ? "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}"
+                                                  : e.value.toString();
+                                            } catch (_) {
+                                              return e.value.toString();
+                                            }
+                                          })())
+                                    : '${e.value}')),
                           style: Theme.of(context).textTheme.bodyMedium,
-                          overflow: TextOverflow.ellipsis,
+                          //overflow: TextOverflow.ellipsis,
+                          maxLines: 3, // Allow unlimited lines
+                          softWrap: true, // Enable soft wrapping
                         ),
                       ),
                     ],
