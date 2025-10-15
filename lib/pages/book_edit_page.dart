@@ -58,6 +58,7 @@ class _BookEditPageState extends State<BookEditPage> {
       finishedDate: _finishedDate,
     );
     await DatabaseHelper().updateBook(updatedBook);
+    if (!mounted) return;
     Navigator.of(context).pop(updatedBook);
   }
 
