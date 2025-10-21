@@ -103,8 +103,8 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: SizedBox(
-        height: 60, // Set your desired height here
+      bottomNavigationBar: Container(
+        constraints: BoxConstraints(minHeight: 70, maxHeight: 90),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           selectedFontSize: 12,
