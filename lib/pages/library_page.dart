@@ -87,8 +87,8 @@ class LibraryPageState extends State<LibraryPage> {
               style: const TextStyle(color: Colors.white),
             ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.add, color: Colors.white),
+              IconButton.outlined(
+                icon: const Icon(Icons.add, color: Colors.white,),
                 tooltip: loc.addBook,
                 onPressed: () async {
                   final newBook = await Navigator.push(
@@ -101,6 +101,7 @@ class LibraryPageState extends State<LibraryPage> {
                   }
                 },
               ),
+              SizedBox(width: 10,),
             ],
             backgroundColor: Colors.brown,
             elevation: 4,
