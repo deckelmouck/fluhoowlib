@@ -24,7 +24,10 @@ class BooksProvider extends ChangeNotifier {
     int added = await DatabaseHelper().insertBook(newBook);
     
     if (added > 0) {
-      _books.add(newBook);
+      Book? newItem = await DatabaseHelper().getBookById(added);
+      if (newItem != null) {
+        _books.add(newItem);
+      }
       notifyListeners();
     }
   }
