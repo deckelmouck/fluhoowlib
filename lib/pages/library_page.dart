@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hoowlib/models/appsettings_provider.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../models/book.dart';
 import 'book_detail_sheet.dart';
-import '../db/database_helper.dart';
 import '../widgets/book_list_tile.dart';
 import '../models/book_order_by.dart';
 import 'book_edit_page.dart';
@@ -20,11 +18,8 @@ class LibraryPage extends StatefulWidget {
 }
 
 class LibraryPageState extends State<LibraryPage> {
-  late List<Book> _books;
-  bool _loading = true;
   BookOrderBy _orderBy = BookOrderBy.id;
   final ScrollController _scrollController = ScrollController();
-  bool _booksLoaded = false;
 
   @override
   void initState() {
@@ -37,49 +32,18 @@ class LibraryPageState extends State<LibraryPage> {
     super.dispose();
   }
 
-  Future<void> fetchBooks() async {
-    setState(() => _loading = true);
-    final books = await DatabaseHelper().getBooks();
-    if (!mounted) return;
-    setState(() {
-      _books = books;
-      _loading = false;
-    });
-  }
-
   void _onOrderChanged(BookOrderBy? value) {
     if (value != null && value != _orderBy) {
       setState(() {
         _orderBy = value;
-        if (_orderBy == BookOrderBy.id) {
-          _books.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
-        } else if (_orderBy == BookOrderBy.title) {
-          _books.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
-        } else if (_orderBy == BookOrderBy.author) {
-          _books.sort((a, b) => a.author.compareTo(b.author));
-        } else if (_orderBy == BookOrderBy.rating) {
-          _books.sort((a, b) => b.rating.compareTo(a.rating)); // Descending order
-        } else if (_orderBy == BookOrderBy.publication) {
-          _books.sort((a, b) => b.publicationDate?.compareTo(a.publicationDate ?? DateTime(0)) ?? 0); // Descending order
-        }
       });
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_booksLoaded) {
-      fetchBooks();
-      _booksLoaded = true;
+      context.read<BooksProvider>().sortBooks(_orderBy);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+
     final loc = AppLocalizations.of(context)!;
     final books = context.watch<BooksProvider>().books;
 

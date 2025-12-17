@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/db/database_helper.dart';
 import 'package:hoowlib/models/book.dart';
-import 'package:hoowlib/repositories/book_repository.dart';
+import 'package:hoowlib/models/book_order_by.dart';
 
 class BooksProvider extends ChangeNotifier {
   List<Book> _books = [];
@@ -40,6 +40,21 @@ class BooksProvider extends ChangeNotifier {
   Future<void> _fetchBooksFromDatabase() async {
     final booksFromDb = await DatabaseHelper().getBooks();
     _books = booksFromDb;
+    notifyListeners();
+  }
+
+  void sortBooks(BookOrderBy orderBy) {
+    if (orderBy == BookOrderBy.id) {
+      books.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
+    } else if (orderBy == BookOrderBy.title) {
+      books.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+    } else if (orderBy == BookOrderBy.author) {
+      books.sort((a, b) => a.author.compareTo(b.author));
+    } else if (orderBy == BookOrderBy.rating) {
+      books.sort((a, b) => b.rating.compareTo(a.rating));
+    } else if (orderBy == BookOrderBy.publication) {
+      books.sort((a, b) => b.publicationDate?.compareTo(a.publicationDate ?? DateTime(0)) ?? 0);
+    }
     notifyListeners();
   }
 }
