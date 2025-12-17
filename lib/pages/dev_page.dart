@@ -1,34 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
 
-class DevPage extends StatelessWidget{
-  const DevPage ({super.key});
-  
-  final int count = 0;
+class DevPage extends StatefulWidget {
+  const DevPage({super.key});
+
+  @override
+  State<DevPage> createState() => _DevPageState();
+}
+
+class _DevPageState extends State<DevPage> {
+  bool _showRaw = false;
 
   @override
   Widget build(BuildContext context) {
+    final books = context.watch<BooksProvider>().books;
     return Column(
       children: <Widget>[
-        Spacer(),
-        Row(
-          children: [
-            Spacer(),
-            Text('count of books:'),
-            Spacer(),
-            Text(context.watch<BooksProvider>().books.length.toString()),
-            Spacer(),            
-          ],
+        const SizedBox(height: 5),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              _showRaw = !_showRaw;
+            });
+          },
+          child: Text(_showRaw ? 'Hide Raw Data' : 'Show Raw Data'),
         ),
-        Spacer(), // Defaults to a flex of one.
-        Text('Middle'),
-        Spacer(),
-        Text('down'),
-        // Gives twice the space between Middle and End than Begin and Middle.
-        Spacer(flex: 2),
-        Text('End'),
-        Spacer(),
+        if (_showRaw)
+          Container(
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            height: 300,
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Text(
+                const JsonEncoder.withIndent('  ').convert(
+                  books.map((b) => b.toJson()).toList(),
+                ),
+                style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+              ),
+            ),
+          ),
+          Spacer(),
       ],
     );
   }
