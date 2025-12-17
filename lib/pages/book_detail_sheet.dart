@@ -52,6 +52,7 @@ class BookDetailSheet extends StatelessWidget {
                   icon: const Icon(Icons.delete_outline),
                   tooltip: loc.deleteBook,
                   onPressed: () async {
+                    final booksProvider = Provider.of<BooksProvider>(context, listen: false);
                     final confirm = await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -70,8 +71,7 @@ class BookDetailSheet extends StatelessWidget {
                       ),
                     );
                     if (confirm == true && book.id != null) {
-                      //await DatabaseHelper().deleteBook(book.id!);
-                      await Provider.of<BooksProvider>(context, listen: false).deleteBook(book);
+                      await booksProvider.deleteBook(book);
                       onDelete();
                     }
                   },
