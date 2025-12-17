@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hoowlib/providers/books_provider.dart';
+import 'package:provider/provider.dart';
 import '../models/book.dart';
 import '../db/database_helper.dart';
 import '../l10n/app_localizations.dart';
@@ -57,8 +59,9 @@ class _BookEditPageState extends State<BookEditPage> {
       publicationDate: _publicationDate,
       finishedDate: _finishedDate,
     );
-    await DatabaseHelper().updateBook(updatedBook);
+    final bookProvider = context.read<BooksProvider>();
     if (!mounted) return;
+    bookProvider.updateBook(updatedBook);
     Navigator.of(context).pop(updatedBook);
   }
 

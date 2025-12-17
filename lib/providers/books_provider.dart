@@ -40,6 +40,13 @@ class BooksProvider extends ChangeNotifier {
     }
   }
 
+  Future updateBook(Book updateBook) async {
+    int updated = await DatabaseHelper().updateBook(updateBook);
+    if (updated > 0) {
+      _fetchBooksFromDatabase();
+    }
+  }
+
   Future<void> _fetchBooksFromDatabase() async {
     final booksFromDb = await DatabaseHelper().getBooks();
     _books = booksFromDb;
