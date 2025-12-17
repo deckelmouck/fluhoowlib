@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - add developer mode setting
 - add developer page
 - update library page with provider
+- update dev page
 
 ## [0.8.1] - 2025-11-20
 - library sorting to case-insensitive
