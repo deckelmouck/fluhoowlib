@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/book.dart';
-import '../db/database_helper.dart';
 import '../l10n/app_localizations.dart';
 
 class BookEditPage extends StatefulWidget {
