@@ -64,14 +64,14 @@ class LibraryPageState extends State<LibraryPage> {
                 icon: const Icon(Icons.add, color: Colors.white,),
                 tooltip: loc.addBook,
                 onPressed: () async {
+                  final booksProvider = context.read<BooksProvider>();
                   final newBook = await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => AddNewbookPage()),
                   );
                   if (newBook != null) {
-                    //await DatabaseHelper().insertBook(newBook);
-                    //await fetchBooks();
-                    await context.read<BooksProvider>().addBook(newBook);
+                    if (!mounted) return;
+                    await booksProvider.addBook(newBook);
                   }
                 },
               ),
