@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 class AppsettingsProvider extends ChangeNotifier {
   String _username = "";
   int _bookCount = 0;
+  bool _devMode = false;
+  bool _showDevSwitch = false;
 
   String get username => _username;
 
@@ -20,4 +22,19 @@ class AppsettingsProvider extends ChangeNotifier {
     _bookCount = newBookCount;
     notifyListeners();
   }
+
+  bool get devMode => _devMode;
+
+  void setDevMode(bool newDevMode) {
+    _devMode = newDevMode;
+    notifyListeners();
+  }
+
+  bool get showDevSwitch => _showDevSwitch;
+
+  void setShowDevSwitch(bool showDevSwitch){
+    _showDevSwitch = showDevSwitch;
+    notifyListeners();
+  }
+
 }

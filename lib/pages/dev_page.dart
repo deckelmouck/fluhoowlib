@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hoowlib/models/appsettings_provider.dart';
+import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 
 class DevPage extends StatelessWidget{
-  const DevPage ({super.key, this.count});
+  const DevPage ({super.key});
   
-  final int? count;
+  final int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class DevPage extends StatelessWidget{
             Spacer(),
             Text('count of books:'),
             Spacer(),
-            Text(context.watch<AppsettingsProvider>().bookCount.toString()),
+            Text(context.watch<BooksProvider>().books.length.toString()),
             Spacer(),            
           ],
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hoowlib/models/appsettings_provider.dart';
+import 'package:hoowlib/providers/appsettings_provider.dart';
 import 'package:hoowlib/pages/dev_page.dart';
 import 'models/book.dart';
 import 'pages/library_page.dart';
@@ -84,7 +84,6 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
   List<Book> _books = [];
   bool _devMode = false;
-  int _bookCount = 0;
 
   final GlobalKey<LibraryPageState> _libraryPageKey = GlobalKey<LibraryPageState>();
 
@@ -97,7 +96,6 @@ class _MainNavigationState extends State<MainNavigation> {
   void _changeDevMode(bool newDevMode) {
     setState(() {
       _devMode = newDevMode;
-      _bookCount = _books.length;
     });
   }
 
@@ -105,7 +103,6 @@ class _MainNavigationState extends State<MainNavigation> {
     final books = await DatabaseHelper().getBooks();
     setState(() {
       _books = books;
-      _bookCount = books.length;
     });
   }
 
@@ -113,7 +110,7 @@ class _MainNavigationState extends State<MainNavigation> {
         LibraryPage(key: _libraryPageKey, books: _books),
         const CalendarPage(),
         SettingPage(onLocaleChanged: widget.onLocaleChanged, onDevModeChanged: _changeDevMode, devModeParameter: _devMode,),
-        DevPage(count: _bookCount),
+        DevPage(),
       ];
 
   void _onItemTapped(int index) {
@@ -140,7 +137,7 @@ class _MainNavigationState extends State<MainNavigation> {
             ),
     ];
 
-    if(_devMode){
+    if(Provider.of<AppsettingsProvider>(context).devMode){
       bottom.add(BottomNavigationBarItem(
               icon: Icon(Icons.developer_mode, size: 24,),
               label: "dev",
