@@ -1,8 +1,6 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:hoowlib/models/appsettings_provider.dart';
 import 'package:hoowlib/pages/dev_page.dart';
-import 'package:hoowlib/repositories/book_repository.dart';
 import 'models/book.dart';
 import 'pages/library_page.dart';
 import 'pages/calendar_page.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'db/database_helper.dart';
 import 'package:provider/provider.dart';
+import 'providers/books_provider.dart';
 import 'dart:ui' as ui;
 
 void main() {
@@ -50,6 +49,9 @@ class _MainAppState extends State<MainApp> {
     return MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (context) => AppsettingsProvider()
+        ),
+      ChangeNotifierProvider(
+        create: (context) => BooksProvider()
         ),
     ],
     child: MaterialApp(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/book.dart';
 import '../db/database_helper.dart';
 import '../l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import '../providers/books_provider.dart';
 
 class BookDetailSheet extends StatelessWidget {
   final Book book;
@@ -69,7 +71,8 @@ class BookDetailSheet extends StatelessWidget {
                       ),
                     );
                     if (confirm == true && book.id != null) {
-                      await DatabaseHelper().deleteBook(book.id!);
+                      //await DatabaseHelper().deleteBook(book.id!);
+                      await Provider.of<BooksProvider>(context, listen: false).deleteBook(book);
                       onDelete();
                     }
                   },

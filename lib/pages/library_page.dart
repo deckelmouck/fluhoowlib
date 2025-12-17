@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/models/appsettings_provider.dart';
+import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../models/book.dart';
@@ -22,24 +23,24 @@ class LibraryPageState extends State<LibraryPage> {
   late List<Book> _books;
   bool _loading = true;
   BookOrderBy _orderBy = BookOrderBy.id;
-  final ScrollController _scrollController = ScrollController(); // Add this
+  final ScrollController _scrollController = ScrollController();
+  bool _booksLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    fetchBooks();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Dispose controller
+    _scrollController.dispose();
     super.dispose();
   }
 
   Future<void> fetchBooks() async {
     setState(() => _loading = true);
     final books = await DatabaseHelper().getBooks();
-    context.read<AppsettingsProvider>().setBookCount(books.length);
+    if (!mounted) return;
     setState(() {
       _books = books;
       _loading = false;
@@ -68,7 +69,10 @@ class LibraryPageState extends State<LibraryPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    fetchBooks();
+    if (!_booksLoaded) {
+      fetchBooks();
+      _booksLoaded = true;
+    }
   }
 
   @override
@@ -77,6 +81,8 @@ class LibraryPageState extends State<LibraryPage> {
       return const Center(child: CircularProgressIndicator());
     }
     final loc = AppLocalizations.of(context)!;
+    final books = context.watch<BooksProvider>().books;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -99,8 +105,9 @@ class LibraryPageState extends State<LibraryPage> {
                     MaterialPageRoute(builder: (_) => AddNewbookPage()),
                   );
                   if (newBook != null) {
-                    await DatabaseHelper().insertBook(newBook);
-                    await fetchBooks();
+                    //await DatabaseHelper().insertBook(newBook);
+                    //await fetchBooks();
+                    await context.read<BooksProvider>().addBook(newBook);
                   }
                 },
               ),
@@ -132,7 +139,7 @@ class LibraryPageState extends State<LibraryPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '${loc.booksInLibrary}: ${_books.length}',
+                          '${loc.booksInLibrary}: ${books.length}',
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -168,7 +175,7 @@ class LibraryPageState extends State<LibraryPage> {
             ),
             // reduce space between top line and list
             Expanded(
-              child: _books.isEmpty
+              child: books.isEmpty
                   ? Center(
                       child: Text(
                         loc.noBooks,
@@ -183,9 +190,9 @@ class LibraryPageState extends State<LibraryPage> {
                           thumbVisibility: true, // Always show scrollbar
                         child: ListView.builder(
                           controller: _scrollController, // Attach controller
-                          itemCount: _books.length,
+                          itemCount: books.length,
                           itemBuilder: (context, index) {
-                            final book = _books[index];
+                            final book = books[index];
                             final isEven = index % 2 == 0;
                             return Container(
                               color: isEven ? Colors.white : Colors.grey[50],
@@ -210,14 +217,15 @@ class LibraryPageState extends State<LibraryPage> {
                                             ),
                                           );
                                           if (updatedBook != null) {
-                                            await fetchBooks();
+                                            //await fetchBooks();
+                                            //didChangeDependencies();
                                           }
                                         },
                                       ),
                                     ),
                                   );
                                   if (deleted == true) {
-                                    await fetchBooks();
+                                    //await fetchBooks();
                                   }
                                 },
                               ),
