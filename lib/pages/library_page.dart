@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hoowlib/models/appsettings_provider.dart';
+import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../models/book.dart';
 import 'book_detail_sheet.dart';
@@ -37,6 +39,7 @@ class LibraryPageState extends State<LibraryPage> {
   Future<void> fetchBooks() async {
     setState(() => _loading = true);
     final books = await DatabaseHelper().getBooks();
+    context.read<AppsettingsProvider>().setBookCount(books.length);
     setState(() {
       _books = books;
       _loading = false;

@@ -85,7 +85,7 @@ class BookDetailSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: 120, // Adjust width as needed
+                        width: 180, // Adjust width as needed
                         child: Text(
                           fieldLabels[e.key] ?? e.key,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),

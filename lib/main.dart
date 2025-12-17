@@ -1,4 +1,8 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:hoowlib/models/appsettings_provider.dart';
+import 'package:hoowlib/pages/dev_page.dart';
+import 'package:hoowlib/repositories/book_repository.dart';
 import 'models/book.dart';
 import 'pages/library_page.dart';
 import 'pages/calendar_page.dart';
@@ -6,6 +10,7 @@ import 'pages/setting_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'db/database_helper.dart';
+import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
 
 void main() {
@@ -42,7 +47,12 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (context) => AppsettingsProvider()
+        ),
+    ],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       locale: _locale,
       localizationsDelegates: const [
@@ -56,7 +66,7 @@ class _MainAppState extends State<MainApp> {
         Locale('de', ''),
       ],
       home: MainNavigation(onLocaleChanged: _changeLocale),
-    );
+    ),);
   }
 }
 
@@ -71,6 +81,8 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
   List<Book> _books = [];
+  bool _devMode = false;
+  int _bookCount = 0;
 
   final GlobalKey<LibraryPageState> _libraryPageKey = GlobalKey<LibraryPageState>();
 
@@ -80,17 +92,26 @@ class _MainNavigationState extends State<MainNavigation> {
     _loadBooks();
   }
 
+  void _changeDevMode(bool newDevMode) {
+    setState(() {
+      _devMode = newDevMode;
+      _bookCount = _books.length;
+    });
+  }
+
   Future<void> _loadBooks() async {
     final books = await DatabaseHelper().getBooks();
     setState(() {
       _books = books;
+      _bookCount = books.length;
     });
   }
 
   List<Widget> get _pages => [
         LibraryPage(key: _libraryPageKey, books: _books),
         const CalendarPage(),
-        SettingPage(onLocaleChanged: widget.onLocaleChanged),
+        SettingPage(onLocaleChanged: widget.onLocaleChanged, onDevModeChanged: _changeDevMode, devModeParameter: _devMode,),
+        DevPage(count: _bookCount),
       ];
 
   void _onItemTapped(int index) {
@@ -101,16 +122,9 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Container(
-        constraints: BoxConstraints(minHeight: 70, maxHeight: 90),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
+
+    List<BottomNavigationBarItem> bottom = [
+      BottomNavigationBarItem(
               icon: Icon(Icons.home, size: 24),
               label: AppLocalizations.of(context)!.myLibrary,
             ),
@@ -122,7 +136,24 @@ class _MainNavigationState extends State<MainNavigation> {
               icon: Icon(Icons.settings, size: 24),
               label: AppLocalizations.of(context)!.settings,
             ),
-          ],
+    ];
+
+    if(_devMode){
+      bottom.add(BottomNavigationBarItem(
+              icon: Icon(Icons.developer_mode, size: 24,),
+              label: "dev",
+            ));
+    }
+
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: Container(
+        constraints: BoxConstraints(minHeight: 70, maxHeight: 90),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          items: bottom,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),

@@ -5,7 +5,9 @@ import '../l10n/app_localizations.dart';
 
 class SettingPage extends StatefulWidget {
   final void Function(Locale)? onLocaleChanged;
-  const SettingPage({super.key, this.onLocaleChanged});
+  final void Function(bool)? onDevModeChanged;
+  final bool? devModeParameter;
+  const SettingPage({super.key, this.onLocaleChanged, this.onDevModeChanged, this.devModeParameter});
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -15,11 +17,13 @@ class _SettingPageState extends State<SettingPage> {
   bool isEnglish = true;
   String? _appVersion;
   bool _initialized = false;
+  bool devModeEnabled = false;
 
   @override
   void initState() {
     super.initState();
     _loadAppVersion();
+    devModeEnabled = widget.devModeParameter!;
   }
 
   @override
@@ -44,6 +48,7 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -87,6 +92,22 @@ class _SettingPageState extends State<SettingPage> {
                           }
                         },
                       ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: ListTile(
+                        title: Text('developer mode'),
+                        subtitle: Text('enable dev page'),
+                      )),
+                      Switch(value: devModeEnabled, onChanged: (val) {
+                        setState(() {
+                          devModeEnabled = !devModeEnabled;
+                        });
+                        if (widget.onDevModeChanged != null) {
+                          widget.onDevModeChanged!(devModeEnabled);
+                        }
+                      })
                     ],
                   ),
                   Divider(height: 32),
