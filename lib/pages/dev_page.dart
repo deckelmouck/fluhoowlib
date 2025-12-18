@@ -31,7 +31,7 @@ class _DevPageState extends State<DevPage> {
               'dev tool',
               style: const TextStyle(color: Colors.white),
             ),
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.redAccent,
           ),
         ),
       ),
