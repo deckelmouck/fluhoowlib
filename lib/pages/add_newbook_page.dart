@@ -3,7 +3,7 @@ import 'package:hoowlib/models/book.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/year_publication.dart';
 
-class AddNewbookPage extends StatefulWidget{
+class AddNewbookPage extends StatefulWidget {
   const AddNewbookPage({super.key});
 
   @override
@@ -14,11 +14,10 @@ class AddNewbookPageState extends State<AddNewbookPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _author = '';
-  DateTime? _publicationDate;
+  DateTime? _publicationDate = DateTime.now();
   bool _readed = false;
   double _rating = 0;
   DateTime? _finishedDate;
-
 
   void _onPublicationDateChanged(DateTime? date) {
     setState(() {
@@ -64,57 +63,72 @@ class AddNewbookPageState extends State<AddNewbookPage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0), 
+          padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 TextFormField(
                   decoration: InputDecoration(labelText: loc.bookTitle),
+                  textCapitalization: TextCapitalization.sentences,
                   onSaved: (value) => _title = value ?? '',
                   validator: (value) => value!.isEmpty ? loc.enterTitle : null,
                 ),
                 SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(labelText: loc.author),
+                  textCapitalization: TextCapitalization.words,
                   onSaved: (value) => _author = value ?? '',
                   validator: (value) => value!.isEmpty ? loc.enterAuthor : null,
                 ),
                 SizedBox(height: 20),
-                // Row(
-                //   children: [
-                //     Text(loc.publicationDate),
-                //     Spacer(),
-                //     TextButton(
-                //       onPressed: () async {
-                //         final picked = await showDatePicker(
-                //           context: context,
-                //           initialDate: _publicationDate ?? DateTime.now(),
-                //           firstDate: DateTime(1500),
-                //           lastDate: DateTime.now(),
-                //         );
-                //         if (picked != null) _onPublicationDateChanged(picked);
-                //       },
-                //       child: Text(_publicationDate != null
-                //           ? '${_publicationDate!.day}.${_publicationDate!.month}.${_publicationDate!.year}'
-                //           : loc.selectDate),
-                //     ),
-                //   ],
-                // ),
-                PublicationYearPicker(
-                  selectedYear: _publicationDate,
-                  onYearChanged: _onPublicationDateChanged,
-                  label: loc.publicationDateShort,
+                Row(
+                  children: [
+                    Text(loc.publicationDateShort),
+                    Spacer(),
+                    TextButton(
+                      child: Text(_publicationDate.toString().substring(0, 4)),
+                      onPressed: () async {
+                        final picked = await showDialog<DateTime>(
+                          context: context,
+                          builder: (context) {
+                            DateTime tempSelected =
+                                _publicationDate ?? DateTime.now();
+                            return AlertDialog(
+                              title: Text(
+                                Localizations.localeOf(context).languageCode ==
+                                        'de'
+                                    ? '${loc.year} ${loc.choose}'
+                                    : '${loc.choose} ${loc.year}',
+                              ),
+                              content: SizedBox(
+                                width: 300,
+                                height: 400,
+                                child: YearPicker(
+                                  selectedDate: tempSelected,
+                                  onChanged: (DateTime date) {
+                                    Navigator.of(context).pop(date);
+                                  },
+                                  firstDate: DateTime(1500),
+                                  lastDate: DateTime.now(),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                        if (picked != null) {
+                          _onPublicationDateChanged(picked);
+                        }
+                      },
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20),
                 Row(
                   children: [
                     Text(loc.read),
                     Spacer(),
-                    Switch(
-                      value: _readed,
-                      onChanged: _onReadedChanged,
-                    ),
+                    Switch(value: _readed, onChanged: _onReadedChanged),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -149,12 +163,15 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                                 firstDate: DateTime(1500),
                                 lastDate: DateTime.now(),
                               );
-                              if (picked != null) _onFinishedDateChanged(picked);
+                              if (picked != null)
+                                _onFinishedDateChanged(picked);
                             }
                           : null,
-                      child: Text(_finishedDate != null
-                          ? '${_finishedDate!.day}.${_finishedDate!.month}.${_finishedDate!.year}'
-                          : loc.selectDate),
+                      child: Text(
+                        _finishedDate != null
+                            ? '${_finishedDate!.day}.${_finishedDate!.month}.${_finishedDate!.year}'
+                            : loc.selectDate,
+                      ),
                     ),
                   ],
                 ),
