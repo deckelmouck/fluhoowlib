@@ -40,4 +40,14 @@ class Book {
       finishedDate: map['finishedDate'] != null ? DateTime.parse(map['finishedDate']) : null,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'author': author,
+    'readed': readed,
+    'rating': rating,
+    'publicationDate': publicationDate?.toIso8601String(),
+    'finishedDate': finishedDate?.toIso8601String(),
+  };
 }

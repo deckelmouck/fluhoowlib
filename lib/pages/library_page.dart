@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hoowlib/providers/books_provider.dart';
+import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../models/book.dart';
 import 'book_detail_sheet.dart';
-import '../db/database_helper.dart';
 import '../widgets/book_list_tile.dart';
 import '../models/book_order_by.dart';
 import 'book_edit_page.dart';
@@ -17,63 +18,35 @@ class LibraryPage extends StatefulWidget {
 }
 
 class LibraryPageState extends State<LibraryPage> {
-  late List<Book> _books;
-  bool _loading = true;
   BookOrderBy _orderBy = BookOrderBy.id;
-  final ScrollController _scrollController = ScrollController(); // Add this
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    fetchBooks();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Dispose controller
+    _scrollController.dispose();
     super.dispose();
-  }
-
-  Future<void> fetchBooks() async {
-    setState(() => _loading = true);
-    final books = await DatabaseHelper().getBooks();
-    setState(() {
-      _books = books;
-      _loading = false;
-    });
   }
 
   void _onOrderChanged(BookOrderBy? value) {
     if (value != null && value != _orderBy) {
       setState(() {
         _orderBy = value;
-        if (_orderBy == BookOrderBy.id) {
-          _books.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
-        } else if (_orderBy == BookOrderBy.title) {
-          _books.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
-        } else if (_orderBy == BookOrderBy.author) {
-          _books.sort((a, b) => a.author.compareTo(b.author));
-        } else if (_orderBy == BookOrderBy.rating) {
-          _books.sort((a, b) => b.rating.compareTo(a.rating)); // Descending order
-        } else if (_orderBy == BookOrderBy.publication) {
-          _books.sort((a, b) => b.publicationDate?.compareTo(a.publicationDate ?? DateTime(0)) ?? 0); // Descending order
-        }
       });
+      context.read<BooksProvider>().sortBooks(_orderBy);
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    fetchBooks();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+
     final loc = AppLocalizations.of(context)!;
+    final books = context.watch<BooksProvider>().books;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -91,13 +64,14 @@ class LibraryPageState extends State<LibraryPage> {
                 icon: const Icon(Icons.add, color: Colors.white,),
                 tooltip: loc.addBook,
                 onPressed: () async {
+                  final booksProvider = context.read<BooksProvider>();
                   final newBook = await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => AddNewbookPage()),
                   );
                   if (newBook != null) {
-                    await DatabaseHelper().insertBook(newBook);
-                    await fetchBooks();
+                    if (!mounted) return;
+                    await booksProvider.addBook(newBook);
                   }
                 },
               ),
@@ -129,7 +103,7 @@ class LibraryPageState extends State<LibraryPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '${loc.booksInLibrary}: ${_books.length}',
+                          '${loc.booksInLibrary}: ${books.length}',
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -165,7 +139,7 @@ class LibraryPageState extends State<LibraryPage> {
             ),
             // reduce space between top line and list
             Expanded(
-              child: _books.isEmpty
+              child: books.isEmpty
                   ? Center(
                       child: Text(
                         loc.noBooks,
@@ -180,9 +154,9 @@ class LibraryPageState extends State<LibraryPage> {
                           thumbVisibility: true, // Always show scrollbar
                         child: ListView.builder(
                           controller: _scrollController, // Attach controller
-                          itemCount: _books.length,
+                          itemCount: books.length,
                           itemBuilder: (context, index) {
-                            final book = _books[index];
+                            final book = books[index];
                             final isEven = index % 2 == 0;
                             return Container(
                               color: isEven ? Colors.white : Colors.grey[50],
@@ -207,14 +181,15 @@ class LibraryPageState extends State<LibraryPage> {
                                             ),
                                           );
                                           if (updatedBook != null) {
-                                            await fetchBooks();
+                                            //await fetchBooks();
+                                            //didChangeDependencies();
                                           }
                                         },
                                       ),
                                     ),
                                   );
                                   if (deleted == true) {
-                                    await fetchBooks();
+                                    //await fetchBooks();
                                   }
                                 },
                               ),

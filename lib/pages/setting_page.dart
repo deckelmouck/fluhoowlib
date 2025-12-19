@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
+import '../providers/appsettings_provider.dart';
 
 class SettingPage extends StatefulWidget {
   final void Function(Locale)? onLocaleChanged;
-  const SettingPage({super.key, this.onLocaleChanged});
+  final void Function(bool)? onDevModeChanged;
+  final bool? devModeParameter;
+  const SettingPage({super.key, this.onLocaleChanged, this.onDevModeChanged, this.devModeParameter});
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -15,6 +19,8 @@ class _SettingPageState extends State<SettingPage> {
   bool isEnglish = true;
   String? _appVersion;
   bool _initialized = false;
+  bool devModeEnabled = false;
+  int _versionTapCount = 0;
 
   @override
   void initState() {
@@ -44,6 +50,8 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final appSettings = Provider.of<AppsettingsProvider>(context);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -89,6 +97,23 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ],
                   ),
+                  if (appSettings.showDevSwitch)
+                    Row(
+                      children: [
+                        Expanded(child: ListTile(
+                          title: Text('developer mode'),
+                          subtitle: Text('enable dev page'),
+                        )),
+                        Switch(
+                          value: appSettings.devMode,
+                          onChanged: (val) {
+                            setState(() {
+                              appSettings.setDevMode(val);
+                            });
+                          },
+                        )
+                      ],
+                    ),
                   Divider(height: 32),
                   Text('About', style: Theme.of(context).textTheme.titleLarge),
                   SizedBox(height: 8),
@@ -151,9 +176,19 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ),
                   ),
-                  ListTile(
-                    title: Text('Version'),
-                    subtitle: Text(_appVersion ?? 'Loading...'),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _versionTapCount++;
+                        if (_versionTapCount >= 10) {
+                          appSettings.setShowDevSwitch(true);
+                        }
+                      });
+                    },
+                    child: ListTile(
+                      title: Text('Version'),
+                      subtitle: Text(_appVersion ?? 'Loading...'),
+                    ),
                   ),
                   ListTile(
                     title: Text('Copyright'),

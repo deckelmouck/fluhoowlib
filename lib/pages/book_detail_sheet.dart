@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/book.dart';
-import '../db/database_helper.dart';
 import '../l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import '../providers/books_provider.dart';
 
 class BookDetailSheet extends StatelessWidget {
   final Book book;
@@ -51,6 +52,7 @@ class BookDetailSheet extends StatelessWidget {
                   icon: const Icon(Icons.delete_outline),
                   tooltip: loc.deleteBook,
                   onPressed: () async {
+                    final booksProvider = Provider.of<BooksProvider>(context, listen: false);
                     final confirm = await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -69,7 +71,7 @@ class BookDetailSheet extends StatelessWidget {
                       ),
                     );
                     if (confirm == true && book.id != null) {
-                      await DatabaseHelper().deleteBook(book.id!);
+                      await booksProvider.deleteBook(book);
                       onDelete();
                     }
                   },
@@ -85,7 +87,7 @@ class BookDetailSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: 120, // Adjust width as needed
+                        width: 180, // Adjust width as needed
                         child: Text(
                           fieldLabels[e.key] ?? e.key,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
