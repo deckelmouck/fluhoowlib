@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hoowlib/pages/book_menu_sheet.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
@@ -167,25 +168,26 @@ class LibraryPageState extends State<LibraryPage> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (context) => SizedBox(
-                                      height: MediaQuery.of(context).size.height * 0.8,
-                                      child: BookDetailSheet(
-                                        book: book,
-                                        onDelete: () {
-                                          Navigator.of(context).pop(true);
-                                        },
-                                        onEdit: () async {
-                                          Navigator.of(context).pop();
-                                          final updatedBook = await Navigator.of(context).push<Book>(
-                                            MaterialPageRoute(
-                                              builder: (context) => BookEditPage(book: book),
-                                            ),
-                                          );
-                                          if (updatedBook != null) {
-                                            //await fetchBooks();
-                                            //didChangeDependencies();
-                                          }
-                                        },
-                                      ),
+                                      height: MediaQuery.of(context).size.height * 0.4,
+                                      child: BookMenuSheet(book: book),
+                                      // BookDetailSheet(
+                                      //   book: book,
+                                      //   onDelete: () {
+                                      //     Navigator.of(context).pop(true);
+                                      //   },
+                                      //   onEdit: () async {
+                                      //     Navigator.of(context).pop();
+                                      //     final updatedBook = await Navigator.of(context).push<Book>(
+                                      //       MaterialPageRoute(
+                                      //         builder: (context) => BookEditPage(book: book),
+                                      //       ),
+                                      //     );
+                                      //     if (updatedBook != null) {
+                                      //       //await fetchBooks();
+                                      //       //didChangeDependencies();
+                                      //     }
+                                      //   },
+                                      // ),
                                     ),
                                   );
                                   if (deleted == true) {
