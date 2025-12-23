@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hoowlib/l10n/app_localizations.dart';
 import 'package:hoowlib/models/book.dart';
+import 'package:hoowlib/pages/book_edit_page.dart';
+import 'package:hoowlib/providers/books_provider.dart';
+import 'package:provider/provider.dart';
 
 
 class BookMenuSheet extends StatelessWidget {
@@ -9,6 +13,9 @@ class BookMenuSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final loc = AppLocalizations.of(context)!;
+    
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -33,7 +40,11 @@ class BookMenuSheet extends StatelessWidget {
             children: [
               Expanded(
                 child: TextButton.icon(
-                  onPressed: () {}, 
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    final bookProvider = context.read<BooksProvider>();
+                    bookProvider.markAsRead(book);
+                  }, 
                   label: const Text('mark as readed'), 
                   icon: const Icon(Icons.book),
                 ),
@@ -46,7 +57,14 @@ class BookMenuSheet extends StatelessWidget {
             children: [
               Expanded(
                 child: TextButton.icon(
-                  onPressed: () {}, 
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await Navigator.of(context).push<Book>(
+                      MaterialPageRoute(
+                        builder: (context) => BookEditPage(book: book),
+                      ),
+                    );
+                  }, 
                   label: const Text('edit'), 
                   icon: const Icon(Icons.edit),
                 ),
@@ -59,7 +77,30 @@ class BookMenuSheet extends StatelessWidget {
             children: [
               Expanded(
                 child: TextButton.icon(
-                  onPressed: () {}, 
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    final booksProvider = Provider.of<BooksProvider>(context, listen: false);
+                    final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(loc.deleteBook),
+                        content: Text(loc.confirmDeleteBook),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: Text(loc.cancel),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: Text(loc.delete),
+                          ),
+                        ],
+                      ),
+                    );
+                    if (confirm == true && book.id != null) {
+                      await booksProvider.deleteBook(book);
+                    }
+                  }, 
                   label: const Text('delete'), 
                   icon: const Icon(Icons.delete),
                 ),
