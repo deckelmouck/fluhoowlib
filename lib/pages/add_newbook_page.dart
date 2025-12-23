@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/models/book.dart';
 import '../l10n/app_localizations.dart';
-import '../widgets/year_publication.dart';
 
 class AddNewbookPage extends StatefulWidget {
   const AddNewbookPage({super.key});
@@ -163,8 +162,9 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                                 firstDate: DateTime(1500),
                                 lastDate: DateTime.now(),
                               );
-                              if (picked != null)
+                              if (picked != null) {
                                 _onFinishedDateChanged(picked);
+                              }
                             }
                           : null,
                       child: Text(
