@@ -17,7 +17,7 @@ class BookMenuSheet extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
     
     return Padding(
-      padding: const EdgeInsets.all(32),
+      padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,13 +26,24 @@ class BookMenuSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Text(
-                  book.title, 
-                  style: Theme.of(context).textTheme.headlineSmall,
-                  overflow: TextOverflow.ellipsis,
+                child: Align(
+                  alignment: Alignment.center, 
+                  child:  Text(
+                    book.title, 
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ]
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                book.author,
+                style: Theme.of(context).textTheme.headlineSmall,)
+            ],
           ),
           Spacer(),
           Row(
