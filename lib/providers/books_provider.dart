@@ -47,6 +47,19 @@ class BooksProvider extends ChangeNotifier {
     }
   }
 
+  Future markAsRead(Book readedBook) async {
+    final updatedBook = Book(
+      id: readedBook.id,
+      title: readedBook.title,
+      author: readedBook.author,
+      readed: true,
+      rating: 0,
+      publicationDate: readedBook.publicationDate,
+      finishedDate: DateTime.now(),
+    );
+    await updateBook(updatedBook);
+  }
+
   Future<void> _fetchBooksFromDatabase() async {
     final booksFromDb = await DatabaseHelper().getBooks();
     _books = booksFromDb;
