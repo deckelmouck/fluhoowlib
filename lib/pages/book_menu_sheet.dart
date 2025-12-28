@@ -103,6 +103,9 @@ class BookMenuSheet extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(true),
+                            style: TextButton.styleFrom(
+                              foregroundColor: Theme.of(context).colorScheme.error,
+                            ),
                             child: Text(loc.delete),
                           ),
                         ],
@@ -111,9 +114,12 @@ class BookMenuSheet extends StatelessWidget {
                     if (confirm == true && book.id != null) {
                       await booksProvider.deleteBook(book);
                     }
-                  }, 
-                  label: const Text('delete'), 
+                  },
+                  label: const Text('delete'),
                   icon: const Icon(Icons.delete),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).colorScheme.error,
+                  ),
                 ),
               ),
             ],
