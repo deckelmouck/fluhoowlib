@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - update library page with provider
 - update dev page
 - add new book menu sheet
+- add link to licenses on settings page
 
 ## [0.8.1] - 2025-11-20
 - library sorting to case-insensitive
