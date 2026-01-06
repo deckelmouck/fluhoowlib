@@ -191,6 +191,17 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   ListTile(
+                    title: Text('Licenses'),
+                    subtitle: Text('View app licenses'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const LicensePage(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
                     title: Text('Copyright'),
                     subtitle: Text('© 2025 Nikolas Palm'),
                   ),
