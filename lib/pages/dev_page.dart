@@ -34,12 +34,16 @@ class _DevPageState extends State<DevPage> {
         );
         await booksProvider.addBook(book);
       }
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Inserted 50 mock books!')),
-        );
-      }
+      // Capture the context you want to use
+      final scaffoldContext = context;
+      if (!mounted || !scaffoldContext.mounted) return;
+
+      // Use the guarded context
+      ScaffoldMessenger.of(scaffoldContext).showSnackBar(
+        const SnackBar(content: Text('Inserted 50 mock books!')),
+      );
     }
+
   Future<void> _deleteMockBooks(BuildContext context) async {
     final booksProvider = context.read<BooksProvider>();
     final mockBooks = booksProvider.books.where((b) => b.title.startsWith('Mock Book #')).toList();
@@ -48,11 +52,14 @@ class _DevPageState extends State<DevPage> {
         await booksProvider.deleteBook(book);
       }
     }
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Deleted ${mockBooks.length} mock books!')),
-      );
-    }
+    // Capture the context you want to use
+    final scaffoldContext = context;
+    if (!mounted || !scaffoldContext.mounted) return;
+
+    // Use the guarded context
+    ScaffoldMessenger.of(scaffoldContext).showSnackBar(
+      SnackBar(content: Text('Deleted ${mockBooks.length} mock books!')),
+    );
   }
 
   @override
@@ -113,7 +120,7 @@ class _DevPageState extends State<DevPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Database Name: ${_dbName ?? "Unknown"}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                          Text('Database Size: ${_dbSize != null ? (_dbSize! / 1024).toStringAsFixed(2) + " KB" : "Unknown"}'),
+                          Text('Database Size: ${_dbSize != null ? "${(_dbSize! / 1024).toStringAsFixed(2)} KB" : "Unknown"}'),
                         ],
                       ),
               ),
