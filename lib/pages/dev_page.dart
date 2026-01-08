@@ -116,7 +116,9 @@ class _DevPageState extends State<DevPage> {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Padding(
                 padding: const EdgeInsets.all(12),
-                child: _loadingDbInfo
+                child: SizedBox(
+                  width: double.infinity,
+                  child: _loadingDbInfo
                     ? Row(children: const [CircularProgressIndicator(), SizedBox(width: 12), Text('Loading database info...')])
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,6 +127,7 @@ class _DevPageState extends State<DevPage> {
                           Text('Database Size: ${_dbSize != null ? "${(_dbSize! / 1024).toStringAsFixed(2)} KB" : "Unknown"}'),
                         ],
                       ),
+                ),
               ),
             ),
             const SizedBox(height: 5),
@@ -132,7 +135,10 @@ class _DevPageState extends State<DevPage> {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Padding(
                 padding: const EdgeInsets.all(12),
-                child: BooksStats(books: books),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: BooksStats(books: books),
+                ),
               ),
             ),
             const SizedBox(height: 5),
