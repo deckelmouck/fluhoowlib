@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
 import '../db/database_helper.dart';
 import '../models/book.dart';
+import '../widgets/books_stats.dart';
 import 'dart:io';
 
 //import 'package:hoowlib/l10n/app_localizations.dart';
@@ -21,28 +23,28 @@ class _DevPageState extends State<DevPage> {
   int? _dbSize;
   bool _loadingDbInfo = true;
 
-    Future<void> _insertMockBooks(BuildContext context) async {
-      final booksProvider = context.read<BooksProvider>();
-      for (int i = 0; i < 50; i++) {
-        final book = Book(
-          title: 'Mock Book #${i + 1}',
-          author: 'Author ${String.fromCharCode(65 + (i % 26))}',
-          readed: i % 2 == 0,
-          rating: (i % 6),
-          publicationDate: DateTime(2000 + (i % 25), 1 + (i % 12), 1 + (i % 28)),
-          finishedDate: i % 2 == 0 ? DateTime.now().subtract(Duration(days: i)) : null,
-        );
-        await booksProvider.addBook(book);
-      }
-      // Capture the context you want to use
-      final scaffoldContext = context;
-      if (!mounted || !scaffoldContext.mounted) return;
-
-      // Use the guarded context
-      ScaffoldMessenger.of(scaffoldContext).showSnackBar(
-        const SnackBar(content: Text('Inserted 50 mock books!')),
+  Future<void> _insertMockBooks(BuildContext context) async {
+    final booksProvider = context.read<BooksProvider>();
+    for (int i = 0; i < 50; i++) {
+      final book = Book(
+        title: 'Mock Book #${i + 1}',
+        author: 'Author ${String.fromCharCode(65 + (i % 26))}',
+        readed: i % 2 == 0,
+        rating: (i % 6),
+        publicationDate: DateTime(2000 + (i % 25), 1 + (i % 12), 1 + (i % 28)),
+        finishedDate: i % 2 == 0 ? DateTime.now().subtract(Duration(days: i)) : null,
       );
+      await booksProvider.addBook(book);
     }
+    // Capture the context you want to use
+    final scaffoldContext = context;
+    if (!mounted || !scaffoldContext.mounted) return;
+
+    // Use the guarded context
+    ScaffoldMessenger.of(scaffoldContext).showSnackBar(
+      const SnackBar(content: Text('Inserted 50 mock books!')),
+    );
+  }
 
   Future<void> _deleteMockBooks(BuildContext context) async {
     final booksProvider = context.read<BooksProvider>();
@@ -123,6 +125,14 @@ class _DevPageState extends State<DevPage> {
                           Text('Database Size: ${_dbSize != null ? "${(_dbSize! / 1024).toStringAsFixed(2)} KB" : "Unknown"}'),
                         ],
                       ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: BooksStats(books: books),
               ),
             ),
             const SizedBox(height: 5),
