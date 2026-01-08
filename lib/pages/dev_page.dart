@@ -3,6 +3,7 @@ import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import '../db/database_helper.dart';
+import '../models/book.dart';
 import 'dart:io';
 
 //import 'package:hoowlib/l10n/app_localizations.dart';
@@ -19,6 +20,40 @@ class _DevPageState extends State<DevPage> {
   String? _dbName;
   int? _dbSize;
   bool _loadingDbInfo = true;
+
+    Future<void> _insertMockBooks(BuildContext context) async {
+      final booksProvider = context.read<BooksProvider>();
+      for (int i = 0; i < 50; i++) {
+        final book = Book(
+          title: 'Mock Book #${i + 1}',
+          author: 'Author ${String.fromCharCode(65 + (i % 26))}',
+          readed: i % 2 == 0,
+          rating: (i % 6),
+          publicationDate: DateTime(2000 + (i % 25), 1 + (i % 12), 1 + (i % 28)),
+          finishedDate: i % 2 == 0 ? DateTime.now().subtract(Duration(days: i)) : null,
+        );
+        await booksProvider.addBook(book);
+      }
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Inserted 50 mock books!')),
+        );
+      }
+    }
+  Future<void> _deleteMockBooks(BuildContext context) async {
+    final booksProvider = context.read<BooksProvider>();
+    final mockBooks = booksProvider.books.where((b) => b.title.startsWith('Mock Book #')).toList();
+    for (final book in mockBooks) {
+      if (book.id != null) {
+        await booksProvider.deleteBook(book);
+      }
+    }
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Deleted ${mockBooks.length} mock books!')),
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -83,6 +118,21 @@ class _DevPageState extends State<DevPage> {
                       ),
               ),
             ),
+            const SizedBox(height: 5),
+            ElevatedButton(
+              onPressed: () async {
+                await _insertMockBooks(context);
+              },
+              child: const Text('Mockup DB'),
+            ),
+            const SizedBox(height: 5),
+            ElevatedButton(
+              onPressed: () async {
+                await _deleteMockBooks(context);
+              },
+              child: const Text('Delete All Mock Books'),
+            ),
+            const SizedBox(height: 5),
             ElevatedButton(
               onPressed: () {
                 setState(() {
@@ -91,6 +141,7 @@ class _DevPageState extends State<DevPage> {
               },
               child: Text(_showRaw ? 'Hide Raw Data' : 'Show Raw Data'),
             ),
+            const SizedBox(height: 5),
             if (_showRaw)
               Expanded(
                 child: Container(
