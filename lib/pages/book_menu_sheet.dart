@@ -56,7 +56,7 @@ class BookMenuSheet extends StatelessWidget {
                     final bookProvider = context.read<BooksProvider>();
                     bookProvider.markAsRead(book);
                   }, 
-                  label: const Text('mark as readed'), 
+                  label: Text(loc.markAsReaded), 
                   icon: const Icon(Icons.book),
                 ),
               ),
@@ -76,7 +76,7 @@ class BookMenuSheet extends StatelessWidget {
                       ),
                     );
                   }, 
-                  label: const Text('edit'), 
+                  label: Text(loc.editBook), 
                   icon: const Icon(Icons.edit),
                 ),
               ),
@@ -115,7 +115,7 @@ class BookMenuSheet extends StatelessWidget {
                       await booksProvider.deleteBook(book);
                     }
                   },
-                  label: const Text('delete'),
+                  label: Text(loc.deleteBook),
                   icon: const Icon(Icons.delete),
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.error,

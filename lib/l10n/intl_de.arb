@@ -44,5 +44,6 @@
   "publ": "Publ.",
   "choose": "auswählen",
   "enterTitle": "Titel eingeben",
-  "enterAuthor": "Autor eingeben"
+  "enterAuthor": "Autor eingeben",
+  "markAsReaded": "als gelesen markieren"
 }

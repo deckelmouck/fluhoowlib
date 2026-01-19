@@ -149,4 +149,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterAuthor => 'enter an author';
+
+  @override
+  String get markAsReaded => 'mark as readed';
 }

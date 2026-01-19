@@ -44,5 +44,6 @@
   "publ": "publ.",
   "choose": "choose",
   "enterTitle": "enter a title",
-  "enterAuthor": "enter an author"
+  "enterAuthor": "enter an author",
+  "markAsReaded": "mark as readed"
 }

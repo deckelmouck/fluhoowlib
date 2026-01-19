@@ -373,6 +373,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'enter an author'**
   String get enterAuthor;
+
+  /// No description provided for @markAsReaded.
+  ///
+  /// In en, this message translates to:
+  /// **'mark as readed'**
+  String get markAsReaded;
 }
 
 class _AppLocalizationsDelegate

@@ -150,4 +150,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get enterAuthor => 'Autor eingeben';
+
+  @override
+  String get markAsReaded => 'als gelesen markieren';
 }

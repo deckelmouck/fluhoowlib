@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - add link to licenses on settings page
 - add mock books to dev page
 - add stats to dev page
+- add more translations
 
 ## [0.8.1] - 2025-11-20
 - library sorting to case-insensitive
