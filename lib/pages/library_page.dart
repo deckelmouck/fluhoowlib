@@ -63,15 +63,10 @@ class LibraryPageState extends State<LibraryPage> {
                 icon: const Icon(Icons.add, color: Colors.white,),
                 tooltip: loc.addBook,
                 onPressed: () async {
-                  final booksProvider = context.read<BooksProvider>();
-                  final newBook = await Navigator.push(
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => AddNewbookPage()),
                   );
-                  if (newBook != null) {
-                    if (!mounted) return;
-                    await booksProvider.addBook(newBook);
-                  }
                 },
               ),
               SizedBox(width: 10,),

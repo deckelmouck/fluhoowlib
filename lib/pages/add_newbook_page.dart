@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hoowlib/providers/books_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:hoowlib/models/book.dart';
 import '../l10n/app_localizations.dart';
 
@@ -196,7 +198,8 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                             publicationDate: _publicationDate,
                             finishedDate: _finishedDate,
                           );
-                          Navigator.pop(context, book); // Pass book back
+                          context.read<BooksProvider>().addBook(book);
+                          Navigator.pop(context); // Pass book back
                         }
                       },
                     ),
