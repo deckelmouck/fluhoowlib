@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - add stats to dev page
 - add more translations
 - implement more provider handling (AddNewbookPage)
+- delete unnecessary pages
 
 ## [0.8.1] - 2025-11-20
 - library sorting to case-insensitive
