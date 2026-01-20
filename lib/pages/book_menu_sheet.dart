@@ -62,7 +62,7 @@ class BookMenuSheet extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8,),
+          SizedBox(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -82,7 +82,7 @@ class BookMenuSheet extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8,),
+          SizedBox(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
