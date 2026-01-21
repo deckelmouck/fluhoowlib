@@ -45,5 +45,10 @@
   "choose": "choose",
   "enterTitle": "enter a title",
   "enterAuthor": "enter an author",
-  "markAsReaded": "mark as readed"
+  "markAsReaded": "mark as readed",
+  "licenses": "Licenses",
+  "viewLicenses": "show licenses",
+  "privacyPolicy": "Privacy Policy",
+  "viewPrivacyPolicy": "see privacy policy",
+  "developer": "Developer"
 }

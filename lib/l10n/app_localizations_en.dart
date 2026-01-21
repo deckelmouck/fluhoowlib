@@ -152,4 +152,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get markAsReaded => 'mark as readed';
+
+  @override
+  String get licenses => 'Licenses';
+
+  @override
+  String get viewLicenses => 'show licenses';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get viewPrivacyPolicy => 'see privacy policy';
+
+  @override
+  String get developer => 'Developer';
 }

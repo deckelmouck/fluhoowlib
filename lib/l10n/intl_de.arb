@@ -45,5 +45,10 @@
   "choose": "auswählen",
   "enterTitle": "Titel eingeben",
   "enterAuthor": "Autor eingeben",
-  "markAsReaded": "als gelesen markieren"
+  "markAsReaded": "als gelesen markieren",
+  "licenses": "Lizenzen",
+  "viewLicenses": "Lizenzen anzeigen",
+  "privacyPolicy": "Datenschutzrichlinie",
+  "viewPrivacyPolicy": "Datenschutzrichlinie ansehen",
+  "developer": "Entwickler"
 }

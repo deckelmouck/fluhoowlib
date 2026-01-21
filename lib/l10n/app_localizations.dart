@@ -379,6 +379,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'mark as readed'**
   String get markAsReaded;
+
+  /// No description provided for @licenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Licenses'**
+  String get licenses;
+
+  /// No description provided for @viewLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'show licenses'**
+  String get viewLicenses;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @viewPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'see privacy policy'**
+  String get viewPrivacyPolicy;
+
+  /// No description provided for @developer.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer'**
+  String get developer;
 }
 
 class _AppLocalizationsDelegate

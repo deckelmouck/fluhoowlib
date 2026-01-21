@@ -118,7 +118,7 @@ class _SettingPageState extends State<SettingPage> {
                   Text('About', style: Theme.of(context).textTheme.titleLarge),
                   SizedBox(height: 8),
                   ListTile(
-                    title: Text('Developer'),
+                    title: Text(loc.developer),
                     subtitle: Text('Nikolas Palm'),
                   ),
                   ListTile(
@@ -159,7 +159,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   ListTile(
-                    title: Text('Privacy'),
+                    title: Text(loc.privacyPolicy),
                     subtitle: GestureDetector(
                       onTap: () async {
                         final Uri url = Uri.parse('https://www.deckelmouck.de/Hoowlib/Privacy');
@@ -168,7 +168,7 @@ class _SettingPageState extends State<SettingPage> {
                         }
                       },
                       child: Text(
-                        'See privacy policy',
+                        loc.viewPrivacyPolicy,
                         style: TextStyle(
                           color: Colors.blue,
                           decoration: TextDecoration.underline,
@@ -191,8 +191,8 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   ListTile(
-                    title: Text('Licenses'),
-                    subtitle: Text('View app licenses'),
+                    title: Text(loc.licenses),
+                    subtitle: Text(loc.viewLicenses),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -203,7 +203,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   ListTile(
                     title: Text('Copyright'),
-                    subtitle: Text('© 2025 Nikolas Palm'),
+                    subtitle: Text('© 2025-2026 Nikolas Palm'),
                   ),
                 ],
               ),
