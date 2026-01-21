@@ -62,11 +62,11 @@ class LibraryPageState extends State<LibraryPage> {
           child: AppBar(
             title: Text(
               loc.myLibrary,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: colorScheme.onPrimary),
             ),
             actions: [
               IconButton.outlined(
-                icon: const Icon(Icons.add, color: Colors.white,),
+                icon: Icon(Icons.add, color: colorScheme.onPrimary),
                 tooltip: loc.addBook,
                 onPressed: () async {
                   await Navigator.push(
@@ -77,7 +77,7 @@ class LibraryPageState extends State<LibraryPage> {
               ),
               SizedBox(width: 10,),
             ],
-            backgroundColor: Colors.brown,
+            backgroundColor: colorScheme.primary,
             elevation: 4,
           ),
         ),
@@ -142,7 +142,7 @@ class LibraryPageState extends State<LibraryPage> {
                   ? Center(
                       child: Text(
                         loc.noBooks,
-                        style: TextStyle(fontSize: 18, color: theme.textTheme.bodyLarge?.color?.withOpacity(0.6)),
+                        style: TextStyle(fontSize: 18, color: colorScheme.onSurfaceVariant),
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -156,9 +156,8 @@ class LibraryPageState extends State<LibraryPage> {
                           itemCount: books.length,
                           itemBuilder: (context, index) {
                             final book = books[index];
-                            final isEven = index % 2 == 0;
                             return Container(
-                              color: isEven ? background : cardColor.withOpacity(0.7),
+                              color: colorScheme.surface,
                               child: BookListTile(
                                 book: book,
                                 onTap: () async {
