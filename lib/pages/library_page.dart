@@ -46,12 +46,18 @@ class LibraryPageState extends State<LibraryPage> {
     final loc = AppLocalizations.of(context)!;
     final books = context.watch<BooksProvider>().books;
 
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final background = theme.scaffoldBackgroundColor;
+    final cardColor = theme.cardColor;
+    final borderColor = theme.dividerColor;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: ClipRRect(
           borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(10), // Adjust for more/less roundness
+            bottom: Radius.circular(10),
           ),
           child: AppBar(
             title: Text(
@@ -75,12 +81,12 @@ class LibraryPageState extends State<LibraryPage> {
             elevation: 4,
           ),
         ),
-      ),      
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              color: Colors.transparent, // light smoky grey
+              color: Colors.transparent,
               padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
               height: 44,
               child: Row(
@@ -90,15 +96,15 @@ class LibraryPageState extends State<LibraryPage> {
                     child: SizedBox.expand(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF5F5F5),
+                          color: cardColor,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey.shade300),
+                          border: Border.all(color: borderColor),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           '${loc.booksInLibrary}: ${books.length}',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: theme.textTheme.bodyLarge?.color),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -107,9 +113,9 @@ class LibraryPageState extends State<LibraryPage> {
                   const SizedBox(width: 4),
                   Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF5F5F5),
+                      color: cardColor,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade300),
+                      border: Border.all(color: borderColor),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                     alignment: Alignment.centerRight,
@@ -123,8 +129,8 @@ class LibraryPageState extends State<LibraryPage> {
                               ))
                           .toList(),
                       underline: Container(),
-                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 14),
-                      icon: const Icon(Icons.sort, color: Colors.black54),
+                      style: TextStyle(fontWeight: FontWeight.normal, color: theme.textTheme.bodyLarge?.color, fontSize: 14),
+                      icon: Icon(Icons.sort, color: theme.iconTheme.color),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -136,23 +142,23 @@ class LibraryPageState extends State<LibraryPage> {
                   ? Center(
                       child: Text(
                         loc.noBooks,
-                        style: const TextStyle(fontSize: 18, color: Colors.grey),
+                        style: TextStyle(fontSize: 18, color: theme.textTheme.bodyLarge?.color?.withOpacity(0.6)),
                         textAlign: TextAlign.center,
                       ),
                     )
                   : Container(
-                      color: Colors.white,
-                        child: Scrollbar(
-                          controller: _scrollController, // Attach controller
-                          thumbVisibility: true, // Always show scrollbar
+                      color: background,
+                      child: Scrollbar(
+                        controller: _scrollController,
+                        thumbVisibility: true,
                         child: ListView.builder(
-                          controller: _scrollController, // Attach controller
+                          controller: _scrollController,
                           itemCount: books.length,
                           itemBuilder: (context, index) {
                             final book = books[index];
                             final isEven = index % 2 == 0;
                             return Container(
-                              color: isEven ? Colors.white : Colors.grey[50],
+                              color: isEven ? background : cardColor.withOpacity(0.7),
                               child: BookListTile(
                                 book: book,
                                 onTap: () async {
@@ -174,7 +180,7 @@ class LibraryPageState extends State<LibraryPage> {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }
