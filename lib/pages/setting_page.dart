@@ -114,6 +114,22 @@ class _SettingPageState extends State<SettingPage> {
                         )
                       ],
                     ),
+                  if (appSettings.showDevSwitch)
+                    Row(
+                      children: [
+                        Expanded(child: ListTile(
+                          title: Text('dark mode'),
+                          subtitle: Text('testing'),
+                        )),
+                        Switch(
+                          value: appSettings.isDarkMode, 
+                          onChanged: (val) {
+                            setState(() {
+                              appSettings.setDarkMode(val);
+                            });
+                          })
+                      ],
+                    ),
                   Divider(height: 32),
                   Text('About', style: Theme.of(context).textTheme.titleLarge),
                   SizedBox(height: 8),
