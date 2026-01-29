@@ -6,6 +6,7 @@ class AppsettingsProvider extends ChangeNotifier {
   int _bookCount = 0;
   bool _devMode = false;
   bool _showDevSwitch = false;
+  bool _darkMode = false;
 
   String get username => _username;
 
@@ -34,6 +35,13 @@ class AppsettingsProvider extends ChangeNotifier {
 
   void setShowDevSwitch(bool showDevSwitch){
     _showDevSwitch = showDevSwitch;
+    notifyListeners();
+  }
+
+  bool get isDarkMode => _darkMode;
+
+  void setDarkMode(bool newMode){
+    _darkMode = newMode;
     notifyListeners();
   }
 

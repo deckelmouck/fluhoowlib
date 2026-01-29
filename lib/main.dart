@@ -46,29 +46,35 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (context) => AppsettingsProvider()
-        ),
-      ChangeNotifierProvider(
-        create: (context) => BooksProvider()
-        ),
-    ],
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      locale: _locale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppsettingsProvider()),
+        ChangeNotifierProvider(create: (context) => BooksProvider()),
       ],
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('de', ''),
-      ],
-      home: MainNavigation(onLocaleChanged: _changeLocale),
-    ),);
+      child: Builder(
+        builder: (context) {
+          final isDarkMode = context.watch<AppsettingsProvider>().isDarkMode;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            locale: _locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en', ''),
+              Locale('de', ''),
+            ],
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
+            themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: MainNavigation(onLocaleChanged: _changeLocale),
+          );
+        },
+      ),
+    );
   }
 }
 

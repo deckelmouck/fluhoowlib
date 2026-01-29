@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - add more translations
 - implement more provider handling (AddNewbookPage)
 - delete unnecessary pages
+- add dark mode
 
 ## [0.8.1] - 2025-11-20
 - library sorting to case-insensitive
