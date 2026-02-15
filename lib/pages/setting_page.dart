@@ -97,6 +97,21 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      Expanded(child: ListTile(
+                        title: Text('dark mode'),
+                        subtitle: Text('testing'),
+                      )),
+                      Switch(
+                        value: appSettings.isDarkMode, 
+                        onChanged: (val) {
+                          setState(() {
+                            appSettings.setDarkMode(val);
+                          });
+                        })
+                    ],
+                  ),
                   if (appSettings.showDevSwitch)
                     Row(
                       children: [
@@ -112,22 +127,6 @@ class _SettingPageState extends State<SettingPage> {
                             });
                           },
                         )
-                      ],
-                    ),
-                  if (appSettings.showDevSwitch)
-                    Row(
-                      children: [
-                        Expanded(child: ListTile(
-                          title: Text('dark mode'),
-                          subtitle: Text('testing'),
-                        )),
-                        Switch(
-                          value: appSettings.isDarkMode, 
-                          onChanged: (val) {
-                            setState(() {
-                              appSettings.setDarkMode(val);
-                            });
-                          })
                       ],
                     ),
                   Divider(height: 32),

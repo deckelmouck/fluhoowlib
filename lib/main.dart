@@ -11,6 +11,7 @@ import 'db/database_helper.dart';
 import 'package:provider/provider.dart';
 import 'providers/books_provider.dart';
 import 'dart:ui' as ui;
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -67,8 +68,8 @@ class _MainAppState extends State<MainApp> {
               Locale('en', ''),
               Locale('de', ''),
             ],
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
             themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
             home: MainNavigation(onLocaleChanged: _changeLocale),
           );
