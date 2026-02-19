@@ -19,6 +19,7 @@ class _BookEditPageState extends State<BookEditPage> {
   late int _rating;
   late DateTime? _publicationDate;
   late DateTime? _finishedDate;
+  late TextEditingController _isbnController;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _BookEditPageState extends State<BookEditPage> {
     _rating = widget.book.rating;
     _publicationDate = widget.book.publicationDate;
     _finishedDate = widget.book.finishedDate;
+    _isbnController = TextEditingController(text: widget.book.isbn);
   }
 
   @override
@@ -57,6 +59,7 @@ class _BookEditPageState extends State<BookEditPage> {
       rating: _rating,
       publicationDate: _publicationDate,
       finishedDate: _finishedDate,
+      isbn: _isbnController.text,
     );
     final bookProvider = context.read<BooksProvider>();
     if (!mounted) return;
@@ -157,6 +160,11 @@ class _BookEditPageState extends State<BookEditPage> {
                           },
                         )
                       : null,
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _isbnController,
+                  decoration: InputDecoration(labelText: 'isbn'),
                 ),
                 const SizedBox(height: 32),
               ],

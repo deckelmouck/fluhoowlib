@@ -46,5 +46,10 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
       UPDATE books SET rating = CAST(rating / 2 AS INTEGER);
     ''');
   }
+  if (oldVersion < 6) {
+    await db.execute('''
+      ALTER TABLE books ADD COLUMN isbn TEXT;
+    ''');
+  }
   // Add future migrations here
 }
