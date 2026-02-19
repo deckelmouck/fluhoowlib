@@ -100,8 +100,8 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     children: [
                       Expanded(child: ListTile(
-                        title: Text('dark mode'),
-                        subtitle: Text('testing'),
+                        title: Text(loc.theme),
+                        subtitle: Text(loc.lightdark),
                       )),
                       Switch(
                         value: appSettings.isDarkMode, 

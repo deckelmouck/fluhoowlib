@@ -168,4 +168,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get developer => 'Entwickler';
+
+  @override
+  String get theme => 'Farbschema';
+
+  @override
+  String get lightdark => 'hell - dunkel';
 }

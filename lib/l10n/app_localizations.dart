@@ -137,7 +137,7 @@ abstract class AppLocalizations {
   /// No description provided for @read.
   ///
   /// In en, this message translates to:
-  /// **'Readed'**
+  /// **'Read'**
   String get read;
 
   /// No description provided for @rating.
@@ -409,6 +409,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Developer'**
   String get developer;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Color scheme'**
+  String get theme;
+
+  /// No description provided for @lightdark.
+  ///
+  /// In en, this message translates to:
+  /// **'light - dark'**
+  String get lightdark;
 }
 
 class _AppLocalizationsDelegate
