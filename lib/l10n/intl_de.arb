@@ -50,5 +50,7 @@
   "viewLicenses": "Lizenzen anzeigen",
   "privacyPolicy": "Datenschutzrichlinie",
   "viewPrivacyPolicy": "Datenschutzrichlinie ansehen",
-  "developer": "Entwickler"
+  "developer": "Entwickler",
+  "theme": "Farbschema",
+  "lightdark": "hell - dunkel"
 }

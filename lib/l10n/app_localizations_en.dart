@@ -27,7 +27,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get author => 'Author';
 
   @override
-  String get read => 'Readed';
+  String get read => 'Read';
 
   @override
   String get rating => 'Rating';
@@ -167,4 +167,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get developer => 'Developer';
+
+  @override
+  String get theme => 'Color scheme';
+
+  @override
+  String get lightdark => 'light - dark';
 }

@@ -5,7 +5,7 @@
   "calendar": "Calendar",
   "bookTitle": "Book Title",
   "author": "Author",
-  "read": "Readed",
+  "read": "Read",
   "rating": "Rating",
   "save": "Save",
   "month": "Month",
@@ -50,5 +50,7 @@
   "viewLicenses": "show licenses",
   "privacyPolicy": "Privacy Policy",
   "viewPrivacyPolicy": "see privacy policy",
-  "developer": "Developer"
+  "developer": "Developer",
+  "theme": "Color scheme",
+  "lightdark": "light - dark"
 }
