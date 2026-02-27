@@ -19,6 +19,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
   bool _readed = false;
   double _rating = 0;
   DateTime? _finishedDate;
+  String _isbn = '';
 
   void _onPublicationDateChanged(DateTime? date) {
     setState(() {
@@ -177,6 +178,12 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                     ),
                   ],
                 ),
+                SizedBox(height: 16),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'isbn'),
+                  keyboardType: TextInputType.numberWithOptions(signed: false, decimal: false),
+                  onSaved: (value) => _isbn = value ?? '',
+                ),
                 Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -197,6 +204,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                             rating: _rating.round(),
                             publicationDate: _publicationDate,
                             finishedDate: _finishedDate,
+                            isbn: _isbn,
                           );
                           context.read<BooksProvider>().addBook(book);
                           Navigator.pop(context); // Pass book back
