@@ -180,9 +180,18 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                 ),
                 SizedBox(height: 16),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'isbn'),
+                  decoration: InputDecoration(labelText: 'isbn 13'),
                   keyboardType: TextInputType.numberWithOptions(signed: false, decimal: false),
                   onSaved: (value) => _isbn = value ?? '',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return null;
+                    }
+                    if (value.isNotEmpty && !RegExp(r'^(([0-9Xx][- ]?){13}|([0-9Xx][- ]?){10})$').hasMatch(value)) {
+                      return 'this is no valid isbn10 or isbn13';
+                    }
+                    return null;
+                  },
                 ),
                 Spacer(),
                 Row(
