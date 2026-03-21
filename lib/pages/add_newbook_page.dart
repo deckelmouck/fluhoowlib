@@ -33,6 +33,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
       _readed = value;
       if (!value) {
         _rating = 0; // Reset rating if not read
+        _finishedDate = null;
       }
     });
   }

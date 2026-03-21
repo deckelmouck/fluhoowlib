@@ -124,7 +124,10 @@ class _BookEditPageState extends State<BookEditPage> {
                       onChanged: (val) {
                         setState(() {
                           _readed = val;
-                          if (!_readed) _rating = 0;
+                          if (!_readed) {
+                            _rating = 0;
+                            _finishedDate = null;
+                          }
                         });
                       },
                     ),
