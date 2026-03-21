@@ -165,6 +165,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.11.0"
+  keyboard_safe:
+    dependency: "direct main"
+    description:
+      name: keyboard_safe
+      sha256: "3130c07f7f483bf4e9f712b542750ad9af8e13c76ad836d0c7906c3ff1480ef1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   leak_tracker:
     dependency: transitive
     description:
