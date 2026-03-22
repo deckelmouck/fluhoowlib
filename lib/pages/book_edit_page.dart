@@ -19,6 +19,7 @@ class _BookEditPageState extends State<BookEditPage> {
   late int _rating;
   late DateTime? _publicationDate;
   late DateTime? _finishedDate;
+  late TextEditingController _isbnController;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _BookEditPageState extends State<BookEditPage> {
     _rating = widget.book.rating;
     _publicationDate = widget.book.publicationDate;
     _finishedDate = widget.book.finishedDate;
+    _isbnController = TextEditingController(text: widget.book.isbn);
   }
 
   @override
@@ -57,6 +59,7 @@ class _BookEditPageState extends State<BookEditPage> {
       rating: _rating,
       publicationDate: _publicationDate,
       finishedDate: _finishedDate,
+      isbn: _isbnController.text,
     );
     final bookProvider = context.read<BooksProvider>();
     if (!mounted) return;
@@ -64,9 +67,18 @@ class _BookEditPageState extends State<BookEditPage> {
     Navigator.of(context).pop(updatedBook);
   }
 
+  bool _validateSave() {
+
+    if (_isbnController.text.isNotEmpty && !RegExp(r'^(([0-9Xx][- ]?){13}|([0-9Xx][- ]?){10})$').hasMatch(_isbnController.text)) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    const snackBar = SnackBar(content: Text('invalid isbn no'), duration: Durations.medium2, backgroundColor: Colors.red);
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.editBook),
@@ -112,7 +124,10 @@ class _BookEditPageState extends State<BookEditPage> {
                       onChanged: (val) {
                         setState(() {
                           _readed = val;
-                          if (!_readed) _rating = 0;
+                          if (!_readed) {
+                            _rating = 0;
+                            _finishedDate = null;
+                          }
                         });
                       },
                     ),
@@ -158,6 +173,11 @@ class _BookEditPageState extends State<BookEditPage> {
                         )
                       : null,
                 ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _isbnController,
+                  decoration: InputDecoration(labelText: 'isbn'),
+                ),
                 const SizedBox(height: 32),
               ],
             ),
@@ -173,8 +193,13 @@ class _BookEditPageState extends State<BookEditPage> {
               onPressed: () {
                 if (_titleController.text.trim().isEmpty || _authorController.text.trim().isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(loc.warningTitleAuthorNotEmpty)),
+                    SnackBar(content: Text(loc.warningTitleAuthorNotEmpty), duration: Durations.medium2, backgroundColor: Colors.red,),
                   );
+                  return;
+                }
+                if (! _validateSave())
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   return;
                 }
                 _saveChanges();

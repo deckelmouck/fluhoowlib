@@ -6,6 +6,7 @@ class Book {
   final int rating;
   final DateTime? publicationDate;
   final DateTime? finishedDate;
+  final String? isbn;
 
   Book({
     this.id,
@@ -15,6 +16,7 @@ class Book {
     required this.rating,
     this.publicationDate,
     this.finishedDate,
+    this.isbn
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +28,7 @@ class Book {
       'rating': rating,
       'publicationDate': publicationDate?.toIso8601String(),
       'finishedDate': finishedDate?.toIso8601String(),
+      'isbn': isbn
     };
   }
 
@@ -38,6 +41,7 @@ class Book {
       rating: map['rating'],
       publicationDate: map['publicationDate'] != null ? DateTime.parse(map['publicationDate']) : null,
       finishedDate: map['finishedDate'] != null ? DateTime.parse(map['finishedDate']) : null,
+      isbn: map['isbn'],
     );
   }
 
@@ -49,5 +53,6 @@ class Book {
     'rating': rating,
     'publicationDate': publicationDate?.toIso8601String(),
     'finishedDate': finishedDate?.toIso8601String(),
+    'isbn': isbn,
   };
 }
