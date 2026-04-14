@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:hoowlib/models/appsettings.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/book.dart';
@@ -23,7 +24,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'hoowlib.db');
     return await openDatabase(
       path,
-      version: 6, // Incremented version for migration
+      version: 8, // Incremented version for migration
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE books(
@@ -43,12 +44,61 @@ class DatabaseHelper {
             date TEXT UNIQUE
           )
         ''');
+        await db.execute('''
+          CREATE TABLE app_settings(
+            id INTEGER PRIMARY KEY,
+            username TEXT,
+            bookCount INTEGER,
+            devMode INTEGER,
+            showDevSwitch INTEGER,
+            darkMode INTEGER,
+            languageCode TEXT
+          )
+        ''');
+        // Insert default settings
+        await db.insert('app_settings', {
+          'id': 1,
+          'username': '',
+          'bookCount': 0,
+          'devMode': 0,
+          'showDevSwitch': 0,
+          'darkMode': 0,
+          'languageCode': null
+        });
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         await migrateDatabase(db, oldVersion, newVersion);
       },
     );
   }
+    // #region AppSettings CRUD Methods
+    Future<int> insertOrUpdateAppSettings(AppSettings settings) async {
+      final db = await database;
+      return await db.insert(
+        'app_settings',
+        settings.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+
+    Future<AppSettings> getAppSettings() async {
+      final db = await database;
+      final List<Map<String, dynamic>> maps = await db.query('app_settings', where: 'id = ?', whereArgs: [1]);
+      if (maps.isNotEmpty) {
+        return AppSettings.fromMap(maps.first);
+      } else {
+        // Return default if not found
+        return AppSettings(
+          id: 1,
+          username: '',
+          bookCount: 0,
+          devMode: false,
+          showDevSwitch: false,
+          darkMode: false,
+        );
+      }
+    }
+    // #endregion
   // #endregion
 
   // #region Book CRUD Methods

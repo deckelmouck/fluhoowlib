@@ -51,5 +51,36 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
       ALTER TABLE books ADD COLUMN isbn TEXT;
     ''');
   }
+  if (oldVersion < 7) {
+    // Migration for app_settings table
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS app_settings(
+        id INTEGER PRIMARY KEY,
+        username TEXT,
+        bookCount INTEGER,
+        devMode INTEGER,
+        showDevSwitch INTEGER,
+        darkMode INTEGER,
+        languageCode TEXT
+      );
+    ''');
+    // Insert default settings if not exists
+    await db.insert('app_settings', {
+      'id': 1,
+      'username': '',
+      'bookCount': 0,
+      'devMode': 0,
+      'showDevSwitch': 0,
+      'darkMode': 0,
+      'languageCode': null
+    },
+    conflictAlgorithm: ConflictAlgorithm.ignore);
+  }
+  // Migration for languageCode column if upgrading from previous version
+  if (oldVersion < 8) {
+    await db.execute('''
+      ALTER TABLE app_settings ADD COLUMN languageCode TEXT;
+    ''');
+  }
   // Add future migrations here
 }
