@@ -487,6 +487,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'invalid isbn no'**
   String get invalidIsbnNo;
+
+  /// No description provided for @developerMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer mode'**
+  String get developerMode;
+
+  /// No description provided for @enableDevPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable dev page'**
+  String get enableDevPage;
 }
 
 class _AppLocalizationsDelegate

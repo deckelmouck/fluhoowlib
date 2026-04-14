@@ -64,5 +64,7 @@
   "deleteAllMockBooks": "Alle Testbücher löschen",
   "hideRawData": "Rohdaten ausblenden",
   "showRawData": "Rohdaten anzeigen",
-  "invalidIsbnNo": "Ungültige ISBN-Nummer"
+  "invalidIsbnNo": "Ungültige ISBN-Nummer",
+  "developerMode": "Entwicklermodus",
+  "enableDevPage": "Entwicklerseite aktivieren"
 }

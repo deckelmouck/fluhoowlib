@@ -210,4 +210,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidIsbnNo => 'invalid isbn no';
+
+  @override
+  String get developerMode => 'Developer mode';
+
+  @override
+  String get enableDevPage => 'Enable dev page';
 }

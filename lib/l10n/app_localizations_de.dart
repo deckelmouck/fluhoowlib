@@ -211,4 +211,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get invalidIsbnNo => 'Ungültige ISBN-Nummer';
+
+  @override
+  String get developerMode => 'Entwicklermodus';
+
+  @override
+  String get enableDevPage => 'Entwicklerseite aktivieren';
 }
