@@ -53,4 +53,16 @@
   "developer": "Entwickler",
   "theme": "Farbschema",
   "lightdark": "hell - dunkel"
+  ,
+  "isbn13Label": "isbn 13",
+  "invalidIsbn": "Dies ist keine gültige ISBN-10 oder ISBN-13",
+  "devTool": "Entwicklertool",
+  "loadingDatabaseInfo": "Lade Datenbankinformationen...",
+  "databaseName": "Datenbankname: {name}",
+  "databaseSize": "Datenbankgröße: {size}",
+  "mockupDb": "Testdatenbank",
+  "deleteAllMockBooks": "Alle Testbücher löschen",
+  "hideRawData": "Rohdaten ausblenden",
+  "showRawData": "Rohdaten anzeigen",
+  "invalidIsbnNo": "Ungültige ISBN-Nummer"
 }

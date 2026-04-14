@@ -78,7 +78,7 @@ class _BookEditPageState extends State<BookEditPage> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    const snackBar = SnackBar(content: Text('invalid isbn no'), duration: Durations.medium2, backgroundColor: Colors.red);
+    final snackBar = SnackBar(content: Text(loc.invalidIsbnNo), duration: Durations.medium2, backgroundColor: Colors.red);
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.editBook),
@@ -176,7 +176,7 @@ class _BookEditPageState extends State<BookEditPage> {
                 const SizedBox(height: 20),
                 TextField(
                   controller: _isbnController,
-                  decoration: InputDecoration(labelText: 'isbn'),
+                  decoration: InputDecoration(labelText: loc.isbn13Label),
                 ),
                 const SizedBox(height: 32),
               ],
