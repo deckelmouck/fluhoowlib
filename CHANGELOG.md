@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.12.0] - 2026-04-14
+- Added new app settings saving feature
 
 ## [0.11.0] - 2026-04-14
 - Added missing translations to ARB files and replaced hardcoded strings in UI with localization keys
