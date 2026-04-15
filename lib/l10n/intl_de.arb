@@ -66,5 +66,9 @@
   "showRawData": "Rohdaten anzeigen",
   "invalidIsbnNo": "Ungültige ISBN-Nummer",
   "developerMode": "Entwicklermodus",
-  "enableDevPage": "Entwicklerseite aktivieren"
+  "enableDevPage": "Entwicklerseite aktivieren",
+  "borrowed": "Ausgeliehen",
+  "borrowedBy": "Ausgeliehen von",
+  "borrowedSince": "Seit:",
+  "borrowedTo": "Ausgeliehen an"
 }

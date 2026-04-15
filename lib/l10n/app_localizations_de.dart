@@ -217,4 +217,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get enableDevPage => 'Entwicklerseite aktivieren';
+
+  @override
+  String get borrowed => 'Ausgeliehen';
+
+  @override
+  String get borrowedBy => 'Ausgeliehen von';
+
+  @override
+  String get borrowedSince => 'Seit:';
+
+  @override
+  String get borrowedTo => 'Ausgeliehen an';
 }

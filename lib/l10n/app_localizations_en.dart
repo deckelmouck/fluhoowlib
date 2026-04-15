@@ -216,4 +216,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enableDevPage => 'Enable dev page';
+
+  @override
+  String get borrowed => 'Borrowed';
+
+  @override
+  String get borrowedBy => 'Borrowed by';
+
+  @override
+  String get borrowedSince => 'Since:';
+
+  @override
+  String get borrowedTo => 'Borrowed by';
 }

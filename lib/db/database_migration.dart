@@ -82,5 +82,12 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
       ALTER TABLE app_settings ADD COLUMN languageCode TEXT;
     ''');
   }
+  // Migration for new columns about borrow
+  if (oldVersion < 9) {
+    // Add borrowed, borrowedBy, borrowedDate columns to books if not present
+    await db.execute('''ALTER TABLE books ADD COLUMN borrowed INTEGER DEFAULT 0;''');
+    await db.execute('''ALTER TABLE books ADD COLUMN borrowedBy TEXT;''');
+    await db.execute('''ALTER TABLE books ADD COLUMN borrowedDate TEXT;''');
+  }
   // Add future migrations here
 }

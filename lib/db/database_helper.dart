@@ -24,7 +24,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'hoowlib.db');
     return await openDatabase(
       path,
-      version: 8, // Incremented version for migration
+      version: 9, // Incremented version for migration
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE books(
@@ -51,8 +51,7 @@ class DatabaseHelper {
             bookCount INTEGER,
             devMode INTEGER,
             showDevSwitch INTEGER,
-            darkMode INTEGER,
-            languageCode TEXT
+            darkMode INTEGER
           )
         ''');
         // Insert default settings
@@ -62,8 +61,7 @@ class DatabaseHelper {
           'bookCount': 0,
           'devMode': 0,
           'showDevSwitch': 0,
-          'darkMode': 0,
-          'languageCode': null
+          'darkMode': 0
         });
       },
       onUpgrade: (db, oldVersion, newVersion) async {

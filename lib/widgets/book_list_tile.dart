@@ -94,6 +94,21 @@ class BookListTile extends StatelessWidget {
                     ),
                 ],
               ),
+              const SizedBox(height: 6),
+              // Borrowed info row
+              if (book.borrowed == true && book.borrowedBy != null && book.borrowedBy!.isNotEmpty)
+                Row(
+                  children: [
+                    const Icon(Icons.assignment_ind, size: 16, color: Colors.blue),
+                    const SizedBox(width: 4),
+                    Text(
+                      '${loc.borrowedTo}: ${book.borrowedBy}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),  
             ],
           ),
         ),

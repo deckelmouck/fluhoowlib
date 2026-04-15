@@ -499,6 +499,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enable dev page'**
   String get enableDevPage;
+
+  /// No description provided for @borrowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrowed'**
+  String get borrowed;
+
+  /// No description provided for @borrowedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrowed by'**
+  String get borrowedBy;
+
+  /// No description provided for @borrowedSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Since:'**
+  String get borrowedSince;
+
+  /// No description provided for @borrowedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrowed by'**
+  String get borrowedTo;
 }
 
 class _AppLocalizationsDelegate

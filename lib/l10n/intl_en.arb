@@ -66,5 +66,9 @@
   "showRawData": "Show Raw Data",
   "invalidIsbnNo": "invalid isbn no",
   "developerMode": "Developer mode",
-  "enableDevPage": "Enable dev page"
+  "enableDevPage": "Enable dev page",
+  "borrowed": "Borrowed",
+  "borrowedBy": "Borrowed by",
+  "borrowedSince": "Since:",
+  "borrowedTo": "Borrowed by"
 }
