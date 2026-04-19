@@ -35,7 +35,10 @@ class DatabaseHelper {
             rating INTEGER,
             publicationDate TEXT,
             finishedDate TEXT,
-            isbn TEXT
+            isbn TEXT,
+            borrowed INTEGER DEFAULT 0,
+            borrowedBy TEXT,
+            borrowedDate TEXT
           )
         ''');
         await db.execute('''
@@ -51,7 +54,8 @@ class DatabaseHelper {
             bookCount INTEGER,
             devMode INTEGER,
             showDevSwitch INTEGER,
-            darkMode INTEGER
+            darkMode INTEGER,
+            languageCode TEXT
           )
         ''');
         // Insert default settings
@@ -61,7 +65,8 @@ class DatabaseHelper {
           'bookCount': 0,
           'devMode': 0,
           'showDevSwitch': 0,
-          'darkMode': 0
+          'darkMode': 0,
+          'languageCode': null
         });
       },
       onUpgrade: (db, oldVersion, newVersion) async {
@@ -93,6 +98,7 @@ class DatabaseHelper {
           devMode: false,
           showDevSwitch: false,
           darkMode: false,
+          languageCode: null
         );
       }
     }

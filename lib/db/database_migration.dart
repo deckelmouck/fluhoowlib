@@ -78,9 +78,9 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
   }
   // Migration for languageCode column if upgrading from previous version
   if (oldVersion < 8) {
-    await db.execute('''
-      ALTER TABLE app_settings ADD COLUMN languageCode TEXT;
-    ''');
+    // await db.execute('''
+    //   ALTER TABLE app_settings ADD COLUMN languageCode TEXT;
+    // ''');
   }
   // Migration for new columns about borrow
   if (oldVersion < 9) {
