@@ -174,4 +174,59 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lightdark => 'hell - dunkel';
+
+  @override
+  String get isbn13Label => 'isbn 13';
+
+  @override
+  String get invalidIsbn => 'Dies ist keine gültige ISBN-10 oder ISBN-13';
+
+  @override
+  String get devTool => 'Entwicklertool';
+
+  @override
+  String get loadingDatabaseInfo => 'Lade Datenbankinformationen...';
+
+  @override
+  String databaseName(Object name) {
+    return 'Datenbankname: $name';
+  }
+
+  @override
+  String databaseSize(Object size) {
+    return 'Datenbankgröße: $size';
+  }
+
+  @override
+  String get mockupDb => 'Testdatenbank';
+
+  @override
+  String get deleteAllMockBooks => 'Alle Testbücher löschen';
+
+  @override
+  String get hideRawData => 'Rohdaten ausblenden';
+
+  @override
+  String get showRawData => 'Rohdaten anzeigen';
+
+  @override
+  String get invalidIsbnNo => 'Ungültige ISBN-Nummer';
+
+  @override
+  String get developerMode => 'Entwicklermodus';
+
+  @override
+  String get enableDevPage => 'Entwicklerseite aktivieren';
+
+  @override
+  String get borrowed => 'Ausgeliehen';
+
+  @override
+  String get borrowedBy => 'Ausgeliehen von';
+
+  @override
+  String get borrowedSince => 'Seit:';
+
+  @override
+  String get borrowedTo => 'Ausgeliehen an';
 }

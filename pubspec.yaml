@@ -1,7 +1,8 @@
+
 name: hoowlib
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.10.1+27
+version: 0.12.1+30
 
 environment:
   sdk: ^3.10.7

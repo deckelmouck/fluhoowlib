@@ -421,6 +421,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'light - dark'**
   String get lightdark;
+
+  /// No description provided for @isbn13Label.
+  ///
+  /// In en, this message translates to:
+  /// **'isbn 13'**
+  String get isbn13Label;
+
+  /// No description provided for @invalidIsbn.
+  ///
+  /// In en, this message translates to:
+  /// **'this is no valid isbn10 or isbn13'**
+  String get invalidIsbn;
+
+  /// No description provided for @devTool.
+  ///
+  /// In en, this message translates to:
+  /// **'dev tool'**
+  String get devTool;
+
+  /// No description provided for @loadingDatabaseInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading database info...'**
+  String get loadingDatabaseInfo;
+
+  /// No description provided for @databaseName.
+  ///
+  /// In en, this message translates to:
+  /// **'Database Name: {name}'**
+  String databaseName(Object name);
+
+  /// No description provided for @databaseSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Database Size: {size}'**
+  String databaseSize(Object size);
+
+  /// No description provided for @mockupDb.
+  ///
+  /// In en, this message translates to:
+  /// **'Mockup DB'**
+  String get mockupDb;
+
+  /// No description provided for @deleteAllMockBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete All Mock Books'**
+  String get deleteAllMockBooks;
+
+  /// No description provided for @hideRawData.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Raw Data'**
+  String get hideRawData;
+
+  /// No description provided for @showRawData.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Raw Data'**
+  String get showRawData;
+
+  /// No description provided for @invalidIsbnNo.
+  ///
+  /// In en, this message translates to:
+  /// **'invalid isbn no'**
+  String get invalidIsbnNo;
+
+  /// No description provided for @developerMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer mode'**
+  String get developerMode;
+
+  /// No description provided for @enableDevPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable dev page'**
+  String get enableDevPage;
+
+  /// No description provided for @borrowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrowed'**
+  String get borrowed;
+
+  /// No description provided for @borrowedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrowed by'**
+  String get borrowedBy;
+
+  /// No description provided for @borrowedSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Since:'**
+  String get borrowedSince;
+
+  /// No description provided for @borrowedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrowed by'**
+  String get borrowedTo;
 }
 
 class _AppLocalizationsDelegate

@@ -104,17 +104,18 @@ class AddNewbookPageState extends State<AddNewbookPage> {
           child: Column(
             children: [
               TextFormField(
-                    decoration: InputDecoration(labelText: loc.bookTitle),
-                    textCapitalization: TextCapitalization.sentences,
-                    onSaved: (value) => _title = value ?? '',
-                    validator: (value) => value!.isEmpty ? loc.enterTitle : null,
-                  ),SizedBox(height: 16),
+                decoration: InputDecoration(labelText: loc.bookTitle),
+                textCapitalization: TextCapitalization.sentences,
+                onSaved: (value) => _title = value ?? '',
+                validator: (value) => value!.isEmpty ? loc.enterTitle : null,
+              ),
+              SizedBox(height: 16),
               TextFormField(
-                    decoration: InputDecoration(labelText: loc.author),
-                    textCapitalization: TextCapitalization.words,
-                    onSaved: (value) => _author = value ?? '',
-                    validator: (value) => value!.isEmpty ? loc.enterAuthor : null,
-                  ),
+                decoration: InputDecoration(labelText: loc.author),
+                textCapitalization: TextCapitalization.words,
+                onSaved: (value) => _author = value ?? '',
+                validator: (value) => value!.isEmpty ? loc.enterAuthor : null,
+              ),
             Row(
                     children: [
                       Text(loc.publicationDateShort),
@@ -211,7 +212,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'isbn 13'),
+                    decoration: InputDecoration(labelText: loc.isbn13Label),
                     keyboardType: TextInputType.text,
                     onSaved: (value) => _isbn = value ?? '',
                     validator: (value) {
@@ -219,7 +220,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                         return null;
                       }
                       if (value.isNotEmpty && !RegExp(r'^(([0-9Xx][- ]?){13}|([0-9Xx][- ]?){10})$').hasMatch(value)) {
-                        return 'this is no valid isbn10 or isbn13';
+                        return loc.invalidIsbn;
                       }
                       return null;
                     },

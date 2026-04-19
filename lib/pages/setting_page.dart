@@ -9,7 +9,12 @@ class SettingPage extends StatefulWidget {
   final void Function(Locale)? onLocaleChanged;
   final void Function(bool)? onDevModeChanged;
   final bool? devModeParameter;
-  const SettingPage({super.key, this.onLocaleChanged, this.onDevModeChanged, this.devModeParameter});
+  const SettingPage({
+    super.key,
+    this.onLocaleChanged,
+    this.onDevModeChanged,
+    this.devModeParameter,
+  });
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -91,7 +96,9 @@ class _SettingPageState extends State<SettingPage> {
                             isEnglish = val;
                           });
                           if (widget.onLocaleChanged != null) {
-                            widget.onLocaleChanged!(Locale(isEnglish ? 'en' : 'de'));
+                            widget.onLocaleChanged!(
+                              Locale(isEnglish ? 'en' : 'de'),
+                            );
                           }
                         },
                       ),
@@ -99,26 +106,31 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   Row(
                     children: [
-                      Expanded(child: ListTile(
-                        title: Text(loc.theme),
-                        subtitle: Text(loc.lightdark),
-                      )),
+                      Expanded(
+                        child: ListTile(
+                          title: Text(loc.theme),
+                          subtitle: Text(loc.lightdark),
+                        ),
+                      ),
                       Switch(
-                        value: appSettings.isDarkMode, 
+                        value: appSettings.isDarkMode,
                         onChanged: (val) {
                           setState(() {
                             appSettings.setDarkMode(val);
                           });
-                        })
+                        },
+                      ),
                     ],
                   ),
                   if (appSettings.showDevSwitch)
                     Row(
                       children: [
-                        Expanded(child: ListTile(
-                          title: Text('developer mode'),
-                          subtitle: Text('enable dev page'),
-                        )),
+                        Expanded(
+                          child: ListTile(
+                            title: Text(loc.developerMode),
+                            subtitle: Text(loc.enableDevPage),
+                          ),
+                        ),
                         Switch(
                           value: appSettings.devMode,
                           onChanged: (val) {
@@ -126,7 +138,7 @@ class _SettingPageState extends State<SettingPage> {
                               appSettings.setDevMode(val);
                             });
                           },
-                        )
+                        ),
                       ],
                     ),
                   Divider(height: 32),
@@ -161,7 +173,10 @@ class _SettingPageState extends State<SettingPage> {
                       onTap: () async {
                         final Uri url = Uri.parse('https://www.deckelmouck.de');
                         if (await canLaunchUrl(url)) {
-                          await launchUrl(url, mode: LaunchMode.externalApplication);
+                          await launchUrl(
+                            url,
+                            mode: LaunchMode.externalApplication,
+                          );
                         }
                       },
                       child: Text(
@@ -177,9 +192,14 @@ class _SettingPageState extends State<SettingPage> {
                     title: Text(loc.privacyPolicy),
                     subtitle: GestureDetector(
                       onTap: () async {
-                        final Uri url = Uri.parse('https://www.deckelmouck.de/Hoowlib/Privacy');
+                        final Uri url = Uri.parse(
+                          'https://www.deckelmouck.de/Hoowlib/Privacy',
+                        );
                         if (await canLaunchUrl(url)) {
-                          await launchUrl(url, mode: LaunchMode.externalApplication);
+                          await launchUrl(
+                            url,
+                            mode: LaunchMode.externalApplication,
+                          );
                         }
                       },
                       child: Text(
@@ -223,7 +243,7 @@ class _SettingPageState extends State<SettingPage> {
                 ],
               ),
             ),
-          ],        
+          ],
         ),
       ),
     );

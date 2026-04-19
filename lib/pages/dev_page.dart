@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hoowlib/l10n/app_localizations.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 import '../db/database_helper.dart';
@@ -90,7 +91,7 @@ class _DevPageState extends State<DevPage> {
   @override
   Widget build(BuildContext context) {
     final books = context.watch<BooksProvider>().books;
-    //final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -100,7 +101,7 @@ class _DevPageState extends State<DevPage> {
           ),
           child: AppBar(
             title: Text(
-              'dev tool',
+              loc.devTool,
               style: const TextStyle(color: Colors.white),
             ),
             backgroundColor: Colors.redAccent,
@@ -123,8 +124,8 @@ class _DevPageState extends State<DevPage> {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Database Name: ${_dbName ?? "Unknown"}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                          Text('Database Size: ${_dbSize != null ? "${(_dbSize! / 1024).toStringAsFixed(2)} KB" : "Unknown"}'),
+                          Text(loc.databaseName((_dbName ?? "Unknown")), style: const TextStyle(fontWeight: FontWeight.bold)),
+                          Text(loc.databaseSize(_dbSize != null ? "${(_dbSize! / 1024).toStringAsFixed(2)} KB" : "Unknown")),
                         ],
                       ),
                 ),
@@ -146,14 +147,14 @@ class _DevPageState extends State<DevPage> {
               onPressed: () async {
                 await _insertMockBooks(context);
               },
-              child: const Text('Mockup DB'),
+              child: Text(loc.mockupDb),
             ),
             const SizedBox(height: 5),
             ElevatedButton(
               onPressed: () async {
                 await _deleteMockBooks(context);
               },
-              child: const Text('Delete All Mock Books'),
+              child: Text(loc.deleteAllMockBooks),
             ),
             const SizedBox(height: 5),
             ElevatedButton(
@@ -162,7 +163,7 @@ class _DevPageState extends State<DevPage> {
                   _showRaw = !_showRaw;
                 });
               },
-              child: Text(_showRaw ? 'Hide Raw Data' : 'Show Raw Data'),
+              child: Text(_showRaw ? loc.hideRawData : loc.showRawData),
             ),
             const SizedBox(height: 5),
             if (_showRaw)

@@ -53,4 +53,22 @@
   "developer": "Developer",
   "theme": "Color scheme",
   "lightdark": "light - dark"
+  ,
+  "isbn13Label": "isbn 13",
+  "invalidIsbn": "this is no valid isbn10 or isbn13",
+  "devTool": "dev tool",
+  "loadingDatabaseInfo": "Loading database info...",
+  "databaseName": "Database Name: {name}",
+  "databaseSize": "Database Size: {size}",
+  "mockupDb": "Mockup DB",
+  "deleteAllMockBooks": "Delete All Mock Books",
+  "hideRawData": "Hide Raw Data",
+  "showRawData": "Show Raw Data",
+  "invalidIsbnNo": "invalid isbn no",
+  "developerMode": "Developer mode",
+  "enableDevPage": "Enable dev page",
+  "borrowed": "Borrowed",
+  "borrowedBy": "Borrowed by",
+  "borrowedSince": "Since:",
+  "borrowedTo": "Borrowed by"
 }

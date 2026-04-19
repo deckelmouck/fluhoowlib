@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.x.x] - open
+## [Unreleased]
+- Improved UI for borrowing books
+- Books can now be set to "borrowed" with an optional name
+
+## [0.12.0] - 2026-04-14
+- Added new app settings saving feature
+
+## [0.11.0] - 2026-04-14
+- Added missing translations to ARB files and replaced hardcoded strings in UI with localization keys
+- Ran flutter gen-l10n to update app_localizations
+- Minor improvements to localization and translation workflow
+
+## [0.10.1] - 2026-03-22
 - add isbn to book model
 
 ## [0.9.0] - 2026-02-19

@@ -173,4 +173,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lightdark => 'light - dark';
+
+  @override
+  String get isbn13Label => 'isbn 13';
+
+  @override
+  String get invalidIsbn => 'this is no valid isbn10 or isbn13';
+
+  @override
+  String get devTool => 'dev tool';
+
+  @override
+  String get loadingDatabaseInfo => 'Loading database info...';
+
+  @override
+  String databaseName(Object name) {
+    return 'Database Name: $name';
+  }
+
+  @override
+  String databaseSize(Object size) {
+    return 'Database Size: $size';
+  }
+
+  @override
+  String get mockupDb => 'Mockup DB';
+
+  @override
+  String get deleteAllMockBooks => 'Delete All Mock Books';
+
+  @override
+  String get hideRawData => 'Hide Raw Data';
+
+  @override
+  String get showRawData => 'Show Raw Data';
+
+  @override
+  String get invalidIsbnNo => 'invalid isbn no';
+
+  @override
+  String get developerMode => 'Developer mode';
+
+  @override
+  String get enableDevPage => 'Enable dev page';
+
+  @override
+  String get borrowed => 'Borrowed';
+
+  @override
+  String get borrowedBy => 'Borrowed by';
+
+  @override
+  String get borrowedSince => 'Since:';
+
+  @override
+  String get borrowedTo => 'Borrowed by';
 }

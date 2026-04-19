@@ -20,6 +20,9 @@ class _BookEditPageState extends State<BookEditPage> {
   late DateTime? _publicationDate;
   late DateTime? _finishedDate;
   late TextEditingController _isbnController;
+  late bool _borrowed;
+  late TextEditingController _borrowedByController;
+  late DateTime? _borrowedDate;
 
   @override
   void initState() {
@@ -31,16 +34,26 @@ class _BookEditPageState extends State<BookEditPage> {
     _publicationDate = widget.book.publicationDate;
     _finishedDate = widget.book.finishedDate;
     _isbnController = TextEditingController(text: widget.book.isbn);
+    _borrowed = widget.book.borrowed;
+    _borrowedByController = TextEditingController(
+      text: widget.book.borrowedBy ?? '',
+    );
+    _borrowedDate = widget.book.borrowedDate;
   }
 
   @override
   void dispose() {
     _titleController.dispose();
     _authorController.dispose();
+    _isbnController.dispose();
+    _borrowedByController.dispose();
     super.dispose();
   }
 
-  Future<void> _pickDate({required DateTime? initialDate, required ValueChanged<DateTime?> onDatePicked}) async {
+  Future<void> _pickDate({
+    required DateTime? initialDate,
+    required ValueChanged<DateTime?> onDatePicked,
+  }) async {
     final picked = await showDatePicker(
       context: context,
       initialDate: initialDate ?? DateTime.now(),
@@ -60,6 +73,9 @@ class _BookEditPageState extends State<BookEditPage> {
       publicationDate: _publicationDate,
       finishedDate: _finishedDate,
       isbn: _isbnController.text,
+      borrowed: _borrowed,
+      borrowedBy: _borrowed ? _borrowedByController.text : null,
+      borrowedDate: _borrowed ? _borrowedDate : null,
     );
     final bookProvider = context.read<BooksProvider>();
     if (!mounted) return;
@@ -68,8 +84,10 @@ class _BookEditPageState extends State<BookEditPage> {
   }
 
   bool _validateSave() {
-
-    if (_isbnController.text.isNotEmpty && !RegExp(r'^(([0-9Xx][- ]?){13}|([0-9Xx][- ]?){10})$').hasMatch(_isbnController.text)) {
+    if (_isbnController.text.isNotEmpty &&
+        !RegExp(
+          r'^(([0-9Xx][- ]?){13}|([0-9Xx][- ]?){10})$',
+        ).hasMatch(_isbnController.text)) {
       return false;
     }
     return true;
@@ -78,11 +96,13 @@ class _BookEditPageState extends State<BookEditPage> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    const snackBar = SnackBar(content: Text('invalid isbn no'), duration: Durations.medium2, backgroundColor: Colors.red);
+    final snackBar = SnackBar(
+      content: Text(loc.invalidIsbnNo),
+      duration: Durations.medium2,
+      backgroundColor: Colors.red,
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text(loc.editBook),
-      ),
+      appBar: AppBar(title: Text(loc.editBook)),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -93,17 +113,23 @@ class _BookEditPageState extends State<BookEditPage> {
                 const SizedBox(height: 16),
                 TextField(
                   controller: _titleController,
+                  textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(labelText: loc.bookTitle),
                 ),
                 const SizedBox(height: 20),
                 TextField(
                   controller: _authorController,
+                  textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(labelText: loc.author),
                 ),
                 const SizedBox(height: 20),
                 ListTile(
                   title: Text(loc.publicationDate),
-                  subtitle: Text(_publicationDate != null ? _publicationDate!.toLocal().toString().split(' ')[0] : loc.noDateSelected),
+                  subtitle: Text(
+                    _publicationDate != null
+                        ? _publicationDate!.toLocal().toString().split(' ')[0]
+                        : loc.noDateSelected,
+                  ),
                   trailing: Icon(Icons.calendar_today),
                   onTap: () => _pickDate(
                     initialDate: _publicationDate,
@@ -159,7 +185,11 @@ class _BookEditPageState extends State<BookEditPage> {
                 const SizedBox(height: 20),
                 ListTile(
                   title: Text(loc.finishedDate),
-                  subtitle: Text(_finishedDate != null ? _finishedDate!.toLocal().toString().split(' ')[0] : loc.noDateSelected),
+                  subtitle: Text(
+                    _finishedDate != null
+                        ? _finishedDate!.toLocal().toString().split(' ')[0]
+                        : loc.noDateSelected,
+                  ),
                   trailing: Icon(Icons.calendar_today),
                   enabled: _readed,
                   onTap: _readed
@@ -176,8 +206,42 @@ class _BookEditPageState extends State<BookEditPage> {
                 const SizedBox(height: 20),
                 TextField(
                   controller: _isbnController,
-                  decoration: InputDecoration(labelText: 'isbn'),
+                  decoration: InputDecoration(labelText: loc.isbn13Label),
                 ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(loc.borrowed),
+                    const Spacer(),
+                    Switch(
+                      value: _borrowed,
+                      onChanged: (val) {
+                        setState(() {
+                          _borrowed = val;
+                          if (_borrowed) {
+                            _borrowedDate = DateTime.now();
+                          } else {
+                            _borrowedByController.text = '';
+                            _borrowedDate = null;
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                if (_borrowed) ...[
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _borrowedByController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      labelText: loc.borrowedBy,
+                      helperText: _borrowedDate != null
+                          ? '${loc.borrowedSince} ${_borrowedDate!.toLocal().toString().split(' ')[0]}'
+                          : null,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 32),
               ],
             ),
@@ -191,14 +255,18 @@ class _BookEditPageState extends State<BookEditPage> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (_titleController.text.trim().isEmpty || _authorController.text.trim().isEmpty) {
+                if (_titleController.text.trim().isEmpty ||
+                    _authorController.text.trim().isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(loc.warningTitleAuthorNotEmpty), duration: Durations.medium2, backgroundColor: Colors.red,),
+                    SnackBar(
+                      content: Text(loc.warningTitleAuthorNotEmpty),
+                      duration: Durations.medium2,
+                      backgroundColor: Colors.red,
+                    ),
                   );
                   return;
                 }
-                if (! _validateSave())
-                {
+                if (!_validateSave()) {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   return;
                 }
