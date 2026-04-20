@@ -6,6 +6,7 @@ import '../l10n/app_localizations.dart';
 import '../models/book.dart';
 import '../widgets/book_list_tile.dart';
 import '../models/book_order_by.dart';
+import '../models/book_filter.dart';
 import 'add_newbook_page.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class LibraryPage extends StatefulWidget {
 
 class LibraryPageState extends State<LibraryPage> {
   BookOrderBy _orderBy = BookOrderBy.id;
+  BookFilter _filter = BookFilter.all;
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -37,6 +39,15 @@ class LibraryPageState extends State<LibraryPage> {
         _orderBy = value;
       });
       context.read<BooksProvider>().sortBooks(_orderBy);
+    }
+  }
+
+  void _onFilterChanged(BookFilter? value) {
+    if (value != null && value != _filter) {
+      setState(() {
+        _filter = value;
+      });
+      context.read<BooksProvider>().filterBooks(_filter);
     }
   }
 
@@ -109,6 +120,29 @@ class LibraryPageState extends State<LibraryPage> {
                         ),
                       ),
                     ),
+                  ),
+                  const SizedBox(width: 4),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cardColor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: borderColor),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    child: DropdownButton<BookFilter>(
+                      value: _filter,
+                      items: BookFilter.values
+                        .map((filter) => DropdownMenuItem(
+                                value: filter,
+                                child: Text(filter.translatedName(loc)),
+                              ))
+                          .toList(),
+                      onChanged: _onFilterChanged,
+                      underline: Container(),
+                      style: TextStyle(fontWeight: FontWeight.normal,color: theme.textTheme.bodyLarge?.color, fontSize: 14),
+                      borderRadius: BorderRadius.circular(10),
+                      icon: Icon(Icons.filter_alt, color: theme.iconTheme.color),
+                      ),
                   ),
                   const SizedBox(width: 4),
                   Container(

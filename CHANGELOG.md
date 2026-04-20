@@ -2,9 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.14.0] - 2026-04-20
 - Improved UI for borrowing books
 - Books can now be set to "borrowed" with an optional name
+- Added new filter function on library page
+  - all, borrowed, read, unread
 
 ## [0.12.0] - 2026-04-14
 - Added new app settings saving feature

@@ -229,4 +229,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get borrowedTo => 'Ausgeliehen an';
+
+  @override
+  String get unread => 'Ungelesen';
+
+  @override
+  String get all => 'Alle';
 }

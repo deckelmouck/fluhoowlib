@@ -7,6 +7,7 @@
 .atom/
 .build/
 .buildlog/
+.github/
 .history
 .svn/
 .swiftpm/
@@ -43,6 +44,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# AI Coding stuff
-.github/agents

@@ -7,7 +7,12 @@
   - read year
   - number of pages
   - notes
-  - borrowed
+  - actual status
+    - wishlist
+    - backlog
+    - reading
+    - borrowed
+    - sold
 
 ## reading habbit tracking
 
@@ -15,6 +20,3 @@
   - amount of pages
   - time for reading
   - notes
-
-- selection of a book
-  - unread or as actually reading
