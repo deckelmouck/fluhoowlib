@@ -228,4 +228,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get borrowedTo => 'Borrowed by';
+
+  @override
+  String get unread => 'Unread';
+
+  @override
+  String get all => 'All';
 }

@@ -70,5 +70,7 @@
   "borrowed": "Borrowed",
   "borrowedBy": "Borrowed by",
   "borrowedSince": "Since:",
-  "borrowedTo": "Borrowed by"
+  "borrowedTo": "Borrowed by",
+  "unread": "Unread",
+  "all": "All"
 }

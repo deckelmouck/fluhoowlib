@@ -70,5 +70,7 @@
   "borrowed": "Ausgeliehen",
   "borrowedBy": "Ausgeliehen von",
   "borrowedSince": "Seit:",
-  "borrowedTo": "Ausgeliehen an"
+  "borrowedTo": "Ausgeliehen an",
+  "unread": "Ungelesen",
+  "all": "Alle"
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hoowlib/db/database_helper.dart';
 import 'package:hoowlib/models/book.dart';
 import 'package:hoowlib/models/book_order_by.dart';
+import 'package:hoowlib/models/book_filter.dart';
 
 class BooksProvider extends ChangeNotifier {
   List<Book> _books = [];
@@ -78,6 +79,22 @@ class BooksProvider extends ChangeNotifier {
     } else if (orderBy == BookOrderBy.publication) {
       books.sort((a, b) => b.publicationDate?.compareTo(a.publicationDate ?? DateTime(0)) ?? 0);
     }
+    notifyListeners();
+  }
+
+  Future<void> filterBooks(BookFilter bookFilter) async {
+    await _fetchBooksFromDatabase();
+    Iterable<Book> temp = [];
+    if (bookFilter == BookFilter.all) {
+      temp = books;
+    } else if (bookFilter == BookFilter.borrowed) {
+      temp = books.where((b) => b.borrowed);
+    } else if (bookFilter == BookFilter.read) {
+      temp = books.where((b) => b.readed);
+    } else if (bookFilter == BookFilter.unread) {
+      temp = books.where((b) => !b.readed);
+    }
+    setBooks(temp.toList());
     notifyListeners();
   }
 }
