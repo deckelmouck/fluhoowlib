@@ -5,7 +5,6 @@ import 'package:hoowlib/pages/book_edit_page.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
 
-
 class BookMenuSheet extends StatelessWidget {
   final Book book;
 
@@ -13,9 +12,8 @@ class BookMenuSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final loc = AppLocalizations.of(context)!;
-    
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -28,22 +26,23 @@ class BookMenuSheet extends StatelessWidget {
               children: [
                 Expanded(
                   child: Align(
-                    alignment: Alignment.center, 
-                    child:  Text(
-                      book.title, 
+                    alignment: Alignment.center,
+                    child: Text(
+                      book.title,
                       style: Theme.of(context).textTheme.headlineMedium,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
-              ]
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   book.author,
-                  style: Theme.of(context).textTheme.headlineSmall,)
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
               ],
             ),
             Spacer(),
@@ -56,14 +55,14 @@ class BookMenuSheet extends StatelessWidget {
                       Navigator.of(context).pop();
                       final bookProvider = context.read<BooksProvider>();
                       bookProvider.markAsRead(book);
-                    }, 
-                    label: Text(loc.markAsReaded), 
+                    },
+                    label: Text(loc.markAsReaded),
                     icon: const Icon(Icons.book),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -76,14 +75,14 @@ class BookMenuSheet extends StatelessWidget {
                           builder: (context) => BookEditPage(book: book),
                         ),
                       );
-                    }, 
-                    label: Text(loc.editBook), 
+                    },
+                    label: Text(loc.editBook),
                     icon: const Icon(Icons.edit),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -91,7 +90,10 @@ class BookMenuSheet extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      final booksProvider = Provider.of<BooksProvider>(context, listen: false);
+                      final booksProvider = Provider.of<BooksProvider>(
+                        context,
+                        listen: false,
+                      );
                       final confirm = await showDialog<bool>(
                         context: context,
                         builder: (context) => AlertDialog(
@@ -105,7 +107,9 @@ class BookMenuSheet extends StatelessWidget {
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(true),
                               style: TextButton.styleFrom(
-                                foregroundColor: Theme.of(context).colorScheme.error,
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.error,
                               ),
                               child: Text(loc.delete),
                             ),
