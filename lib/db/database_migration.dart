@@ -1,6 +1,10 @@
 import 'package:sqflite/sqflite.dart';
 
-Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async {
+Future<void> migrateDatabase(
+  Database db,
+  int oldVersion,
+  int newVersion,
+) async {
   if (oldVersion < 3) {
     // Migration for books table: rename columns gelesen -> readed, bewertung -> rating
     await db.execute('''
@@ -72,9 +76,8 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
       'devMode': 0,
       'showDevSwitch': 0,
       'darkMode': 0,
-      'languageCode': null
-    },
-    conflictAlgorithm: ConflictAlgorithm.ignore);
+      'languageCode': null,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
   }
   // Migration for languageCode column if upgrading from previous version
   if (oldVersion < 8) {
@@ -85,9 +88,15 @@ Future<void> migrateDatabase(Database db, int oldVersion, int newVersion) async 
   // Migration for new columns about borrow
   if (oldVersion < 9) {
     // Add borrowed, borrowedBy, borrowedDate columns to books if not present
-    await db.execute('''ALTER TABLE books ADD COLUMN borrowed INTEGER DEFAULT 0;''');
+    await db.execute(
+      '''ALTER TABLE books ADD COLUMN borrowed INTEGER DEFAULT 0;''',
+    );
     await db.execute('''ALTER TABLE books ADD COLUMN borrowedBy TEXT;''');
     await db.execute('''ALTER TABLE books ADD COLUMN borrowedDate TEXT;''');
+  }
+  // migration for new column notes
+  if (oldVersion < 10) {
+    await db.execute('''ALTER TABLE books ADD COLUMN notes TEXT;''');
   }
   // Add future migrations here
 }

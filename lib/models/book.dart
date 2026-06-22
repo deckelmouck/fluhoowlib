@@ -10,6 +10,7 @@ class Book {
   final bool borrowed;
   final String? borrowedBy;
   final DateTime? borrowedDate;
+  final String? notes;
 
   Book({
     this.id,
@@ -23,6 +24,7 @@ class Book {
     this.borrowed = false,
     this.borrowedBy,
     this.borrowedDate,
+    this.notes,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +40,7 @@ class Book {
       'borrowed': borrowed ? 1 : 0,
       'borrowedBy': borrowedBy,
       'borrowedDate': borrowedDate?.toIso8601String(),
+      'notes': notes,
     };
   }
 
@@ -48,12 +51,19 @@ class Book {
       author: map['author'],
       readed: map['readed'] == 1,
       rating: map['rating'],
-      publicationDate: map['publicationDate'] != null ? DateTime.parse(map['publicationDate']) : null,
-      finishedDate: map['finishedDate'] != null ? DateTime.parse(map['finishedDate']) : null,
+      publicationDate: map['publicationDate'] != null
+          ? DateTime.parse(map['publicationDate'])
+          : null,
+      finishedDate: map['finishedDate'] != null
+          ? DateTime.parse(map['finishedDate'])
+          : null,
       isbn: map['isbn'],
       borrowed: map['borrowed'] == 1,
       borrowedBy: map['borrowedBy'],
-      borrowedDate: map['borrowedDate'] != null ? DateTime.parse(map['borrowedDate']) : null,
+      borrowedDate: map['borrowedDate'] != null
+          ? DateTime.parse(map['borrowedDate'])
+          : null,
+      notes: map['notes'],
     );
   }
 
@@ -69,5 +79,6 @@ class Book {
     'borrowed': borrowed,
     'borrowedBy': borrowedBy,
     'borrowedDate': borrowedDate?.toIso8601String(),
+    'notes': notes,
   };
 }

@@ -24,7 +24,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'hoowlib.db');
     return await openDatabase(
       path,
-      version: 9, // Incremented version for migration
+      version: 10, // Incremented version for migration
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE books(
@@ -38,7 +38,8 @@ class DatabaseHelper {
             isbn TEXT,
             borrowed INTEGER DEFAULT 0,
             borrowedBy TEXT,
-            borrowedDate TEXT
+            borrowedDate TEXT,
+            notes TEXT
           )
         ''');
         await db.execute('''
@@ -66,7 +67,7 @@ class DatabaseHelper {
           'devMode': 0,
           'showDevSwitch': 0,
           'darkMode': 0,
-          'languageCode': null
+          'languageCode': null,
         });
       },
       onUpgrade: (db, oldVersion, newVersion) async {
@@ -74,35 +75,40 @@ class DatabaseHelper {
       },
     );
   }
-    // #region AppSettings CRUD Methods
-    Future<int> insertOrUpdateAppSettings(AppSettings settings) async {
-      final db = await database;
-      return await db.insert(
-        'app_settings',
-        settings.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+
+  // #region AppSettings CRUD Methods
+  Future<int> insertOrUpdateAppSettings(AppSettings settings) async {
+    final db = await database;
+    return await db.insert(
+      'app_settings',
+      settings.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<AppSettings> getAppSettings() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'app_settings',
+      where: 'id = ?',
+      whereArgs: [1],
+    );
+    if (maps.isNotEmpty) {
+      return AppSettings.fromMap(maps.first);
+    } else {
+      // Return default if not found
+      return AppSettings(
+        id: 1,
+        username: '',
+        bookCount: 0,
+        devMode: false,
+        showDevSwitch: false,
+        darkMode: false,
+        languageCode: null,
       );
     }
-
-    Future<AppSettings> getAppSettings() async {
-      final db = await database;
-      final List<Map<String, dynamic>> maps = await db.query('app_settings', where: 'id = ?', whereArgs: [1]);
-      if (maps.isNotEmpty) {
-        return AppSettings.fromMap(maps.first);
-      } else {
-        // Return default if not found
-        return AppSettings(
-          id: 1,
-          username: '',
-          bookCount: 0,
-          devMode: false,
-          showDevSwitch: false,
-          darkMode: false,
-          languageCode: null
-        );
-      }
-    }
-    // #endregion
+  }
+  // #endregion
   // #endregion
 
   // #region Book CRUD Methods
@@ -138,11 +144,7 @@ class DatabaseHelper {
 
   Future<int> deleteBook(int id) async {
     final db = await database;
-    return await db.delete(
-      'books',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return await db.delete('books', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<int> updateBook(Book book) async {
@@ -159,11 +161,9 @@ class DatabaseHelper {
   // #region ReadedDay Methods
   Future<int> insertReadedDay(DateTime date) async {
     final db = await database;
-    return await db.insert(
-      'gelesen_tage',
-      {'date': date.toIso8601String().substring(0, 10)},
-      conflictAlgorithm: ConflictAlgorithm.ignore,
-    );
+    return await db.insert('gelesen_tage', {
+      'date': date.toIso8601String().substring(0, 10),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   Future<int> deleteReadedDay(DateTime date) async {
@@ -188,5 +188,6 @@ class DatabaseHelper {
       );
     }).toSet();
   }
+
   // #endregion
 }
