@@ -23,6 +23,7 @@ class _BookEditPageState extends State<BookEditPage> {
   late bool _borrowed;
   late TextEditingController _borrowedByController;
   late DateTime? _borrowedDate;
+  late TextEditingController _notesController;
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _BookEditPageState extends State<BookEditPage> {
       text: widget.book.borrowedBy ?? '',
     );
     _borrowedDate = widget.book.borrowedDate;
+    _notesController = TextEditingController(text: widget.book.notes);
   }
 
   @override
@@ -47,6 +49,7 @@ class _BookEditPageState extends State<BookEditPage> {
     _authorController.dispose();
     _isbnController.dispose();
     _borrowedByController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
@@ -76,6 +79,7 @@ class _BookEditPageState extends State<BookEditPage> {
       borrowed: _borrowed,
       borrowedBy: _borrowed ? _borrowedByController.text : null,
       borrowedDate: _borrowed ? _borrowedDate : null,
+      notes: _notesController.text,
     );
     final bookProvider = context.read<BooksProvider>();
     if (!mounted) return;
@@ -243,6 +247,29 @@ class _BookEditPageState extends State<BookEditPage> {
                   ),
                 ],
                 const SizedBox(height: 32),
+                // TextField(
+                //   controller: _notesController,
+                //   maxLines: 10,
+                //   decoration: InputDecoration(labelText: 'notes'),
+                // ),
+                Scrollbar(
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxHeight:
+                            300, // Adjust based on your needs (e.g., 5 lines * line height)
+                      ),
+                      child: TextField(
+                        controller: _notesController,
+                        maxLines: 10, // Allows up to 10 lines
+                        decoration: const InputDecoration(
+                          labelText: 'notes',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
