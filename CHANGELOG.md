@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.15.0] - 2026-06-22
+- add notes to book model
+
 ## [0.14.0] - 2026-04-20
 - Improved UI for borrowing books
 - Books can now be set to "borrowed" with an optional name
