@@ -1,41 +1,66 @@
 # fluhoowlib
 
-**fluhoowlib** is a Flutter library and app for managing books and tracking reading habits. It provides features for cataloging books, recording reading progress, and analyzing reading statistics. The project is designed with localization support and extensibility in mind.
+A personal reading companion built with Flutter.
 
-## Features
+fluhoowlib helps you organize your library, track reading consistency, and keep your book data local and under your control.
 
-- **Book Management**: Add, edit, and organize books with properties such as title, author, publication year, read year, number of pages, notes, and borrowed status.
-- **Reading Habit Tracking**: Track daily reading activity, including pages read, reading time, and notes. Visualize streaks and progress using a calendar view.
-- **Localization**: Supports multiple languages (currently English and German). Easily add new keywords and generate localization files.
-- **Modern Flutter Architecture**: Uses Provider for state management, sqflite for local storage, and modular page structure.
+## Why fluhoowlib
 
-## Getting Started
+- Keep your own private book catalog with detailed metadata.
+- Track reading habit streaks on a calendar with one tap per day.
+- Filter and sort your library to quickly find what matters now.
+- Use a clean bilingual app experience (English and German).
+- Run fully offline with local SQLite storage.
+
+## Highlights
+
+- Book details: title, author, publication date, finished date, rating, ISBN, notes, and borrowed status.
+- Reading habit calendar with current streak and longest streak tracking.
+- Theme support (light/dark) and app settings persistence.
+- Optional developer mode with tools for mock data and database inspection.
+
+## Developer Guide
+
+### Project Identity
+
+- Repository: fluhoowlib
+- Flutter package name: hoowlib
+- App display name: Hoowlib
 
 ### Requirements
+
 - Flutter SDK >= 3.10.7
-- Dart >= 3.0
+- Dart SDK compatible with Flutter 3.10.7+
 
 ### Setup
+
 1. Install dependencies:
-	 ```zsh
-	 flutter pub get
-	 ```
+
+```zsh
+flutter pub get
+```
+
 2. Run the app:
-	 ```zsh
-	 flutter run
-	 ```
 
-### Localization
-- Add a new keyword to both ARB files:
-	```zsh
-	./add2arb.sh newKeyword
-	```
-- Generate localization files:
-	```zsh
-	flutter gen-l10n
-	```
+```zsh
+flutter run
+```
 
-## Main Dependencies
+### Localization Workflow
+
+1. Add a new key to all ARB files:
+
+```zsh
+./add2arb.sh newKeyword
+```
+
+2. Generate localization files:
+
+```zsh
+flutter gen-l10n
+```
+
+### Main Dependencies
 
 - flutter_localizations
 - intl
@@ -45,42 +70,50 @@
 - url_launcher
 - package_info_plus
 - provider
+- keyboard_safe
 
-See `pubspec.yaml` for the full list.
+See pubspec.yaml for the complete dependency list and versions.
 
-## Roadmap
+### Project Structure
 
-### Books
-- Add more properties to book:
-	- Publish year
-	- Read year
-	- Number of pages
-	- Notes
-	- Borrowed
+- lib/ - Main source code
+  - db/ - Database helpers and migrations
+  - l10n/ - ARB files and generated localizations
+  - models/ - Data models
+  - pages/ - Feature pages (library, calendar, settings, dev)
+  - providers/ - State management with Provider
+  - repositories/ - Data repository abstractions
+  - theme/ - App theming
+  - widgets/ - Reusable UI components
 
-### Reading Habit Tracking
-- Add more values:
-	- Amount of pages
-	- Time for reading
-	- Notes
-- Selection of a book:
-	- Unread or as actually reading
+### Current Scope vs Planned Work
 
-## Project Structure
+Implemented now:
 
-- `lib/` — Main source code
-	- `db/` — Database helpers
-	- `l10n/` — Localization files
-	- `models/` — Data models
-	- `pages/` — UI pages (library, calendar, settings, etc.)
-	- `providers/` — State management
-	- `repositories/` — Data repositories
-	- `theme/` — App theming
-	- `widgets/` — Reusable widgets
+- Rich book metadata including notes and borrowing info.
+- Library filter modes: all, borrowed, read, unread.
+- Calendar-based day tracking and streaks.
+
+Planned next:
+
+- Reading session details (pages, duration, per-session notes).
+- Expanded analytics and trends.
+- Additional quality improvements and tests.
 
 ## Contributing
 
-Contributions are welcome! Please see the ROADMAP for planned features and improvements.
+Contributions are welcome.
+
+- Check CHANGELOG.md for completed work.
+- Check ROADMAP.md for upcoming plans.
 
 ---
-This project is not yet published to pub.dev. For questions or suggestions, open an issue or contact the maintainer.
+
+## Availability
+
+Hoowlib is currently available on:
+
+- iOS via the App Store
+- Android via direct APK download: https://deckelmouck.de/hoowlib/
+
+For questions or suggestions, open an issue or contact me.
