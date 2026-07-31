@@ -62,15 +62,15 @@ flutter gen-l10n
 
 ### Main Dependencies
 
-- flutter_localizations
-- intl
-- table_calendar
-- sqflite
-- path
-- url_launcher
-- package_info_plus
-- provider
-- keyboard_safe
+- [flutter_localizations](https://pub.dev/packages/flutter_localizations)
+- [intl](https://pub.dev/packages/intl)
+- [table_calendar](https://pub.dev/packages/table_calendar)
+- [sqflite](https://pub.dev/packages/sqflite)
+- [path](https://pub.dev/packages/path)
+- [url_launcher](https://pub.dev/packages/url_launcher)
+- [package_info_plus](https://pub.dev/packages/package_info_plus)
+- [provider](https://pub.dev/packages/provider)
+- [keyboard_safe](https://pub.dev/packages/keyboard_safe)
 
 See pubspec.yaml for the complete dependency list and versions.
 
@@ -113,7 +113,8 @@ Contributions are welcome.
 
 Hoowlib is currently available on:
 
-- iOS via the App Store
-- Android via direct APK download: https://deckelmouck.de/hoowlib/
+- iOS via the [Hoowlib App Store link](https://apps.apple.com/de/app/hoowlib/id6748452885) ![Static Badge](https://img.shields.io/badge/Version-0.14.0-green)
+- TestFlight ![Static Badge](https://img.shields.io/badge/Version-0.15.0-blue)
+- Android via direct APK download: [hoowlib-apk-files](https://deckelmouck.de/apk/) ![Static Badge](https://img.shields.io/badge/Version-0.15.0-orange)
 
 For questions or suggestions, open an issue or contact me.
