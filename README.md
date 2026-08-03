@@ -113,8 +113,8 @@ Contributions are welcome.
 
 Hoowlib is currently available on:
 
-- iOS via the [Hoowlib App Store link](https://apps.apple.com/de/app/hoowlib/id6748452885) ![Static Badge](https://img.shields.io/badge/Version-0.14.0-green)
-- TestFlight ![Static Badge](https://img.shields.io/badge/Version-0.15.0-blue)
+- iOS via the [Hoowlib App Store link](https://apps.apple.com/de/app/hoowlib/id6748452885) ![Static Badge](https://img.shields.io/badge/Version-0.15.1-green)
+- TestFlight ![Static Badge](https://img.shields.io/badge/Version-0.15.1-blue)
 - Android via direct APK download: [hoowlib-apk-files](https://deckelmouck.de/apk/) ![Static Badge](https://img.shields.io/badge/Version-0.15.0-orange)
 
 For questions or suggestions, open an issue or contact me.
