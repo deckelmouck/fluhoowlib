@@ -64,10 +64,7 @@ class _MainAppState extends State<MainApp> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('de', ''),
-            ],
+            supportedLocales: const [Locale('en', ''), Locale('de', '')],
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
@@ -90,20 +87,14 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
   List<Book> _books = [];
-  bool _devMode = false;
 
-  final GlobalKey<LibraryPageState> _libraryPageKey = GlobalKey<LibraryPageState>();
+  final GlobalKey<LibraryPageState> _libraryPageKey =
+      GlobalKey<LibraryPageState>();
 
   @override
   void initState() {
     super.initState();
     _loadBooks();
-  }
-
-  void _changeDevMode(bool newDevMode) {
-    setState(() {
-      _devMode = newDevMode;
-    });
   }
 
   Future<void> _loadBooks() async {
@@ -114,11 +105,11 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   List<Widget> get _pages => [
-        LibraryPage(key: _libraryPageKey, books: _books),
-        const CalendarPage(),
-        SettingPage(onLocaleChanged: widget.onLocaleChanged, onDevModeChanged: _changeDevMode, devModeParameter: _devMode,),
-        DevPage(),
-      ];
+    LibraryPage(key: _libraryPageKey, books: _books),
+    const CalendarPage(),
+    SettingPage(onLocaleChanged: widget.onLocaleChanged),
+    DevPage(),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -128,31 +119,35 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    final devMode = context.watch<AppsettingsProvider>().devMode;
+    final selectedIndex = _selectedIndex.clamp(0, devMode ? 3 : 2);
 
     List<BottomNavigationBarItem> bottom = [
       BottomNavigationBarItem(
-              icon: Icon(Icons.home, size: 24),
-              label: AppLocalizations.of(context)!.myLibrary,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month, size: 24),
-              label: AppLocalizations.of(context)!.calendar,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings, size: 24),
-              label: AppLocalizations.of(context)!.settings,
-            ),
+        icon: Icon(Icons.home, size: 24),
+        label: AppLocalizations.of(context)!.myLibrary,
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.calendar_month, size: 24),
+        label: AppLocalizations.of(context)!.calendar,
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.settings, size: 24),
+        label: AppLocalizations.of(context)!.settings,
+      ),
     ];
 
-    if(Provider.of<AppsettingsProvider>(context).devMode){
-      bottom.add(BottomNavigationBarItem(
-              icon: Icon(Icons.developer_mode, size: 24,),
-              label: "dev",
-            ));
+    if (devMode) {
+      bottom.add(
+        BottomNavigationBarItem(
+          icon: Icon(Icons.developer_mode, size: 24),
+          label: "dev",
+        ),
+      );
     }
 
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: _pages[selectedIndex],
       bottomNavigationBar: Container(
         constraints: BoxConstraints(minHeight: 70, maxHeight: 90),
         child: BottomNavigationBar(
@@ -160,7 +155,7 @@ class _MainNavigationState extends State<MainNavigation> {
           selectedFontSize: 12,
           unselectedFontSize: 12,
           items: bottom,
-          currentIndex: _selectedIndex,
+          currentIndex: selectedIndex,
           onTap: _onItemTapped,
         ),
       ),
