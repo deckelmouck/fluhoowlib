@@ -262,8 +262,8 @@ class _BookEditPageState extends State<BookEditPage> {
                       child: TextField(
                         controller: _notesController,
                         maxLines: 10, // Allows up to 10 lines
-                        decoration: const InputDecoration(
-                          labelText: 'notes',
+                        decoration: InputDecoration(
+                          labelText: loc.notes,
                           border: OutlineInputBorder(),
                         ),
                       ),

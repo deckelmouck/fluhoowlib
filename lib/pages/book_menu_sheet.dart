@@ -53,11 +53,14 @@ class BookMenuSheet extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      final bookProvider = context.read<BooksProvider>();
-                      bookProvider.markAsRead(book);
+                      await Navigator.of(context).push<Book>(
+                        MaterialPageRoute(
+                          builder: (context) => BookEditPage(book: book),
+                        ),
+                      );
                     },
-                    label: Text(loc.markAsReaded),
-                    icon: const Icon(Icons.book),
+                    label: Text(loc.editBook),
+                    icon: const Icon(Icons.edit),
                   ),
                 ),
               ],
@@ -70,14 +73,11 @@ class BookMenuSheet extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      await Navigator.of(context).push<Book>(
-                        MaterialPageRoute(
-                          builder: (context) => BookEditPage(book: book),
-                        ),
-                      );
+                      final bookProvider = context.read<BooksProvider>();
+                      bookProvider.markAsRead(book);
                     },
-                    label: Text(loc.editBook),
-                    icon: const Icon(Icons.edit),
+                    label: Text(loc.markAsReaded),
+                    icon: const Icon(Icons.book),
                   ),
                 ),
               ],

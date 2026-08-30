@@ -232,7 +232,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
               ),
               SizedBox(height: 16),
               TextFormField(
-                decoration: InputDecoration(labelText: 'notes'),
+                decoration: InputDecoration(labelText: loc.notes),
                 keyboardType: TextInputType.text,
                 onSaved: (value) => _notes = value ?? '',
               ),

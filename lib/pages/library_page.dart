@@ -53,7 +53,6 @@ class LibraryPageState extends State<LibraryPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final loc = AppLocalizations.of(context)!;
     final books = context.watch<BooksProvider>().books;
 
@@ -86,7 +85,7 @@ class LibraryPageState extends State<LibraryPage> {
                   );
                 },
               ),
-              SizedBox(width: 10,),
+              SizedBox(width: 10),
             ],
             backgroundColor: colorScheme.primary,
             elevation: 4,
@@ -98,7 +97,10 @@ class LibraryPageState extends State<LibraryPage> {
           children: [
             Container(
               color: Colors.transparent,
-              padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 2.0,
+                horizontal: 4.0,
+              ),
               height: 44,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -111,11 +113,18 @@ class LibraryPageState extends State<LibraryPage> {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: borderColor),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 0,
+                        ),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '${loc.booksInLibrary}: ${books.length}',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: theme.textTheme.bodyLarge?.color),
+                          '${books.length} ${loc.booksInLibrary}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: theme.textTheme.bodyLarge?.color,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -128,21 +137,33 @@ class LibraryPageState extends State<LibraryPage> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: borderColor),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 0,
+                    ),
                     child: DropdownButton<BookFilter>(
                       value: _filter,
                       items: BookFilter.values
-                        .map((filter) => DropdownMenuItem(
-                                value: filter,
-                                child: Text(filter.translatedName(loc)),
-                              ))
+                          .map(
+                            (filter) => DropdownMenuItem(
+                              value: filter,
+                              child: Text(filter.translatedName(loc)),
+                            ),
+                          )
                           .toList(),
                       onChanged: _onFilterChanged,
                       underline: Container(),
-                      style: TextStyle(fontWeight: FontWeight.normal,color: theme.textTheme.bodyLarge?.color, fontSize: 14),
-                      borderRadius: BorderRadius.circular(10),
-                      icon: Icon(Icons.filter_alt, color: theme.iconTheme.color),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: theme.textTheme.bodyLarge?.color,
+                        fontSize: 14,
                       ),
+                      borderRadius: BorderRadius.circular(10),
+                      icon: Icon(
+                        Icons.filter_alt,
+                        color: theme.iconTheme.color,
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 4),
                   Container(
@@ -151,19 +172,28 @@ class LibraryPageState extends State<LibraryPage> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: borderColor),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 0,
+                    ),
                     alignment: Alignment.centerRight,
                     child: DropdownButton<BookOrderBy>(
                       value: _orderBy,
                       onChanged: _onOrderChanged,
                       items: BookOrderBy.values
-                          .map((order) => DropdownMenuItem(
-                                value: order,
-                                child: Text(order.translatedName(loc)),
-                              ))
+                          .map(
+                            (order) => DropdownMenuItem(
+                              value: order,
+                              child: Text(order.translatedName(loc)),
+                            ),
+                          )
                           .toList(),
                       underline: Container(),
-                      style: TextStyle(fontWeight: FontWeight.normal, color: theme.textTheme.bodyLarge?.color, fontSize: 14),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: theme.textTheme.bodyLarge?.color,
+                        fontSize: 14,
+                      ),
                       icon: Icon(Icons.sort, color: theme.iconTheme.color),
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -176,7 +206,10 @@ class LibraryPageState extends State<LibraryPage> {
                   ? Center(
                       child: Text(
                         loc.noBooks,
-                        style: TextStyle(fontSize: 18, color: colorScheme.onSurfaceVariant),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -199,7 +232,9 @@ class LibraryPageState extends State<LibraryPage> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (context) => SizedBox(
-                                      height: MediaQuery.of(context).size.height * 0.4,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                          0.4,
                                       child: BookMenuSheet(book: book),
                                     ),
                                   );

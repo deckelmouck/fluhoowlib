@@ -72,5 +72,6 @@
   "borrowedSince": "Since:",
   "borrowedTo": "Borrowed by",
   "unread": "Unread",
-  "all": "All"
+  "all": "All",
+  "notes": "Notes"
 }

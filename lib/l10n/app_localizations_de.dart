@@ -235,4 +235,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get all => 'Alle';
+
+  @override
+  String get notes => 'Notiz';
 }

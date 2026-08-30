@@ -72,5 +72,6 @@
   "borrowedSince": "Seit:",
   "borrowedTo": "Ausgeliehen an",
   "unread": "Ungelesen",
-  "all": "Alle"
+  "all": "Alle",
+  "notes": "Notiz"
 }
