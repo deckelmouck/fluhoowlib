@@ -73,5 +73,15 @@
   "borrowedTo": "Borrowed by",
   "unread": "Unread",
   "all": "All",
-  "notes": "Notes"
+  "notes": "Notes",
+  "bookCover": "Book cover",
+  "noPictureSelected": "No picture selected",
+  "pictureSelected": "Picture selected",
+  "addPicture": "Add picture",
+  "takePicture": "Take picture",
+  "chooseFromGallery": "Choose from media",
+  "removePicture": "Remove picture",
+  "imageSelectionFailed": "Image action failed",
+  "viewAsGrid": "View as grid",
+  "viewAsList": "View as list"
 }

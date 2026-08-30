@@ -3,6 +3,7 @@ import 'package:hoowlib/db/database_helper.dart';
 import 'package:hoowlib/models/book.dart';
 import 'package:hoowlib/models/book_order_by.dart';
 import 'package:hoowlib/models/book_filter.dart';
+import 'package:hoowlib/services/book_cover_service.dart';
 
 class BooksProvider extends ChangeNotifier {
   List<Book> _books = [];
@@ -10,20 +11,19 @@ class BooksProvider extends ChangeNotifier {
   BooksProvider() {
     _fetchBooksFromDatabase();
   }
-  
+
   int get count => _books.length;
 
   List<Book> get books => _books;
 
-  void setBooks(List<Book> newBooks)
-  {
+  void setBooks(List<Book> newBooks) {
     _books = newBooks;
     notifyListeners();
   }
 
   Future addBook(Book newBook) async {
     int added = await DatabaseHelper().insertBook(newBook);
-    
+
     if (added > 0) {
       Book? newItem = await DatabaseHelper().getBookById(added);
       if (newItem != null) {
@@ -34,8 +34,10 @@ class BooksProvider extends ChangeNotifier {
   }
 
   Future<void> deleteBook(Book book) async {
+    final imagePath = book.coverImagePath;
     int deleted = await DatabaseHelper().deleteBook(book.id!);
     if (deleted > 0) {
+      await BookCoverService.deleteImageAtPath(imagePath);
       _books.removeWhere((b) => b.id == book.id);
       notifyListeners();
     }
@@ -57,6 +59,12 @@ class BooksProvider extends ChangeNotifier {
       rating: 0,
       publicationDate: readedBook.publicationDate,
       finishedDate: DateTime.now(),
+      isbn: readedBook.isbn,
+      borrowed: readedBook.borrowed,
+      borrowedBy: readedBook.borrowedBy,
+      borrowedDate: readedBook.borrowedDate,
+      notes: readedBook.notes,
+      coverImagePath: readedBook.coverImagePath,
     );
     await updateBook(updatedBook);
   }
@@ -71,13 +79,18 @@ class BooksProvider extends ChangeNotifier {
     if (orderBy == BookOrderBy.id) {
       books.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
     } else if (orderBy == BookOrderBy.title) {
-      books.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+      books.sort(
+        (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()),
+      );
     } else if (orderBy == BookOrderBy.author) {
       books.sort((a, b) => a.author.compareTo(b.author));
     } else if (orderBy == BookOrderBy.rating) {
       books.sort((a, b) => b.rating.compareTo(a.rating));
     } else if (orderBy == BookOrderBy.publication) {
-      books.sort((a, b) => b.publicationDate?.compareTo(a.publicationDate ?? DateTime(0)) ?? 0);
+      books.sort(
+        (a, b) =>
+            b.publicationDate?.compareTo(a.publicationDate ?? DateTime(0)) ?? 0,
+      );
     }
     notifyListeners();
   }

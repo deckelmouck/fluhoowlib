@@ -65,6 +65,7 @@ Future<void> migrateDatabase(
         devMode INTEGER,
         showDevSwitch INTEGER,
         darkMode INTEGER,
+        libraryGridView INTEGER,
         languageCode TEXT
       );
     ''');
@@ -76,6 +77,7 @@ Future<void> migrateDatabase(
       'devMode': 0,
       'showDevSwitch': 0,
       'darkMode': 0,
+      'libraryGridView': 0,
       'languageCode': null,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
   }
@@ -97,6 +99,14 @@ Future<void> migrateDatabase(
   // migration for new column notes
   if (oldVersion < 10) {
     await db.execute('''ALTER TABLE books ADD COLUMN notes TEXT;''');
+  }
+  if (oldVersion < 11) {
+    await db.execute('''ALTER TABLE books ADD COLUMN coverImagePath TEXT;''');
+  }
+  if (oldVersion < 12) {
+    await db.execute(
+      '''ALTER TABLE app_settings ADD COLUMN libraryGridView INTEGER DEFAULT 0;''',
+    );
   }
   // Add future migrations here
 }

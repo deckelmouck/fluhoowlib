@@ -5,6 +5,7 @@ class AppSettings {
   bool devMode;
   bool showDevSwitch;
   bool darkMode;
+  bool libraryGridView;
   String? languageCode;
 
   AppSettings({
@@ -14,6 +15,7 @@ class AppSettings {
     required this.devMode,
     required this.showDevSwitch,
     required this.darkMode,
+    required this.libraryGridView,
     this.languageCode,
   });
 
@@ -25,6 +27,7 @@ class AppSettings {
       devMode: (map['devMode'] ?? 0) == 1,
       showDevSwitch: (map['showDevSwitch'] ?? 0) == 1,
       darkMode: (map['darkMode'] ?? 0) == 1,
+      libraryGridView: (map['libraryGridView'] ?? 0) == 1,
       languageCode: map['languageCode'],
     );
   }
@@ -37,6 +40,7 @@ class AppSettings {
       'devMode': devMode ? 1 : 0,
       'showDevSwitch': showDevSwitch ? 1 : 0,
       'darkMode': darkMode ? 1 : 0,
+      'libraryGridView': libraryGridView ? 1 : 0,
       'languageCode': languageCode,
     };
   }

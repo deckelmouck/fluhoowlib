@@ -11,6 +11,7 @@ class Book {
   final String? borrowedBy;
   final DateTime? borrowedDate;
   final String? notes;
+  final String? coverImagePath;
 
   Book({
     this.id,
@@ -25,6 +26,7 @@ class Book {
     this.borrowedBy,
     this.borrowedDate,
     this.notes,
+    this.coverImagePath,
   });
 
   Map<String, dynamic> toMap() {
@@ -41,6 +43,7 @@ class Book {
       'borrowedBy': borrowedBy,
       'borrowedDate': borrowedDate?.toIso8601String(),
       'notes': notes,
+      'coverImagePath': coverImagePath,
     };
   }
 
@@ -64,6 +67,7 @@ class Book {
           ? DateTime.parse(map['borrowedDate'])
           : null,
       notes: map['notes'],
+      coverImagePath: map['coverImagePath'],
     );
   }
 
@@ -80,5 +84,6 @@ class Book {
     'borrowedBy': borrowedBy,
     'borrowedDate': borrowedDate?.toIso8601String(),
     'notes': notes,
+    'coverImagePath': coverImagePath,
   };
 }

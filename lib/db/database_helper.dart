@@ -24,7 +24,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'hoowlib.db');
     return await openDatabase(
       path,
-      version: 10, // Incremented version for migration
+      version: 12,
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE books(
@@ -39,7 +39,8 @@ class DatabaseHelper {
             borrowed INTEGER DEFAULT 0,
             borrowedBy TEXT,
             borrowedDate TEXT,
-            notes TEXT
+            notes TEXT,
+            coverImagePath TEXT
           )
         ''');
         await db.execute('''
@@ -56,6 +57,7 @@ class DatabaseHelper {
             devMode INTEGER,
             showDevSwitch INTEGER,
             darkMode INTEGER,
+            libraryGridView INTEGER,
             languageCode TEXT
           )
         ''');
@@ -67,6 +69,7 @@ class DatabaseHelper {
           'devMode': 0,
           'showDevSwitch': 0,
           'darkMode': 0,
+          'libraryGridView': 0,
           'languageCode': null,
         });
       },
@@ -104,6 +107,7 @@ class DatabaseHelper {
         devMode: false,
         showDevSwitch: false,
         darkMode: false,
+        libraryGridView: false,
         languageCode: null,
       );
     }

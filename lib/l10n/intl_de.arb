@@ -73,5 +73,15 @@
   "borrowedTo": "Ausgeliehen an",
   "unread": "Ungelesen",
   "all": "Alle",
-  "notes": "Notiz"
+  "notes": "Notiz",
+  "bookCover": "Buchcover",
+  "noPictureSelected": "Kein Bild ausgewählt",
+  "pictureSelected": "Bild ausgewählt",
+  "addPicture": "Bild hinzufügen",
+  "takePicture": "Foto aufnehmen",
+  "chooseFromGallery": "Aus Medien wählen",
+  "removePicture": "Bild entfernen",
+  "imageSelectionFailed": "Bildaktion fehlgeschlagen",
+  "viewAsGrid": "Als Raster anzeigen",
+  "viewAsList": "Als Liste anzeigen"
 }

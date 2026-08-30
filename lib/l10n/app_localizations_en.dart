@@ -237,4 +237,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notes => 'Notes';
+
+  @override
+  String get bookCover => 'Book cover';
+
+  @override
+  String get noPictureSelected => 'No picture selected';
+
+  @override
+  String get pictureSelected => 'Picture selected';
+
+  @override
+  String get addPicture => 'Add picture';
+
+  @override
+  String get takePicture => 'Take picture';
+
+  @override
+  String get chooseFromGallery => 'Choose from media';
+
+  @override
+  String get removePicture => 'Remove picture';
+
+  @override
+  String get imageSelectionFailed => 'Image action failed';
+
+  @override
+  String get viewAsGrid => 'View as grid';
+
+  @override
+  String get viewAsList => 'View as list';
 }
