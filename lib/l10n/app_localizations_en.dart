@@ -187,6 +187,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingDatabaseInfo => 'Loading database info...';
 
   @override
+  String get loadingStorageInfo => 'Loading storage info...';
+
+  @override
+  String get storageOverview => 'Storage overview';
+
+  @override
+  String get databaseStorage => 'Database';
+
+  @override
   String databaseName(Object name) {
     return 'Database Name: $name';
   }
@@ -194,6 +203,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String databaseSize(Object size) {
     return 'Database Size: $size';
+  }
+
+  @override
+  String get bookCoversStorage => 'Book covers';
+
+  @override
+  String bookPicturesStorage(Object count, Object size) {
+    return 'Book pictures storage: $size ($count files)';
+  }
+
+  @override
+  String bookPicturesEstimatedNeeded(Object count, Object size) {
+    return 'Estimated storage needed for missing book pictures: $size ($count books)';
   }
 
   @override

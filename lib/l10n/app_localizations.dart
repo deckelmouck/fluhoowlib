@@ -446,6 +446,24 @@ abstract class AppLocalizations {
   /// **'Loading database info...'**
   String get loadingDatabaseInfo;
 
+  /// No description provided for @loadingStorageInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading storage info...'**
+  String get loadingStorageInfo;
+
+  /// No description provided for @storageOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage overview'**
+  String get storageOverview;
+
+  /// No description provided for @databaseStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Database'**
+  String get databaseStorage;
+
   /// No description provided for @databaseName.
   ///
   /// In en, this message translates to:
@@ -457,6 +475,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Database Size: {size}'**
   String databaseSize(Object size);
+
+  /// No description provided for @bookCoversStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Book covers'**
+  String get bookCoversStorage;
+
+  /// No description provided for @bookPicturesStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Book pictures storage: {size} ({count} files)'**
+  String bookPicturesStorage(Object count, Object size);
+
+  /// No description provided for @bookPicturesEstimatedNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated storage needed for missing book pictures: {size} ({count} books)'**
+  String bookPicturesEstimatedNeeded(Object count, Object size);
 
   /// No description provided for @mockupDb.
   ///
