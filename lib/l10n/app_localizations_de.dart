@@ -211,12 +211,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String bookPicturesStorage(Object count, Object size) {
-    return 'Buchspeicher für Bilder: $size ($count Dateien)';
+    return 'Speicherbedarf für Bilder: $size ($count Dateien)';
   }
 
   @override
-  String bookPicturesEstimatedNeeded(Object count, Object size) {
-    return 'Geschätzter Speicherbedarf für fehlende Buchbilder: $size ($count Bücher)';
+  String bookPicturesEstimatedNeeded(Object count) {
+    return 'Bücher ohne Cover: $count';
   }
 
   @override

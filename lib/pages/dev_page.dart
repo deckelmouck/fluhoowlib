@@ -27,8 +27,6 @@ class _DevPageState extends State<DevPage> {
   int _missingBookPicturesCount = 0;
   bool _loadingStorageInfo = true;
 
-  static const int _estimatedBookPictureSize = 300 * 1024;
-
   Future<void> _insertMockBooks(BuildContext context) async {
     final booksProvider = context.read<BooksProvider>();
     for (int i = 0; i < 50; i++) {
@@ -59,11 +57,11 @@ class _DevPageState extends State<DevPage> {
     final mockBooks = booksProvider.books
         .where((b) => b.title.startsWith('Mock Book #'))
         .toList();
+
     for (final book in mockBooks) {
-      if (book.id != null) {
-        await booksProvider.deleteBook(book);
-      }
+      await booksProvider.deleteBook(book);
     }
+
     // Capture the context you want to use
     final scaffoldContext = context;
     if (!mounted || !scaffoldContext.mounted) return;
@@ -138,8 +136,6 @@ class _DevPageState extends State<DevPage> {
   Widget build(BuildContext context) {
     final books = context.watch<BooksProvider>().books;
     final loc = AppLocalizations.of(context)!;
-    final estimatedNeededStorage =
-        _missingBookPicturesCount * _estimatedBookPictureSize;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -210,7 +206,6 @@ class _DevPageState extends State<DevPage> {
                             Text(
                               loc.bookPicturesEstimatedNeeded(
                                 _missingBookPicturesCount.toString(),
-                                _formatBytes(estimatedNeededStorage),
                               ),
                             ),
                           ],

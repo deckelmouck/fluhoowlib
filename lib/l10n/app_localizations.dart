@@ -491,8 +491,8 @@ abstract class AppLocalizations {
   /// No description provided for @bookPicturesEstimatedNeeded.
   ///
   /// In en, this message translates to:
-  /// **'Estimated storage needed for missing book pictures: {size} ({count} books)'**
-  String bookPicturesEstimatedNeeded(Object count, Object size);
+  /// **'Books without cover: {count}'**
+  String bookPicturesEstimatedNeeded(Object count);
 
   /// No description provided for @mockupDb.
   ///

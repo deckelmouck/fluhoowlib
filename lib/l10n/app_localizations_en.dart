@@ -214,8 +214,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String bookPicturesEstimatedNeeded(Object count, Object size) {
-    return 'Estimated storage needed for missing book pictures: $size ($count books)';
+  String bookPicturesEstimatedNeeded(Object count) {
+    return 'Books without cover: $count';
   }
 
   @override
