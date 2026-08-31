@@ -28,7 +28,13 @@ class BookCoverService {
   }
 
   Future<String?> _pickAndStore(ImageSource source) async {
-    final picked = await _picker.pickImage(source: source, imageQuality: 88);
+    // Balanced tradeoff: reduce storage while keeping cover quality solid.
+    final picked = await _picker.pickImage(
+      source: source,
+      imageQuality: 78,
+      maxWidth: 1400,
+      maxHeight: 1400,
+    );
     if (picked == null) {
       return null;
     }
