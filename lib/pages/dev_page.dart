@@ -22,7 +22,12 @@ class _DevPageState extends State<DevPage> {
   bool _showRaw = false;
   String? _dbName;
   int? _dbSize;
-  bool _loadingDbInfo = true;
+  int? _bookPicturesSize;
+  int _bookPicturesCount = 0;
+  int _missingBookPicturesCount = 0;
+  bool _loadingStorageInfo = true;
+
+  static const int _estimatedBookPictureSize = 300 * 1024;
 
   Future<void> _insertMockBooks(BuildContext context) async {
     final booksProvider = context.read<BooksProvider>();
@@ -33,7 +38,9 @@ class _DevPageState extends State<DevPage> {
         readed: i % 2 == 0,
         rating: (i % 6),
         publicationDate: DateTime(2000 + (i % 25), 1 + (i % 12), 1 + (i % 28)),
-        finishedDate: i % 2 == 0 ? DateTime.now().subtract(Duration(days: i)) : null,
+        finishedDate: i % 2 == 0
+            ? DateTime.now().subtract(Duration(days: i))
+            : null,
       );
       await booksProvider.addBook(book);
     }
@@ -42,14 +49,16 @@ class _DevPageState extends State<DevPage> {
     if (!mounted || !scaffoldContext.mounted) return;
 
     // Use the guarded context
-    ScaffoldMessenger.of(scaffoldContext).showSnackBar(
-      const SnackBar(content: Text('Inserted 50 mock books!')),
-    );
+    ScaffoldMessenger.of(
+      scaffoldContext,
+    ).showSnackBar(const SnackBar(content: Text('Inserted 50 mock books!')));
   }
 
   Future<void> _deleteMockBooks(BuildContext context) async {
     final booksProvider = context.read<BooksProvider>();
-    final mockBooks = booksProvider.books.where((b) => b.title.startsWith('Mock Book #')).toList();
+    final mockBooks = booksProvider.books
+        .where((b) => b.title.startsWith('Mock Book #'))
+        .toList();
     for (final book in mockBooks) {
       if (book.id != null) {
         await booksProvider.deleteBook(book);
@@ -68,23 +77,60 @@ class _DevPageState extends State<DevPage> {
   @override
   void initState() {
     super.initState();
-    _fetchDbInfo();
+    _fetchStorageInfo();
   }
 
-  Future<void> _fetchDbInfo() async {
-    // Get database path and size
+  String _formatBytes(int? bytes) {
+    if (bytes == null) return 'Unknown';
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(2)} KB';
+    return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
+  }
+
+  Future<void> _fetchStorageInfo() async {
     try {
       final db = await DatabaseHelper().database;
       final path = db.path;
       _dbName = path.split('/').last;
       final file = File(path);
       _dbSize = await file.length();
+
+      final books = context.read<BooksProvider>().books;
+      int picturesSize = 0;
+      int picturesCount = 0;
+      int missingPicturesCount = 0;
+
+      for (final book in books) {
+        final coverPath = book.coverImagePath;
+        if (coverPath == null || coverPath.trim().isEmpty) {
+          missingPicturesCount++;
+          continue;
+        }
+
+        final coverFile = File(coverPath);
+        if (await coverFile.exists()) {
+          picturesCount++;
+          picturesSize += await coverFile.length();
+        } else {
+          missingPicturesCount++;
+        }
+      }
+
+      _bookPicturesSize = picturesSize;
+      _bookPicturesCount = picturesCount;
+      _missingBookPicturesCount = missingPicturesCount;
     } catch (e) {
       _dbName = 'Error';
       _dbSize = null;
+      _bookPicturesSize = null;
+      _bookPicturesCount = 0;
+      _missingBookPicturesCount = 0;
     }
+
+    if (!mounted) return;
+
     setState(() {
-      _loadingDbInfo = false;
+      _loadingStorageInfo = false;
     });
   }
 
@@ -92,6 +138,9 @@ class _DevPageState extends State<DevPage> {
   Widget build(BuildContext context) {
     final books = context.watch<BooksProvider>().books;
     final loc = AppLocalizations.of(context)!;
+    final estimatedNeededStorage =
+        _missingBookPicturesCount * _estimatedBookPictureSize;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -112,22 +161,60 @@ class _DevPageState extends State<DevPage> {
         child: Column(
           children: <Widget>[
             const SizedBox(height: 5),
-            // Database Info Section
+            // Storage Section
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: SizedBox(
                   width: double.infinity,
-                  child: _loadingDbInfo
-                    ? Row(children: const [CircularProgressIndicator(), SizedBox(width: 12), Text('Loading database info...')])
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(loc.databaseName((_dbName ?? "Unknown")), style: const TextStyle(fontWeight: FontWeight.bold)),
-                          Text(loc.databaseSize(_dbSize != null ? "${(_dbSize! / 1024).toStringAsFixed(2)} KB" : "Unknown")),
-                        ],
-                      ),
+                  child: _loadingStorageInfo
+                      ? Row(
+                          children: [
+                            const CircularProgressIndicator(),
+                            const SizedBox(width: 12),
+                            Text(loc.loadingStorageInfo),
+                          ],
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              loc.storageOverview,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              loc.databaseStorage,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(loc.databaseName((_dbName ?? 'Unknown'))),
+                            Text(loc.databaseSize(_formatBytes(_dbSize))),
+                            const SizedBox(height: 8),
+                            Text(
+                              loc.bookCoversStorage,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              loc.bookPicturesStorage(
+                                _bookPicturesCount.toString(),
+                                _formatBytes(_bookPicturesSize),
+                              ),
+                            ),
+                            Text(
+                              loc.bookPicturesEstimatedNeeded(
+                                _missingBookPicturesCount.toString(),
+                                _formatBytes(estimatedNeededStorage),
+                              ),
+                            ),
+                          ],
+                        ),
                 ),
               ),
             ),
@@ -146,6 +233,7 @@ class _DevPageState extends State<DevPage> {
             ElevatedButton(
               onPressed: () async {
                 await _insertMockBooks(context);
+                await _fetchStorageInfo();
               },
               child: Text(loc.mockupDb),
             ),
@@ -153,6 +241,7 @@ class _DevPageState extends State<DevPage> {
             ElevatedButton(
               onPressed: () async {
                 await _deleteMockBooks(context);
+                await _fetchStorageInfo();
               },
               child: Text(loc.deleteAllMockBooks),
             ),
@@ -179,10 +268,13 @@ class _DevPageState extends State<DevPage> {
                   width: double.infinity,
                   child: SingleChildScrollView(
                     child: SelectableText(
-                      const JsonEncoder.withIndent('  ').convert(
-                        books.map((b) => b.toJson()).toList(),
+                      const JsonEncoder.withIndent(
+                        '  ',
+                      ).convert(books.map((b) => b.toJson()).toList()),
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
                       ),
-                      style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
                     ),
                   ),
                 ),

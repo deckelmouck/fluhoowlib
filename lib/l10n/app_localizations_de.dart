@@ -188,6 +188,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get loadingDatabaseInfo => 'Lade Datenbankinformationen...';
 
   @override
+  String get loadingStorageInfo => 'Lade Speicherinformationen...';
+
+  @override
+  String get storageOverview => 'Speicherübersicht';
+
+  @override
+  String get databaseStorage => 'Datenbank';
+
+  @override
   String databaseName(Object name) {
     return 'Datenbankname: $name';
   }
@@ -195,6 +204,19 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String databaseSize(Object size) {
     return 'Datenbankgröße: $size';
+  }
+
+  @override
+  String get bookCoversStorage => 'Buchcover';
+
+  @override
+  String bookPicturesStorage(Object count, Object size) {
+    return 'Buchspeicher für Bilder: $size ($count Dateien)';
+  }
+
+  @override
+  String bookPicturesEstimatedNeeded(Object count, Object size) {
+    return 'Geschätzter Speicherbedarf für fehlende Buchbilder: $size ($count Bücher)';
   }
 
   @override
