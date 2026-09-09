@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hoowlib/l10n/app_localizations.dart';
 import 'package:hoowlib/providers/books_provider.dart';
+import 'package:hoowlib/services/book_cover_service.dart';
 import 'package:provider/provider.dart';
 import '../db/database_helper.dart';
 import '../models/book.dart';
@@ -93,13 +94,17 @@ class _DevPageState extends State<DevPage> {
       final file = File(path);
       _dbSize = await file.length();
 
+      if (!mounted) return;
       final books = context.read<BooksProvider>().books;
       int picturesSize = 0;
       int picturesCount = 0;
       int missingPicturesCount = 0;
 
       for (final book in books) {
-        final coverPath = book.coverImagePath;
+        final coverPath = await BookCoverService.resolveImagePath(
+          imageKey: book.coverImageKey,
+          fallbackPath: book.coverImagePath,
+        );
         if (coverPath == null || coverPath.trim().isEmpty) {
           missingPicturesCount++;
           continue;

@@ -27,7 +27,11 @@ class BooksProvider extends ChangeNotifier {
     if (added > 0) {
       Book? newItem = await DatabaseHelper().getBookById(added);
       if (newItem != null) {
-        _books.add(newItem);
+        final resolvedPath = await BookCoverService.resolveImagePath(
+          imageKey: newItem.coverImageKey,
+          fallbackPath: newItem.coverImagePath,
+        );
+        _books.add(_bookWithResolvedPath(newItem, resolvedPath));
       }
       notifyListeners();
     }
@@ -35,9 +39,13 @@ class BooksProvider extends ChangeNotifier {
 
   Future<void> deleteBook(Book book) async {
     final imagePath = book.coverImagePath;
+    final imageKey = book.coverImageKey;
     int deleted = await DatabaseHelper().deleteBook(book.id!);
     if (deleted > 0) {
-      await BookCoverService.deleteImageAtPath(imagePath);
+      await BookCoverService.deleteImage(
+        imageKey: imageKey,
+        fallbackPath: imagePath,
+      );
       _books.removeWhere((b) => b.id == book.id);
       notifyListeners();
     }
@@ -64,15 +72,47 @@ class BooksProvider extends ChangeNotifier {
       borrowedBy: readedBook.borrowedBy,
       borrowedDate: readedBook.borrowedDate,
       notes: readedBook.notes,
+      coverImageKey: readedBook.coverImageKey,
       coverImagePath: readedBook.coverImagePath,
     );
     await updateBook(updatedBook);
   }
 
   Future<void> _fetchBooksFromDatabase() async {
-    final booksFromDb = await DatabaseHelper().getBooks();
-    _books = booksFromDb;
+    final dbHelper = DatabaseHelper();
+    await dbHelper.backfillLegacyCoverImageKeysIfNeeded();
+    final booksFromDb = await dbHelper.getBooks();
+
+    final resolvedBooks = <Book>[];
+    for (final book in booksFromDb) {
+      final resolvedPath = await BookCoverService.resolveImagePath(
+        imageKey: book.coverImageKey,
+        fallbackPath: book.coverImagePath,
+      );
+      resolvedBooks.add(_bookWithResolvedPath(book, resolvedPath));
+    }
+
+    _books = resolvedBooks;
     notifyListeners();
+  }
+
+  Book _bookWithResolvedPath(Book book, String? resolvedPath) {
+    return Book(
+      id: book.id,
+      title: book.title,
+      author: book.author,
+      readed: book.readed,
+      rating: book.rating,
+      publicationDate: book.publicationDate,
+      finishedDate: book.finishedDate,
+      isbn: book.isbn,
+      borrowed: book.borrowed,
+      borrowedBy: book.borrowedBy,
+      borrowedDate: book.borrowedDate,
+      notes: book.notes,
+      coverImageKey: book.coverImageKey,
+      coverImagePath: resolvedPath,
+    );
   }
 
   void sortBooks(BookOrderBy orderBy) {

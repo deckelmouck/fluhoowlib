@@ -108,5 +108,8 @@ Future<void> migrateDatabase(
       '''ALTER TABLE app_settings ADD COLUMN libraryGridView INTEGER DEFAULT 0;''',
     );
   }
+  if (oldVersion < 13) {
+    await db.execute('''ALTER TABLE books ADD COLUMN coverImageKey TEXT;''');
+  }
   // Add future migrations here
 }

@@ -11,6 +11,7 @@ class Book {
   final String? borrowedBy;
   final DateTime? borrowedDate;
   final String? notes;
+  final String? coverImageKey;
   final String? coverImagePath;
 
   Book({
@@ -26,8 +27,43 @@ class Book {
     this.borrowedBy,
     this.borrowedDate,
     this.notes,
+    this.coverImageKey,
     this.coverImagePath,
   });
+
+  Book copyWith({
+    int? id,
+    String? title,
+    String? author,
+    bool? readed,
+    int? rating,
+    DateTime? publicationDate,
+    DateTime? finishedDate,
+    String? isbn,
+    bool? borrowed,
+    String? borrowedBy,
+    DateTime? borrowedDate,
+    String? notes,
+    String? coverImageKey,
+    String? coverImagePath,
+  }) {
+    return Book(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      author: author ?? this.author,
+      readed: readed ?? this.readed,
+      rating: rating ?? this.rating,
+      publicationDate: publicationDate ?? this.publicationDate,
+      finishedDate: finishedDate ?? this.finishedDate,
+      isbn: isbn ?? this.isbn,
+      borrowed: borrowed ?? this.borrowed,
+      borrowedBy: borrowedBy ?? this.borrowedBy,
+      borrowedDate: borrowedDate ?? this.borrowedDate,
+      notes: notes ?? this.notes,
+      coverImageKey: coverImageKey ?? this.coverImageKey,
+      coverImagePath: coverImagePath ?? this.coverImagePath,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -43,7 +79,8 @@ class Book {
       'borrowedBy': borrowedBy,
       'borrowedDate': borrowedDate?.toIso8601String(),
       'notes': notes,
-      'coverImagePath': coverImagePath,
+      'coverImageKey': coverImageKey,
+      'coverImagePath': coverImageKey == null ? coverImagePath : null,
     };
   }
 
@@ -67,6 +104,7 @@ class Book {
           ? DateTime.parse(map['borrowedDate'])
           : null,
       notes: map['notes'],
+      coverImageKey: map['coverImageKey'],
       coverImagePath: map['coverImagePath'],
     );
   }
@@ -84,6 +122,7 @@ class Book {
     'borrowedBy': borrowedBy,
     'borrowedDate': borrowedDate?.toIso8601String(),
     'notes': notes,
+    'coverImageKey': coverImageKey,
     'coverImagePath': coverImagePath,
   };
 }

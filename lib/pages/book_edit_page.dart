@@ -26,7 +26,9 @@ class _BookEditPageState extends State<BookEditPage> {
   late TextEditingController _borrowedByController;
   late DateTime? _borrowedDate;
   late TextEditingController _notesController;
+  late String? _coverImageKey;
   late String? _coverImagePath;
+  late String? _originalCoverImageKey;
   late String? _originalCoverImagePath;
   final BookCoverService _coverService = BookCoverService();
   bool _saved = false;
@@ -47,7 +49,9 @@ class _BookEditPageState extends State<BookEditPage> {
     );
     _borrowedDate = widget.book.borrowedDate;
     _notesController = TextEditingController(text: widget.book.notes);
+    _coverImageKey = widget.book.coverImageKey;
     _coverImagePath = widget.book.coverImagePath;
+    _originalCoverImageKey = widget.book.coverImageKey;
     _originalCoverImagePath = widget.book.coverImagePath;
   }
 
@@ -69,8 +73,8 @@ class _BookEditPageState extends State<BookEditPage> {
   Future<void> _pickCoverFromCamera() async {
     final loc = AppLocalizations.of(context)!;
     try {
-      final newPath = await _coverService.pickFromCameraAndStore();
-      if (newPath == null) {
+      final stored = await _coverService.pickFromCameraAndStore();
+      if (stored == null) {
         return;
       }
       final previousPath = _coverImagePath;
@@ -79,7 +83,8 @@ class _BookEditPageState extends State<BookEditPage> {
       }
       if (!mounted) return;
       setState(() {
-        _coverImagePath = newPath;
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
       });
     } catch (_) {
       if (!mounted) return;
@@ -92,8 +97,8 @@ class _BookEditPageState extends State<BookEditPage> {
   Future<void> _pickCoverFromGallery() async {
     final loc = AppLocalizations.of(context)!;
     try {
-      final newPath = await _coverService.pickFromGalleryAndStore();
-      if (newPath == null) {
+      final stored = await _coverService.pickFromGalleryAndStore();
+      if (stored == null) {
         return;
       }
       final previousPath = _coverImagePath;
@@ -102,7 +107,8 @@ class _BookEditPageState extends State<BookEditPage> {
       }
       if (!mounted) return;
       setState(() {
-        _coverImagePath = newPath;
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
       });
     } catch (_) {
       if (!mounted) return;
@@ -141,9 +147,15 @@ class _BookEditPageState extends State<BookEditPage> {
                 ListTile(
                   leading: const Icon(Icons.delete_outline),
                   title: Text(loc.removePicture),
-                  onTap: () {
+                  onTap: () async {
+                    final currentPath = _coverImagePath;
                     Navigator.of(context).pop();
+                    if (currentPath != null &&
+                        currentPath != _originalCoverImagePath) {
+                      await BookCoverService.deleteImageAtPath(currentPath);
+                    }
                     setState(() {
+                      _coverImageKey = null;
                       _coverImagePath = null;
                     });
                   },
@@ -182,12 +194,18 @@ class _BookEditPageState extends State<BookEditPage> {
       borrowedBy: _borrowed ? _borrowedByController.text : null,
       borrowedDate: _borrowed ? _borrowedDate : null,
       notes: _notesController.text,
+      coverImageKey: _coverImageKey,
       coverImagePath: _coverImagePath,
     );
     _saved = true;
-    if (_originalCoverImagePath != null &&
-        _originalCoverImagePath != _coverImagePath) {
-      await BookCoverService.deleteImageAtPath(_originalCoverImagePath);
+    final changedCover =
+        _originalCoverImageKey != _coverImageKey ||
+        _originalCoverImagePath != _coverImagePath;
+    if (changedCover) {
+      await BookCoverService.deleteImage(
+        imageKey: _originalCoverImageKey,
+        fallbackPath: _originalCoverImagePath,
+      );
     }
     if (!mounted) return;
     final bookProvider = context.read<BooksProvider>();

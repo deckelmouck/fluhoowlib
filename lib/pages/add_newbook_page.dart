@@ -24,6 +24,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
   DateTime? _finishedDate;
   String _isbn = '';
   String _notes = '';
+  String? _coverImageKey;
   String? _coverImagePath;
   final BookCoverService _coverService = BookCoverService();
   bool _saved = false;
@@ -67,16 +68,17 @@ class AddNewbookPageState extends State<AddNewbookPage> {
   Future<void> _pickCoverFromCamera() async {
     final loc = AppLocalizations.of(context)!;
     try {
-      final newPath = await _coverService.pickFromCameraAndStore();
-      if (newPath == null) {
+      final stored = await _coverService.pickFromCameraAndStore();
+      if (stored == null) {
         return;
       }
       final oldPath = _coverImagePath;
-      if (oldPath != null && oldPath != newPath) {
+      if (oldPath != null && oldPath != stored.absolutePath) {
         await BookCoverService.deleteImageAtPath(oldPath);
       }
       setState(() {
-        _coverImagePath = newPath;
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
       });
     } catch (_) {
       if (!mounted) return;
@@ -89,16 +91,17 @@ class AddNewbookPageState extends State<AddNewbookPage> {
   Future<void> _pickCoverFromGallery() async {
     final loc = AppLocalizations.of(context)!;
     try {
-      final newPath = await _coverService.pickFromGalleryAndStore();
-      if (newPath == null) {
+      final stored = await _coverService.pickFromGalleryAndStore();
+      if (stored == null) {
         return;
       }
       final oldPath = _coverImagePath;
-      if (oldPath != null && oldPath != newPath) {
+      if (oldPath != null && oldPath != stored.absolutePath) {
         await BookCoverService.deleteImageAtPath(oldPath);
       }
       setState(() {
-        _coverImagePath = newPath;
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
       });
     } catch (_) {
       if (!mounted) return;
@@ -142,6 +145,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                     Navigator.of(context).pop();
                     await BookCoverService.deleteImageAtPath(oldPath);
                     setState(() {
+                      _coverImageKey = null;
                       _coverImagePath = null;
                     });
                   },
@@ -195,6 +199,7 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                     finishedDate: _finishedDate,
                     isbn: _isbn,
                     notes: _notes,
+                    coverImageKey: _coverImageKey,
                     coverImagePath: _coverImagePath,
                   );
                   _saved = true;
