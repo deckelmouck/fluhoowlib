@@ -7,14 +7,7 @@ import '../providers/appsettings_provider.dart';
 
 class SettingPage extends StatefulWidget {
   final void Function(Locale)? onLocaleChanged;
-  final void Function(bool)? onDevModeChanged;
-  final bool? devModeParameter;
-  const SettingPage({
-    super.key,
-    this.onLocaleChanged,
-    this.onDevModeChanged,
-    this.devModeParameter,
-  });
+  const SettingPage({super.key, this.onLocaleChanged});
 
   @override
   State<SettingPage> createState() => _SettingPageState();

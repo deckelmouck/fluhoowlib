@@ -188,6 +188,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get loadingDatabaseInfo => 'Lade Datenbankinformationen...';
 
   @override
+  String get loadingStorageInfo => 'Lade Speicherinformationen...';
+
+  @override
+  String get storageOverview => 'Speicherübersicht';
+
+  @override
+  String get databaseStorage => 'Datenbank';
+
+  @override
   String databaseName(Object name) {
     return 'Datenbankname: $name';
   }
@@ -195,6 +204,19 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String databaseSize(Object size) {
     return 'Datenbankgröße: $size';
+  }
+
+  @override
+  String get bookCoversStorage => 'Buchcover';
+
+  @override
+  String bookPicturesStorage(Object count, Object size) {
+    return 'Speicherbedarf für Bilder: $size ($count Dateien)';
+  }
+
+  @override
+  String bookPicturesEstimatedNeeded(Object count) {
+    return 'Bücher ohne Cover: $count';
   }
 
   @override
@@ -238,4 +260,34 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notes => 'Notiz';
+
+  @override
+  String get bookCover => 'Buchcover';
+
+  @override
+  String get noPictureSelected => 'Kein Bild ausgewählt';
+
+  @override
+  String get pictureSelected => 'Bild ausgewählt';
+
+  @override
+  String get addPicture => 'Bild hinzufügen';
+
+  @override
+  String get takePicture => 'Foto aufnehmen';
+
+  @override
+  String get chooseFromGallery => 'Aus Medien wählen';
+
+  @override
+  String get removePicture => 'Bild entfernen';
+
+  @override
+  String get imageSelectionFailed => 'Bildaktion fehlgeschlagen';
+
+  @override
+  String get viewAsGrid => 'Als Raster anzeigen';
+
+  @override
+  String get viewAsList => 'Als Liste anzeigen';
 }

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.16.0] - 2026-09-10
+- add book covers to book
+- updated library ui list and tiles
+
 ## [0.15.0] - 2026-06-22
 - add notes to book model
 

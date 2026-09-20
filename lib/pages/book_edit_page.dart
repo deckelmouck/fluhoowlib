@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/providers/books_provider.dart';
+import 'package:hoowlib/services/book_cover_service.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 import '../models/book.dart';
 import '../l10n/app_localizations.dart';
 
@@ -24,6 +26,12 @@ class _BookEditPageState extends State<BookEditPage> {
   late TextEditingController _borrowedByController;
   late DateTime? _borrowedDate;
   late TextEditingController _notesController;
+  late String? _coverImageKey;
+  late String? _coverImagePath;
+  late String? _originalCoverImageKey;
+  late String? _originalCoverImagePath;
+  final BookCoverService _coverService = BookCoverService();
+  bool _saved = false;
 
   @override
   void initState() {
@@ -41,16 +49,122 @@ class _BookEditPageState extends State<BookEditPage> {
     );
     _borrowedDate = widget.book.borrowedDate;
     _notesController = TextEditingController(text: widget.book.notes);
+    _coverImageKey = widget.book.coverImageKey;
+    _coverImagePath = widget.book.coverImagePath;
+    _originalCoverImageKey = widget.book.coverImageKey;
+    _originalCoverImagePath = widget.book.coverImagePath;
   }
 
   @override
   void dispose() {
+    if (!_saved &&
+        _coverImagePath != null &&
+        _coverImagePath != _originalCoverImagePath) {
+      BookCoverService.deleteImageAtPath(_coverImagePath);
+    }
     _titleController.dispose();
     _authorController.dispose();
     _isbnController.dispose();
     _borrowedByController.dispose();
     _notesController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickCoverFromCamera() async {
+    final loc = AppLocalizations.of(context)!;
+    try {
+      final stored = await _coverService.pickFromCameraAndStore();
+      if (stored == null) {
+        return;
+      }
+      final previousPath = _coverImagePath;
+      if (previousPath != null && previousPath != _originalCoverImagePath) {
+        await BookCoverService.deleteImageAtPath(previousPath);
+      }
+      if (!mounted) return;
+      setState(() {
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(loc.imageSelectionFailed)));
+    }
+  }
+
+  Future<void> _pickCoverFromGallery() async {
+    final loc = AppLocalizations.of(context)!;
+    try {
+      final stored = await _coverService.pickFromGalleryAndStore();
+      if (stored == null) {
+        return;
+      }
+      final previousPath = _coverImagePath;
+      if (previousPath != null && previousPath != _originalCoverImagePath) {
+        await BookCoverService.deleteImageAtPath(previousPath);
+      }
+      if (!mounted) return;
+      setState(() {
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(loc.imageSelectionFailed)));
+    }
+  }
+
+  Future<void> _showImageSourceSheet() async {
+    final loc = AppLocalizations.of(context)!;
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: Text(loc.takePicture),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickCoverFromCamera();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: Text(loc.chooseFromGallery),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickCoverFromGallery();
+                },
+              ),
+              if (_coverImagePath != null)
+                ListTile(
+                  leading: const Icon(Icons.delete_outline),
+                  title: Text(loc.removePicture),
+                  onTap: () async {
+                    final currentPath = _coverImagePath;
+                    Navigator.of(context).pop();
+                    if (currentPath != null &&
+                        currentPath != _originalCoverImagePath) {
+                      await BookCoverService.deleteImageAtPath(currentPath);
+                    }
+                    setState(() {
+                      _coverImageKey = null;
+                      _coverImagePath = null;
+                    });
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _pickDate({
@@ -80,9 +194,21 @@ class _BookEditPageState extends State<BookEditPage> {
       borrowedBy: _borrowed ? _borrowedByController.text : null,
       borrowedDate: _borrowed ? _borrowedDate : null,
       notes: _notesController.text,
+      coverImageKey: _coverImageKey,
+      coverImagePath: _coverImagePath,
     );
-    final bookProvider = context.read<BooksProvider>();
+    _saved = true;
+    final changedCover =
+        _originalCoverImageKey != _coverImageKey ||
+        _originalCoverImagePath != _coverImagePath;
+    if (changedCover) {
+      await BookCoverService.deleteImage(
+        imageKey: _originalCoverImageKey,
+        fallbackPath: _originalCoverImagePath,
+      );
+    }
     if (!mounted) return;
+    final bookProvider = context.read<BooksProvider>();
     bookProvider.updateBook(updatedBook);
     Navigator.of(context).pop(updatedBook);
   }
@@ -114,6 +240,35 @@ class _BookEditPageState extends State<BookEditPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Card(
+                  child: ListTile(
+                    leading: _coverImagePath != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image.file(
+                              File(_coverImagePath!),
+                              width: 48,
+                              height: 48,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, error, stackTrace) =>
+                                  const Icon(Icons.broken_image, size: 32),
+                            ),
+                          )
+                        : const Icon(Icons.image_outlined),
+                    title: Text(loc.bookCover),
+                    subtitle: Text(
+                      _coverImagePath == null
+                          ? loc.noPictureSelected
+                          : loc.pictureSelected,
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: _showImageSourceSheet,
+                      tooltip: loc.addPicture,
+                    ),
+                    onTap: _showImageSourceSheet,
+                  ),
+                ),
                 const SizedBox(height: 16),
                 TextField(
                   controller: _titleController,

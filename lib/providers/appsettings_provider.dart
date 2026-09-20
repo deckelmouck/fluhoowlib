@@ -1,9 +1,6 @@
-
 import 'package:flutter/widgets.dart';
 import '../models/appsettings.dart';
 import '../repositories/appsettings_repository.dart';
-
-
 
 class AppsettingsProvider extends ChangeNotifier {
   final AppSettingsRepository _repository = AppSettingsRepository();
@@ -12,6 +9,7 @@ class AppsettingsProvider extends ChangeNotifier {
   bool _devMode = false;
   bool _showDevSwitch = false;
   bool _darkMode = false;
+  bool _libraryGridView = false;
   String? _languageCode;
   bool _loaded = false;
 
@@ -26,6 +24,7 @@ class AppsettingsProvider extends ChangeNotifier {
     _devMode = settings.devMode;
     _showDevSwitch = settings.showDevSwitch;
     _darkMode = settings.darkMode;
+    _libraryGridView = settings.libraryGridView;
     _languageCode = settings.languageCode;
     _loaded = true;
     notifyListeners();
@@ -40,6 +39,7 @@ class AppsettingsProvider extends ChangeNotifier {
       devMode: _devMode,
       showDevSwitch: _showDevSwitch,
       darkMode: _darkMode,
+      libraryGridView: _libraryGridView,
       languageCode: _languageCode,
     );
     await _repository.saveSettings(settings);
@@ -61,7 +61,7 @@ class AppsettingsProvider extends ChangeNotifier {
   }
 
   int get bookCount => _bookCount;
-  
+
   void setBookCount(int newBookCount) {
     _bookCount = newBookCount;
     notifyListeners();
@@ -92,4 +92,11 @@ class AppsettingsProvider extends ChangeNotifier {
     _saveSettings();
   }
 
+  bool get libraryGridView => _libraryGridView;
+
+  void setLibraryGridView(bool enabled) {
+    _libraryGridView = enabled;
+    notifyListeners();
+    _saveSettings();
+  }
 }

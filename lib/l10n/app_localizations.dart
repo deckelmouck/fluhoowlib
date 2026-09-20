@@ -446,6 +446,24 @@ abstract class AppLocalizations {
   /// **'Loading database info...'**
   String get loadingDatabaseInfo;
 
+  /// No description provided for @loadingStorageInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading storage info...'**
+  String get loadingStorageInfo;
+
+  /// No description provided for @storageOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage overview'**
+  String get storageOverview;
+
+  /// No description provided for @databaseStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Database'**
+  String get databaseStorage;
+
   /// No description provided for @databaseName.
   ///
   /// In en, this message translates to:
@@ -457,6 +475,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Database Size: {size}'**
   String databaseSize(Object size);
+
+  /// No description provided for @bookCoversStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Book covers'**
+  String get bookCoversStorage;
+
+  /// No description provided for @bookPicturesStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Book pictures storage: {size} ({count} files)'**
+  String bookPicturesStorage(Object count, Object size);
+
+  /// No description provided for @bookPicturesEstimatedNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Books without cover: {count}'**
+  String bookPicturesEstimatedNeeded(Object count);
 
   /// No description provided for @mockupDb.
   ///
@@ -541,6 +577,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notes'**
   String get notes;
+
+  /// No description provided for @bookCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Book cover'**
+  String get bookCover;
+
+  /// No description provided for @noPictureSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No picture selected'**
+  String get noPictureSelected;
+
+  /// No description provided for @pictureSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Picture selected'**
+  String get pictureSelected;
+
+  /// No description provided for @addPicture.
+  ///
+  /// In en, this message translates to:
+  /// **'Add picture'**
+  String get addPicture;
+
+  /// No description provided for @takePicture.
+  ///
+  /// In en, this message translates to:
+  /// **'Take picture'**
+  String get takePicture;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from media'**
+  String get chooseFromGallery;
+
+  /// No description provided for @removePicture.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove picture'**
+  String get removePicture;
+
+  /// No description provided for @imageSelectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Image action failed'**
+  String get imageSelectionFailed;
+
+  /// No description provided for @viewAsGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'View as grid'**
+  String get viewAsGrid;
+
+  /// No description provided for @viewAsList.
+  ///
+  /// In en, this message translates to:
+  /// **'View as list'**
+  String get viewAsList;
 }
 
 class _AppLocalizationsDelegate

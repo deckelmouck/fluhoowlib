@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:hoowlib/models/appsettings.dart';
+import 'package:hoowlib/services/book_cover_service.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/book.dart';
@@ -11,6 +12,7 @@ class DatabaseHelper {
   DatabaseHelper._internal();
 
   static Database? _database;
+  static bool _coverBackfillDone = false;
 
   // #region Database Initialization
   Future<Database> get database async {
@@ -24,7 +26,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'hoowlib.db');
     return await openDatabase(
       path,
-      version: 10, // Incremented version for migration
+      version: 13,
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE books(
@@ -39,7 +41,9 @@ class DatabaseHelper {
             borrowed INTEGER DEFAULT 0,
             borrowedBy TEXT,
             borrowedDate TEXT,
-            notes TEXT
+            notes TEXT,
+            coverImageKey TEXT,
+            coverImagePath TEXT
           )
         ''');
         await db.execute('''
@@ -56,6 +60,7 @@ class DatabaseHelper {
             devMode INTEGER,
             showDevSwitch INTEGER,
             darkMode INTEGER,
+            libraryGridView INTEGER,
             languageCode TEXT
           )
         ''');
@@ -67,6 +72,7 @@ class DatabaseHelper {
           'devMode': 0,
           'showDevSwitch': 0,
           'darkMode': 0,
+          'libraryGridView': 0,
           'languageCode': null,
         });
       },
@@ -74,6 +80,44 @@ class DatabaseHelper {
         await migrateDatabase(db, oldVersion, newVersion);
       },
     );
+  }
+
+  Future<void> backfillLegacyCoverImageKeysIfNeeded() async {
+    if (_coverBackfillDone) {
+      return;
+    }
+
+    final db = await database;
+    final rows = await db.query(
+      'books',
+      columns: ['id', 'coverImageKey', 'coverImagePath'],
+      where: 'coverImageKey IS NULL AND coverImagePath IS NOT NULL',
+    );
+
+    for (final row in rows) {
+      final id = row['id'] as int?;
+      if (id == null) {
+        continue;
+      }
+
+      final migratedKey = await BookCoverService.ensureStableKey(
+        imageKey: row['coverImageKey'] as String?,
+        fallbackPath: row['coverImagePath'] as String?,
+      );
+
+      if (migratedKey == null || migratedKey.trim().isEmpty) {
+        continue;
+      }
+
+      await db.update(
+        'books',
+        {'coverImageKey': migratedKey, 'coverImagePath': null},
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    }
+
+    _coverBackfillDone = true;
   }
 
   // #region AppSettings CRUD Methods
@@ -104,6 +148,7 @@ class DatabaseHelper {
         devMode: false,
         showDevSwitch: false,
         darkMode: false,
+        libraryGridView: false,
         languageCode: null,
       );
     }

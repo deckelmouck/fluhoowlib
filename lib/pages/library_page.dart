@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/pages/book_menu_sheet.dart';
+import 'package:hoowlib/providers/appsettings_provider.dart';
 import 'package:hoowlib/providers/books_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 import '../l10n/app_localizations.dart';
 import '../models/book.dart';
 import '../widgets/book_list_tile.dart';
@@ -21,10 +23,22 @@ class LibraryPageState extends State<LibraryPage> {
   BookOrderBy _orderBy = BookOrderBy.id;
   BookFilter _filter = BookFilter.all;
   final ScrollController _scrollController = ScrollController();
+  bool _isGridView = false;
+  bool _viewModeInitialized = false;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_viewModeInitialized) {
+      return;
+    }
+    _isGridView = context.read<AppsettingsProvider>().libraryGridView;
+    _viewModeInitialized = true;
   }
 
   @override
@@ -51,6 +65,83 @@ class LibraryPageState extends State<LibraryPage> {
     }
   }
 
+  void _toggleViewMode() {
+    final provider = context.read<AppsettingsProvider>();
+    setState(() {
+      _isGridView = !_isGridView;
+    });
+    provider.setLibraryGridView(_isGridView);
+  }
+
+  Widget _buildBookGridItem(BuildContext context, Book book) {
+    final theme = Theme.of(context);
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () async {
+          await showModalBottomSheet<bool>(
+            context: context,
+            isScrollControlled: true,
+            builder: (context) => SizedBox(
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: BookMenuSheet(book: book),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: book.coverImagePath != null
+                      ? Image.file(
+                          File(book.coverImagePath!),
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, error, stackTrace) => Container(
+                            color: theme.colorScheme.surfaceContainerHighest,
+                            child: const Center(
+                              child: Icon(Icons.broken_image_outlined),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: double.infinity,
+                          color: theme.colorScheme.surfaceContainerHighest,
+                          child: const Center(
+                            child: Icon(Icons.menu_book_outlined, size: 40),
+                          ),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                book.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                book.author,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.bodySmall,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
@@ -75,6 +166,14 @@ class LibraryPageState extends State<LibraryPage> {
               style: TextStyle(color: colorScheme.onPrimary),
             ),
             actions: [
+              IconButton(
+                icon: Icon(
+                  _isGridView ? Icons.view_list : Icons.grid_view,
+                  color: colorScheme.onPrimary,
+                ),
+                tooltip: _isGridView ? loc.viewAsList : loc.viewAsGrid,
+                onPressed: _toggleViewMode,
+              ),
               IconButton.outlined(
                 icon: Icon(Icons.add, color: colorScheme.onPrimary),
                 tooltip: loc.addBook,
@@ -218,31 +317,53 @@ class LibraryPageState extends State<LibraryPage> {
                       child: Scrollbar(
                         controller: _scrollController,
                         thumbVisibility: true,
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          itemCount: books.length,
-                          itemBuilder: (context, index) {
-                            final book = books[index];
-                            return Container(
-                              color: colorScheme.surface,
-                              child: BookListTile(
-                                book: book,
-                                onTap: () async {
-                                  await showModalBottomSheet<bool>(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (context) => SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                          0.4,
-                                      child: BookMenuSheet(book: book),
+                        child: _isGridView
+                            ? GridView.builder(
+                                controller: _scrollController,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 8,
+                                ),
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 220,
+                                      crossAxisSpacing: 6,
+                                      mainAxisSpacing: 6,
+                                      childAspectRatio: 0.62,
+                                    ),
+                                itemCount: books.length,
+                                itemBuilder: (context, index) {
+                                  final book = books[index];
+                                  return _buildBookGridItem(context, book);
+                                },
+                              )
+                            : ListView.builder(
+                                controller: _scrollController,
+                                itemCount: books.length,
+                                itemBuilder: (context, index) {
+                                  final book = books[index];
+                                  return Container(
+                                    color: colorScheme.surface,
+                                    child: BookListTile(
+                                      book: book,
+                                      onTap: () async {
+                                        await showModalBottomSheet<bool>(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          builder: (context) => SizedBox(
+                                            height:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.height *
+                                                0.4,
+                                            child: BookMenuSheet(book: book),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   );
                                 },
                               ),
-                            );
-                          },
-                        ),
                       ),
                     ),
             ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hoowlib/providers/books_provider.dart';
+import 'package:hoowlib/services/book_cover_service.dart';
 import 'package:keyboard_safe/keyboard_safe.dart';
 import 'package:provider/provider.dart';
 import 'package:hoowlib/models/book.dart';
+import 'dart:io';
 import '../l10n/app_localizations.dart';
 
 class AddNewbookPage extends StatefulWidget {
@@ -22,6 +24,18 @@ class AddNewbookPageState extends State<AddNewbookPage> {
   DateTime? _finishedDate;
   String _isbn = '';
   String _notes = '';
+  String? _coverImageKey;
+  String? _coverImagePath;
+  final BookCoverService _coverService = BookCoverService();
+  bool _saved = false;
+
+  @override
+  void dispose() {
+    if (!_saved) {
+      BookCoverService.deleteImageAtPath(_coverImagePath);
+    }
+    super.dispose();
+  }
 
   void _onPublicationDateChanged(DateTime? date) {
     setState(() {
@@ -49,6 +63,98 @@ class AddNewbookPageState extends State<AddNewbookPage> {
     setState(() {
       _finishedDate = date;
     });
+  }
+
+  Future<void> _pickCoverFromCamera() async {
+    final loc = AppLocalizations.of(context)!;
+    try {
+      final stored = await _coverService.pickFromCameraAndStore();
+      if (stored == null) {
+        return;
+      }
+      final oldPath = _coverImagePath;
+      if (oldPath != null && oldPath != stored.absolutePath) {
+        await BookCoverService.deleteImageAtPath(oldPath);
+      }
+      setState(() {
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(loc.imageSelectionFailed)));
+    }
+  }
+
+  Future<void> _pickCoverFromGallery() async {
+    final loc = AppLocalizations.of(context)!;
+    try {
+      final stored = await _coverService.pickFromGalleryAndStore();
+      if (stored == null) {
+        return;
+      }
+      final oldPath = _coverImagePath;
+      if (oldPath != null && oldPath != stored.absolutePath) {
+        await BookCoverService.deleteImageAtPath(oldPath);
+      }
+      setState(() {
+        _coverImageKey = stored.key;
+        _coverImagePath = stored.absolutePath;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(loc.imageSelectionFailed)));
+    }
+  }
+
+  Future<void> _showImageSourceSheet() async {
+    final loc = AppLocalizations.of(context)!;
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: Text(loc.takePicture),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickCoverFromCamera();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: Text(loc.chooseFromGallery),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickCoverFromGallery();
+                },
+              ),
+              if (_coverImagePath != null)
+                ListTile(
+                  leading: const Icon(Icons.delete_outline),
+                  title: Text(loc.removePicture),
+                  onTap: () async {
+                    final oldPath = _coverImagePath;
+                    Navigator.of(context).pop();
+                    await BookCoverService.deleteImageAtPath(oldPath);
+                    setState(() {
+                      _coverImageKey = null;
+                      _coverImagePath = null;
+                    });
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -93,7 +199,10 @@ class AddNewbookPageState extends State<AddNewbookPage> {
                     finishedDate: _finishedDate,
                     isbn: _isbn,
                     notes: _notes,
+                    coverImageKey: _coverImageKey,
+                    coverImagePath: _coverImagePath,
                   );
+                  _saved = true;
                   context.read<BooksProvider>().addBook(book);
                   Navigator.pop(context); // Pass book back
                 }
@@ -105,6 +214,36 @@ class AddNewbookPageState extends State<AddNewbookPage> {
           key: _formKey,
           child: Column(
             children: [
+              Card(
+                child: ListTile(
+                  leading: _coverImagePath != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: Image.file(
+                            File(_coverImagePath!),
+                            width: 48,
+                            height: 48,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, error, stackTrace) =>
+                                const Icon(Icons.broken_image, size: 32),
+                          ),
+                        )
+                      : const Icon(Icons.image_outlined),
+                  title: Text(loc.bookCover),
+                  subtitle: Text(
+                    _coverImagePath == null
+                        ? loc.noPictureSelected
+                        : loc.pictureSelected,
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: _showImageSourceSheet,
+                    tooltip: loc.addPicture,
+                  ),
+                  onTap: _showImageSourceSheet,
+                ),
+              ),
+              const SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(labelText: loc.bookTitle),
                 textCapitalization: TextCapitalization.sentences,

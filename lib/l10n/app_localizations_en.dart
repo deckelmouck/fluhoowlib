@@ -187,6 +187,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingDatabaseInfo => 'Loading database info...';
 
   @override
+  String get loadingStorageInfo => 'Loading storage info...';
+
+  @override
+  String get storageOverview => 'Storage overview';
+
+  @override
+  String get databaseStorage => 'Database';
+
+  @override
   String databaseName(Object name) {
     return 'Database Name: $name';
   }
@@ -194,6 +203,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String databaseSize(Object size) {
     return 'Database Size: $size';
+  }
+
+  @override
+  String get bookCoversStorage => 'Book covers';
+
+  @override
+  String bookPicturesStorage(Object count, Object size) {
+    return 'Book pictures storage: $size ($count files)';
+  }
+
+  @override
+  String bookPicturesEstimatedNeeded(Object count) {
+    return 'Books without cover: $count';
   }
 
   @override
@@ -237,4 +259,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notes => 'Notes';
+
+  @override
+  String get bookCover => 'Book cover';
+
+  @override
+  String get noPictureSelected => 'No picture selected';
+
+  @override
+  String get pictureSelected => 'Picture selected';
+
+  @override
+  String get addPicture => 'Add picture';
+
+  @override
+  String get takePicture => 'Take picture';
+
+  @override
+  String get chooseFromGallery => 'Choose from media';
+
+  @override
+  String get removePicture => 'Remove picture';
+
+  @override
+  String get imageSelectionFailed => 'Image action failed';
+
+  @override
+  String get viewAsGrid => 'View as grid';
+
+  @override
+  String get viewAsList => 'View as list';
 }
